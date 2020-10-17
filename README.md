@@ -4,7 +4,7 @@
 * `git pull` antes de empezar a realizar cualquier tipo de edición sobre el código
 * en caso de duda, cerrar y abrir el proyecto para asegurar que aparecen los nuevos archivos que se hayan podido añadir al proyecto
 
-## DESPUÉS de trabajar (si se quieren añadir cambios al proyecto)
+## DESPUÉS de trabajar (si se quieren añadir los cambios al proyecto)
 
 Como norma general, basta con hacer click derecho sobre **la carpeta raíz del proyecto** y pulsar las siguientes opciones:
 
