@@ -1,8 +1,8 @@
 # PMC (dsPIC33FJ128GP706A)
 ## ANTES de trabajar
 
-* `git pull` antes de empezar a trabajar
-* cerrar y abrir el proyecto para asegurar que aparecen los nuevos archivos que se hayan podido añadir al proyecto
+* `git pull` antes de empezar a realizar cualquier tipo de edición sobre el código
+* en caso de duda, cerrar y abrir el proyecto para asegurar que aparecen los nuevos archivos que se hayan podido añadir al proyecto
 
 ## DESPUÉS de trabajar (si se quieren añadir cambios al proyecto)
 
