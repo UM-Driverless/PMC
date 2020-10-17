@@ -6,7 +6,7 @@
 
 ## DESPUÉS de trabajar (si se quieren añadir los cambios al proyecto)
 
-Como norma general, basta con hacer click derecho sobre **la carpeta raíz del proyecto** y pulsar las siguientes opciones:
+Como norma general, basta con hacer click derecho sobre **la carpeta raíz del proyecto** desde el IDE y pulsar las siguientes opciones:
 
 * `git add`
 * `git commit`
