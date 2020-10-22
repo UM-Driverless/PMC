@@ -2,16 +2,12 @@
 #include "escrituraSD.h"
 
 extern void escrituraSDInicializacionSPI1(void){
-    IFS0bits.SPI1IF = 0; // limpiar flag interrupciones
-    IEC0bits.SPI1IE = 0; /* S18-P10 */
-
     SPI1CON1bits.MODE16 = 1; /* (S18-P10) - indicamos que vamos a trabajar
                               * en modo 16 bits */
-    // ponemos el SPI1 como Master
-    
     /* Paso 1 (S18-P10): si se utilizan interrupciones, configurar el 
      controlador de interrupciones */
-    
+    IFS0bits.SPI1IF = 0; // limpiar flag interrupciones
+    IEC0bits.SPI1IE = 0; /* S18-P10 */
     /* Paso 2 (S18-P10): poner a 1 el bit de Master Mode Enable
      * en el registro de SPI1CON1 (MSTEN). */
     SPI1CON1bits.MSTEN = 1;
@@ -24,7 +20,6 @@ extern void escrituraSDInicializacionSPI1(void){
     /* Paso 5 (S18-P10): escribir los datos a transmitir al registro
      * SPI1BUF. La transmision y la recepcion comienzan tan pronto
      * como se escriban datos en el registro de SPI1BUF. */
-    
 }
 
 void escrituraSDInicializacionDMA4(void){
