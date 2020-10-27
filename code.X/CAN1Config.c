@@ -82,7 +82,7 @@ void CAN1ConfigInicializacionCAN(void){
 }
 
 /*
- void CANEnvioMsg(int ID, int DLC, char[] data){
+ void CAN1ConfigEnvioMsg(int ID, int DLC, char[] data){
     for(int i = 0; i<nose; i++){
         sendSomehowData(data[i]);
     }

@@ -19,6 +19,12 @@ extern "C" {
 }
 #endif
 
+/* CAN Baud Rate Configuration 		*/
+#define FCAN  	40000000 
+#define BITRATE 1000000  
+#define NTQ 	20		// 20 Time Quanta in a Bit Time
+#define BRP_VAL		((FCAN/(2*NTQ*BITRATE))-1)
+
 /* Configuración de la longitud del buffer del CAN2 */
 #define  CAN2_MSG_BUF_LENGTH 	4
 typedef unsigned int uiaTablaMensajesCAN2 [CAN2_MSG_BUF_LENGTH][8];
