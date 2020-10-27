@@ -80,3 +80,12 @@ void CAN1ConfigInicializacionCAN(void){
     C1TR01CONbits.TX0PRI=0b11; 		/* S21-P28, prioridad máxima al buffer 0 */
 	C1TR01CONbits.TX1PRI=0b11; 		/* S21-P28, prioridad máxima al buffer 1 */
 }
+
+/*
+ void CANEnvioMsg(int ID, int DLC, char[] data){
+    for(int i = 0; i<nose; i++){
+        sendSomehowData(data[i]);
+    }
+}
+ * 
+ */
