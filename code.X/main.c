@@ -17,10 +17,10 @@ uiaTablaMensajesCAN2 uiaCAN2BufferMensajes __attribute__((space(dma),aligned(CAN
 int main(void) {
     CAN1ConfigInicializacionCAN(); /* Inicializar CAN1 */
     CAN1ConfigInicializacionDMA0(); /* Configurar DMA0 para transmitir por CAN1 */
-    CAN1ConfigInicializacionDMA2(); /* Configurar DMA2 para transmitir por CAN1 */
-    CAN2ConfigInicializacionCAN(); /* Inicializar CAN1 */
-    CAN2ConfigInicializacionDMA1(); /* Configurar DMA0 para transmitir por CAN1 */
-    CAN2ConfigInicializacionDMA3(); /* Configurar DMA2 para transmitir por CAN1 */
+    CAN1ConfigInicializacionDMA2(); /* Configurar DMA2 para recibir por CAN1 */
+    CAN2ConfigInicializacionCAN(); /* Inicializar CAN2 */
+    // CAN2ConfigInicializacionDMA1(); /* Configurar DMA1 para transmitir por CAN2 */
+    CAN2ConfigInicializacionDMA3(); /* Configurar DMA3 para recibir por CAN2 */
     
     return 0;
 }
