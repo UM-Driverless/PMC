@@ -79,6 +79,14 @@ void CAN1ConfigInicializacionCAN(void){
 	C1TR01CONbits.TXEN1=0;			/* S21-P28, Buffer 1 del CAN1 para recepción */
     C1TR01CONbits.TX0PRI=0b11; 		/* S21-P28, prioridad máxima al buffer 0 */
 	C1TR01CONbits.TX1PRI=0b11; 		/* S21-P28, prioridad máxima al buffer 1 */
+    
+    C1CFG1bits.BRP = 0;
+}
+
+void CAN1ConfigInicializar(void){
+    CAN1ConfigInicializacionCAN(); /* Inicializar CAN1 */
+    CAN1ConfigInicializacionDMA0(); /* Configurar DMA0 para transmitir por CAN1 */
+    CAN1ConfigInicializacionDMA2(); /* Configurar DMA2 para recibir por CAN1 */
 }
 
 /*

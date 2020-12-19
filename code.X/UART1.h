@@ -17,13 +17,13 @@ extern "C" {
 #endif
 
 
-#define FCY      40000000
-#define BAUDRATE 9600                
-#define BRGVAL   ((FCY/BAUDRATE)/16)-1 
+#include "PARAMETERS.h"
 
 /* Buffers para transferencia por DMA */
-unsigned int BufferA[8] __attribute__((space(dma)));
-unsigned int BufferB[8] __attribute__((space(dma)));
+typedef unsigned int Buffer_A_UART1[8];
+typedef unsigned int Buffer_B_UART1[8];
+//extern Buffer_A_UART1 UART1_BufferA __attribute__((space(dma)));
+//extern Buffer_B_UART1 UART1_BufferB __attribute__((space(dma)));
 
 extern void UART1inicializacion();
 extern void UART1DMA5init(); //RX

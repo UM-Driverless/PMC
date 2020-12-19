@@ -20,11 +20,12 @@ extern "C" {
 #endif
 
 /* CAN Baud Rate Configuration 		*/
+/*
 #define FCAN  	40000000 
 #define BITRATE 1000000  
 #define NTQ 	20		// 20 Time Quanta in a Bit Time
 #define BRP_VAL		((FCAN/(2*NTQ*BITRATE))-1)
-
+*/
 
 /* Configuración de la longitud del buffer del CAN1 */
 #define  CAN1_MSG_BUF_LENGTH 	4
@@ -37,6 +38,7 @@ extern uiaTablaMensajesCAN1 uiaCAN1BufferMensajes __attribute__((space(dma)));
 extern void CAN1ConfigInicializacionCAN(void);
 extern void CAN1ConfigInicializacionDMA0(void);
 extern void CAN1ConfigInicializacionDMA2(void);
+extern void CAN1ConfigInicializar(void);
 // extern void CAN1ConfigEnvioMsg()
 
 

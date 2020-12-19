@@ -1,7 +1,7 @@
 #include "xc.h"
 #include "CAN2Config.h"
 
-void CAN2ConfigInicializacionDMA1(void){
+void CAN2ConfigInicializacionDMA1(void){ // Función que no utilizaremos
     /* Este controlador de DMA0 lo vamos a utilizar para transmitir datos */
     
     /* Paso 1 (S22-P15): DMA Channel to Peripheral Association Setup */
@@ -74,9 +74,16 @@ void CAN2ConfigInicializacionCAN(void){
                                      * de operación normal */
     
     
-    C2TR01CONbits.TXEN0=1;			/* S21-P28, Buffer 0 del CAN2 para transmisión */
+    //C2TR01CONbits.TXEN0=1;			/* S21-P28, Buffer 0 del CAN2 para transmisión */
 	C2TR01CONbits.TXEN1=0;			/* S21-P28, Buffer 1 del CAN2 para recepción */
     C2TR01CONbits.TX0PRI=0b11; 		/* S21-P28, prioridad máxima al buffer 0 */
 	C2TR01CONbits.TX1PRI=0b11; 		/* S21-P28, prioridad máxima al buffer 1 */
     
+    C2CFG1bits.BRP = 0;
+}
+
+void CAN2ConfigInicializar(void){
+    CAN2ConfigInicializacionCAN(); /* Inicializar CAN2 */
+    // CAN2ConfigInicializacionDMA1(); /* Configurar DMA1 para transmitir por CAN2 */
+    CAN2ConfigInicializacionDMA3(); /* Configurar DMA3 para recibir por CAN2 */
 }

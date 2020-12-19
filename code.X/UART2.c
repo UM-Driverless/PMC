@@ -1,9 +1,9 @@
 #include "xc.h"
-#include "UART1.h"
-Buffer_A_UART1 UART1_BufferA __attribute__((space(dma)));
-Buffer_B_UART1 UART1_BufferB __attribute__((space(dma)));
+#include "UART2.h"
+Buffer_A_UART2 UART2_BufferA __attribute__((space(dma)));
+Buffer_B_UART2 UART2_BufferB __attribute__((space(dma)));
 
-void UART1inicializacion(){
+void UART2inicializacion(){
     U2MODEbits.STSEL = 0;			// 1-stop bit
 	U2MODEbits.PDSEL = 0;			// No Parity, 8-data bits
 	U2MODEbits.ABAUD = 0;			// Autobaud Disabled
@@ -31,13 +31,13 @@ void UART1inicializacion(){
 	IEC4bits.U2EIE = 0;
 }
 
-void UART1DMA5init(){ //RX
+void UART2DMA7init(){ //RX
     //********************************************************************************
 	//  STEP 3:
-	//  Associate DMA Channel 1 with UART Rx
+	//  Associate DMA Channel 7 with UART Rx
 	//********************************************************************************/
-	DMA5REQ = 0x001E;					// Select UART2 Receiver
-	DMA5PAD = (volatile unsigned int) &U2RXREG;
+	DMA7REQ = 0b0011110;					// Select UART2 Receiver
+	DMA7PAD = (volatile unsigned int) &U2RXREG;
 
 	//********************************************************************************
 	//  STEP 4:
@@ -49,45 +49,45 @@ void UART1DMA5init(){ //RX
 	//  Transfer words
 	//********************************************************************************/
 	//DMA5CON = 0x0002;					// Continuous, Ping-Pong, Post-Inc, Periph-RAM
-	DMA5CONbits.AMODE = 0;
-	DMA5CONbits.MODE  = 2;
-	DMA5CONbits.DIR   = 0;
-	DMA5CONbits.SIZE  = 0;
-	DMA5CNT = 7;						// 8 DMA requests
+	DMA7CONbits.AMODE = 0;
+	DMA7CONbits.MODE  = 2;
+	DMA7CONbits.DIR   = 0;
+	DMA7CONbits.SIZE  = 0;
+	DMA7CNT = 7;						// 8 DMA requests
 
 	//********************************************************************************
 	//  STEP 6:
 	//  Associate two buffers with Channel 1 for ‘Ping-Pong’ operation
 	//********************************************************************************/
-	DMA5STA = __builtin_dmaoffset(UART1_BufferA);
-	DMA5STB = __builtin_dmaoffset(UART1_BufferB);
+	DMA7STA = __builtin_dmaoffset(UART2_BufferA);
+	DMA7STB = __builtin_dmaoffset(UART2_BufferB);
 
 	//********************************************************************************
 	//  STEP 8:
 	//	Enable DMA Interrupts
 	//********************************************************************************/
-	IFS3bits.DMA5IF  = 0;			// Clear DMA interrupt
-	IEC3bits.DMA5IE  = 1;			// Enable DMA interrupt
+    IFS4bits.DMA7IF = 0;        // Clear DMA interrupt
+    IEC4bits.DMA7IE = 1;        // Enable DMA interrupt
 
 	//********************************************************************************
 	//  STEP 9:
 	//  Enable DMA Channel 1 to receive UART data
 	//********************************************************************************/
-	DMA5CONbits.CHEN = 1;			// Enable DMA Channel
+	DMA7CONbits.CHEN = 1;			// Enable DMA Channel
 } 
 
-void UART1DMA6init(){ //TX
+void UART2DMA1init(){ //TX
     
 	//********************************************************************************
 	//  STEP 3:
-	//  Associate DMA Channel 0 with UART Tx
+	//  Associate DMA Channel 1 with UART Tx
 	//********************************************************************************/
-	DMA6REQ = 0x001F;					// Select UART2 Transmitter
-	DMA6PAD = (volatile unsigned int) &U2TXREG;
+	DMA1REQ = 0b0011111;					// Select UART2 Transmitter
+	DMA1PAD = (volatile unsigned int) &U2TXREG;
 	
 	//********************************************************************************
 	//  STEP 5:
-	//  Configure DMA Channel 0 to:
+	//  Configure DMA Channel 1 to:
 	//  Transfer data from RAM to UART
 	//  One-Shot mode
 	//  Register Indirect with Post-Increment
@@ -96,23 +96,29 @@ void UART1DMA6init(){ //TX
 	//  Transfer words
 	//********************************************************************************/
 	//DMA6CON = 0x2001;					// One-Shot, Post-Increment, RAM-to-Peripheral
-	DMA6CONbits.AMODE = 0;
-	DMA6CONbits.MODE  = 1;
-	DMA6CONbits.DIR   = 1;
-	DMA6CONbits.SIZE  = 0;
-	DMA6CNT = 7;						// 8 DMA requests
+	DMA1CONbits.AMODE = 0;
+	DMA1CONbits.MODE  = 1;
+	DMA1CONbits.DIR   = 1;
+	DMA1CONbits.SIZE  = 0;
+	DMA1CNT = 7;						// 8 DMA requests
 
 	//********************************************************************************
 	//  STEP 6:
 	// Associate one buffer with Channel 0 for one-shot operation
 	//********************************************************************************/
-	DMA6STA = __builtin_dmaoffset(UART1_BufferA);
+	DMA1STA = __builtin_dmaoffset(UART2_BufferA);
 
 	//********************************************************************************
 	//  STEP 8:
 	//	Enable DMA Interrupts
 	//********************************************************************************/
-	IFS4bits.DMA6IF  = 0;			// Clear DMA Interrupt Flag
-	IEC4bits.DMA6IE  = 1;			// Enable DMA interrupt
-
+	IFS0bits.DMA1IF  = 0;			// Clear DMA Interrupt Flag
+	IEC0bits.DMA1IE  = 1;			// Enable DMA interrupt
+    
+    //********************************************************************************
+	//  STEP 9:
+	//  Enable DMA Channel 1 to transmit UART data
+	//********************************************************************************/
+	DMA1CONbits.CHEN = 1; // habilitar canal de DMA
 }
+
