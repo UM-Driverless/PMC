@@ -55,3 +55,8 @@ void escrituraSDInicializacionDMA4(void){
                  * controlador */
     DMA4CONbits.CHEN = 1; /* habilitamos el canal de DMA */
 }
+
+void escrituraSDinit(){
+    escrituraSDInicializacionSPI1();
+    escrituraSDInicializacionDMA4();
+}

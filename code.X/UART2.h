@@ -24,8 +24,9 @@ extern "C" {
 /* Buffers para transferencia por DMA */
 typedef unsigned int Buffer_A_UART2[8];
 typedef unsigned int Buffer_B_UART2[8];
-//extern Buffer_A_UART2 UART2_BufferA __attribute__((space(dma)));
-//extern Buffer_B_UART2 UART2_BufferB __attribute__((space(dma)));
+
+extern Buffer_A_UART2 UART2_BufferA __attribute__((space(dma)));
+extern Buffer_B_UART2 UART2_BufferB __attribute__((space(dma)));
 
 extern void UART2inicializacion();
 extern void UART2DMA7init(); //RX

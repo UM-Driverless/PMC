@@ -1,7 +1,5 @@
 #include "xc.h"
 #include "UART1.h"
-Buffer_A_UART1 UART1_BufferA __attribute__((space(dma)));
-Buffer_B_UART1 UART1_BufferB __attribute__((space(dma)));
 
 void UART1inicializacion(){
     U2MODEbits.STSEL = 0;			// 1-stop bit
@@ -115,4 +113,10 @@ void UART1DMA6init(){ //TX
 	IFS4bits.DMA6IF  = 0;			// Clear DMA Interrupt Flag
 	IEC4bits.DMA6IE  = 1;			// Enable DMA interrupt
 
+}
+
+void UART1init(){
+    UART1inicializacion();
+    UART1DMA5init();
+    UART1DMA6init();
 }

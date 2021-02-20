@@ -1,7 +1,6 @@
 #include "xc.h"
 #include "UART2.h"
-Buffer_A_UART2 UART2_BufferA __attribute__((space(dma)));
-Buffer_B_UART2 UART2_BufferB __attribute__((space(dma)));
+
 
 void UART2inicializacion(){
     U2MODEbits.STSEL = 0;			// 1-stop bit
@@ -120,5 +119,11 @@ void UART2DMA1init(){ //TX
 	//  Enable DMA Channel 1 to transmit UART data
 	//********************************************************************************/
 	DMA1CONbits.CHEN = 1; // habilitar canal de DMA
+}
+
+void UART2init(){
+    UART2inicializacion();
+    UART2DMA1init();
+    UART2DMA7init();
 }
 

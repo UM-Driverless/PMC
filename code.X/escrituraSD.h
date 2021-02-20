@@ -27,6 +27,7 @@ unsigned int uiaTxBufferSPIB[NUM_TRANSFERENCIAS] __attribute__((space(dma)));
 extern void escrituraSDInicializacionSPI1(void);
 /* Funcion para inicializar el canal de DMA4 para transmitir datos */
 extern void escrituraSDInicializacionDMA4(void);
-
+/* Función para inicializar todo */
+extern void escrituraSDinit();
 #endif	/* ESCRITURASD_H */
 
