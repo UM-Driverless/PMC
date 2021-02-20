@@ -89,6 +89,8 @@ void CAN1ConfigInicializar(void){
     CAN1ConfigInicializacionDMA2(); /* Configurar DMA2 para recibir por CAN1 */
 }
 
+
+
 /*
  void CAN1ConfigEnvioMsg(int ID, int DLC, char[] data){
     for(int i = 0; i<nose; i++){

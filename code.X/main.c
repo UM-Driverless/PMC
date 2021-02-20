@@ -26,5 +26,8 @@ int main(void) {
     UART1init();
     CAN2ConfigInicializar();
     UART2init();
+    while(1){
+        Nop();
+    }
     return 0;
 }
