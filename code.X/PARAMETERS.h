@@ -26,7 +26,7 @@ typedef struct {
     unsigned char datos[8];
     // identificador que consta de 11 bits
     unsigned long identificador;
-    
+    // buffer que se está utilizando para guardar el mensaje
     
     /* Dado que sabemos que utilizamos formato estándar, podemos dejar
      de considerar todas las comprobaciones relativas a si el mensaje tiene
