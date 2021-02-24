@@ -23,11 +23,11 @@ extern "C" {
         // Estructura de datos del mensaje CAN
 typedef struct {
     // campo de datos representado por 8 bytes
-    unsigned char datos[8];
+    unsigned char uc_datos[8];
     // identificador que consta de 11 bits
-    unsigned long identificador;
+    unsigned long ul_identificador;
     // buffer que se está utilizando para guardar el mensaje
-    
+    unsigned char uc_buffer_num;
     /* Dado que sabemos que utilizamos formato estándar, podemos dejar
      de considerar todas las comprobaciones relativas a si el mensaje tiene
      * un formato de datos u otro.
