@@ -12,6 +12,7 @@
       <itemPath>escrituraSD.h</itemPath>
       <itemPath>UART1.h</itemPath>
       <itemPath>UART2.h</itemPath>
+      <itemPath>CAN1Drv.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
