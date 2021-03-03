@@ -14,25 +14,24 @@
 # You can invoke make with the values of the macros:
 # $ makeMP_CC="/opt/microchip/mplabc30/v3.30c/bin/pic30-gcc" ...  
 #
-SHELL=cmd.exe
-PATH_TO_IDE_BIN=C:/Program Files (x86)/Microchip/MPLABX/v5.30/mplab_platform/platform/../mplab_ide/modules/../../bin/
+PATH_TO_IDE_BIN=/home/heqro/.mplabXIDE/mplab_platform/platform/../mplab_ide/modules/../../bin/
 # Adding MPLAB X bin directory to path.
-PATH:=C:/Program Files (x86)/Microchip/MPLABX/v5.30/mplab_platform/platform/../mplab_ide/modules/../../bin/:$(PATH)
+PATH:=/home/heqro/.mplabXIDE/mplab_platform/platform/../mplab_ide/modules/../../bin/:$(PATH)
 # Path to java used to run MPLAB X when this makefile was created
-MP_JAVA_PATH="C:\Program Files (x86)\Microchip\MPLABX\v5.30\sys\java\jre1.8.0_181/bin/"
+MP_JAVA_PATH="/home/heqro/.mplabXIDE/sys/java/zulu8.40.0.25-ca-fx-jre8.0.222-linux_x64/bin/"
 OS_CURRENT="$(shell uname -s)"
-MP_CC="C:\Program Files (x86)\Microchip\xc16\v1.35\bin\xc16-gcc.exe"
+MP_CC="/home/heqro/.x16compilador/bin/xc16-gcc"
 # MP_CPPC is not defined
 # MP_BC is not defined
-MP_AS="C:\Program Files (x86)\Microchip\xc16\v1.35\bin\xc16-as.exe"
-MP_LD="C:\Program Files (x86)\Microchip\xc16\v1.35\bin\xc16-ld.exe"
-MP_AR="C:\Program Files (x86)\Microchip\xc16\v1.35\bin\xc16-ar.exe"
-DEP_GEN=${MP_JAVA_PATH}java -jar "C:/Program Files (x86)/Microchip/MPLABX/v5.30/mplab_platform/platform/../mplab_ide/modules/../../bin/extractobjectdependencies.jar"
-MP_CC_DIR="C:\Program Files (x86)\Microchip\xc16\v1.35\bin"
+MP_AS="/home/heqro/.x16compilador/bin/xc16-as"
+MP_LD="/home/heqro/.x16compilador/bin/xc16-ld"
+MP_AR="/home/heqro/.x16compilador/bin/xc16-ar"
+DEP_GEN=${MP_JAVA_PATH}java -jar "/home/heqro/.mplabXIDE/mplab_platform/platform/../mplab_ide/modules/../../bin/extractobjectdependencies.jar"
+MP_CC_DIR="/home/heqro/.x16compilador/bin"
 # MP_CPPC_DIR is not defined
 # MP_BC_DIR is not defined
-MP_AS_DIR="C:\Program Files (x86)\Microchip\xc16\v1.35\bin"
-MP_LD_DIR="C:\Program Files (x86)\Microchip\xc16\v1.35\bin"
-MP_AR_DIR="C:\Program Files (x86)\Microchip\xc16\v1.35\bin"
+MP_AS_DIR="/home/heqro/.x16compilador/bin"
+MP_LD_DIR="/home/heqro/.x16compilador/bin"
+MP_AR_DIR="/home/heqro/.x16compilador/bin"
 # MP_BC_DIR is not defined
-DFP_DIR="C:/Users/LUC/.mchp_packs/Microchip/dsPIC33F-GP-MC_DFP/1.2.35"
+DFP_DIR=/home/heqro/.mchp_packs/Microchip/dsPIC33F-GP-MC_DFP/1.2.35
