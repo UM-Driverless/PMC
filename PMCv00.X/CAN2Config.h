@@ -37,5 +37,12 @@ extern void CAN2ConfigInicializacionCAN(void);
 extern void CAN2ConfigInicializacionDMA1(void);
 extern void CAN2ConfigInicializacionDMA3(void);
 extern void CAN2ConfigInicializar(void);
+
+// funciones copiadas y pegadas
+extern void dma1init(void);
+extern void dma3init(void);
+extern void ecan2Init(void);
+extern void ecan2ClkInit(void);
+
 #endif	/* CAN2CONFIG_H */
 

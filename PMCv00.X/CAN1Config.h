@@ -39,6 +39,14 @@ extern void CAN1ConfigInicializacionCAN(void);
 extern void CAN1ConfigInicializacionDMA0(void);
 extern void CAN1ConfigInicializacionDMA2(void);
 extern void CAN1ConfigInicializar(void);
+// funciones copiadas y pegadas
+extern void dma0init(void);
+extern void dma2init(void);
+extern void ecan1Init(void);
+extern void ecan1ClkInit(void);
+
+
+
 // extern void CAN1ConfigEnvioMsg()
 
 
