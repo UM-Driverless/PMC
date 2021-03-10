@@ -1,0 +1,11 @@
+breakpoint línea 294 main.c
+breakpoint línea del ecan2
+
+- Preguntar a Tián lo de los defines de ID (que me dé su messages.h)
+- ecan1WriteMessage ( NUEVOS PARÁMETROS: unsigned int id, unsigned int length, data0, data1, data2, data3 )
+
+1. Acabar las funciones de transmisión y recepción
+2. Meter las interrupciones. Hay que inicializarlas. Si no para en las interrupciones, pues hay que hacer interrupt enable. (C1RXIE == 1)
+3. (Después comprobar que funcione en placa el CAN) Copiar ecan1WriteTxMsgBufId en el código
+
+
