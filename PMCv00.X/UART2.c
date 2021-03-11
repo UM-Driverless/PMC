@@ -7,7 +7,7 @@ void UART2inicializacion(){
 	U2MODEbits.PDSEL = 0;			// No Parity, 8-data bits
 	U2MODEbits.ABAUD = 0;			// Autobaud Disabled
 
-	U2BRG = BRG_VAL;					// BAUD Rate Setting for 9600
+	U2BRG = BRG_VAL;					// BAUD Rate Setting for 115200
 
 
 	//********************************************************************************
