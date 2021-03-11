@@ -6,7 +6,7 @@ void UART1inicializacion(){
 	U1MODEbits.PDSEL = 0;			// No Parity, 8-data bits
 	U1MODEbits.ABAUD = 0;			// Autobaud Disabled
 
-	U1BRG = BRG_VAL;					// BAUD Rate Setting for 9600
+	U1BRG = BRG_VAL;					// BAUD Rate Setting for 1115200
 
 
 	//********************************************************************************
