@@ -2,9 +2,9 @@
 #include "UART1.h"
 
 void UART1inicializacion(){
-    U2MODEbits.STSEL = 0;			// 1-stop bit
-	U2MODEbits.PDSEL = 0;			// No Parity, 8-data bits
-	U2MODEbits.ABAUD = 0;			// Autobaud Disabled
+    U1MODEbits.STSEL = 0;			// 1-stop bit
+	U1MODEbits.PDSEL = 0;			// No Parity, 8-data bits
+	U1MODEbits.ABAUD = 0;			// Autobaud Disabled
 
 	U1BRG = BRG_VAL;					// BAUD Rate Setting for 9600
 
@@ -13,20 +13,20 @@ void UART1inicializacion(){
 	//  STEP 1:
 	//  Configure UART for DMA transfers
 	//********************************************************************************/
-	U2STAbits.UTXISEL0 = 0;			// Interrupt after one Tx character is transmitted
-	U2STAbits.UTXISEL1 = 0;			                            
-	U2STAbits.URXISEL  = 0;			// Interrupt after one RX character is received
+	U1STAbits.UTXISEL0 = 0;			// Interrupt after one Tx character is transmitted
+	U1STAbits.UTXISEL1 = 0;			                            
+	U1STAbits.URXISEL  = 0;			// Interrupt after one RX character is received
 
 	
 	//********************************************************************************
 	//  STEP 2:
 	//  Enable UART Rx and Tx
 	//********************************************************************************/
-	U2MODEbits.UARTEN   = 1;		// Enable UART
-	U2STAbits.UTXEN     = 1;		// Enable UART Tx
+	U1MODEbits.UARTEN   = 1;		// Enable UART
+	U1STAbits.UTXEN     = 1;		// Enable UART Tx
 
 
-	IEC4bits.U2EIE = 0;
+	IEC4bits.U1EIE = 0;
 }
 
 void UART1DMA5init(){ //RX
