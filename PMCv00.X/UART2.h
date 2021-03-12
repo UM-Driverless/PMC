@@ -20,6 +20,14 @@ extern "C" {
 #endif
 #include "PARAMETERS.h"
 
+//Definir puertos fisicos UART1
+#define TRIS_UART2_RX _TRISF4 
+#define TRIS_UART2_TX _TRISF5 
+
+//Definir control del RS232
+//#define TRIS_CTR485 _TRISB15 
+//#define CTR485      _LATB15 //control del puerto fisico
+
 
 /* Buffers para transferencia por DMA */
 typedef unsigned int Buffer_A_UART2[8];

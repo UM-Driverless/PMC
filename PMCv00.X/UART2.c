@@ -3,6 +3,11 @@
 
 
 void UART2inicializacion(){
+        
+    //Inicializacion de puertos
+    TRIS_UART2_TX       = 0;        //digital output UART1  TX on RF3
+    TRIS_UART2_RX       = 1;        //digital  input UART1  RX on RF2
+    
     U2MODEbits.STSEL = 0;			// 1-stop bit
 	U2MODEbits.PDSEL = 0;			// No Parity, 8-data bits
 	U2MODEbits.ABAUD = 0;			// Autobaud Disabled

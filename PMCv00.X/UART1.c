@@ -2,6 +2,12 @@
 #include "UART1.h"
 
 void UART1inicializacion(){
+    
+    //Inicializacion de puertos
+    TRIS_CTR485         = 0;        //digital output UART1  CTR485
+    TRIS_UART1_TX       = 0;        //digital output UART1  TX on RF3
+    TRIS_UART1_RX       = 1;        //digital  input UART1  RX on RF2
+    
     U1MODEbits.STSEL = 0;			// 1-stop bit
 	U1MODEbits.PDSEL = 0;			// No Parity, 8-data bits
 	U1MODEbits.ABAUD = 0;			// Autobaud Disabled
