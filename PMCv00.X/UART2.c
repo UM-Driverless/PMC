@@ -1,38 +1,53 @@
 #include "xc.h"
 #include "UART2.h"
 
+volatile unsigned char ucUART2_RX_DATA;
+volatile unsigned char ucUART2_TX_DATA;
 
 void UART2inicializacion(){
         
     //Inicializacion de puertos
+    TRIS_CTR232         = 0;        //digital output UART1  CTR232
     TRIS_UART2_TX       = 0;        //digital output UART1  TX on RF3
     TRIS_UART2_RX       = 1;        //digital  input UART1  RX on RF2
     
     U2MODEbits.STSEL = 0;			// 1-stop bit
 	U2MODEbits.PDSEL = 0;			// No Parity, 8-data bits
 	U2MODEbits.ABAUD = 0;			// Autobaud Disabled
+    U2MODEbits.BRGH     = 0;        // Standard-Speed mode
 
-	U2BRG = BRG_VAL;					// BAUD Rate Setting for 115200
+	U2BRG = BRG_VAL_115200;					// BAUD Rate Setting for 115200
 
 
 	//********************************************************************************
 	//  STEP 1:
 	//  Configure UART for DMA transfers
 	//********************************************************************************/
-	U2STAbits.UTXISEL0 = 0;			// Interrupt after one Tx character is transmitted
+	/*
+    U2STAbits.UTXISEL0 = 0;			// Interrupt after one Tx character is transmitted
 	U2STAbits.UTXISEL1 = 0;			                            
 	U2STAbits.URXISEL  = 0;			// Interrupt after one RX character is received
-
-	
+    */
+    
+	//********************************************************************************
+	//  New STEP 1:
+	//  Enable UART Rx and Tx Interrupt
+	//********************************************************************************/
+    IFS1bits.U2TXIF     = 0;        //Clear the Transmit Interrupt Flag
+    IEC1bits.U2TXIE     = 1;        //Enable UART TX interrupt
+    
+	IFS1bits.U2RXIF     = 0;        //Clear the Recieve Interrupt Flag
+	IEC1bits.U2RXIE     = 1;        //Enable Recieve Interrupts  
+    
+    IEC4bits.U2EIE      = 1;        //Enable Error (Framing os Overflow) Interrupt for BREAK
+    
 	//********************************************************************************
 	//  STEP 2:
 	//  Enable UART Rx and Tx
 	//********************************************************************************/
 	U2MODEbits.UARTEN   = 1;		// Enable UART
 	U2STAbits.UTXEN     = 1;		// Enable UART Tx
-
-
-	IEC4bits.U2EIE = 0;
+    
 }
 
 void UART2DMA7init(){ //RX
@@ -124,6 +139,106 @@ void UART2DMA1init(){ //TX
 	//  Enable DMA Channel 1 to transmit UART data
 	//********************************************************************************/
 	DMA1CONbits.CHEN = 1; // habilitar canal de DMA
+}
+
+void UART2WriteCharacter (unsigned char c)
+{
+    char cCaracterRecibido;
+    
+    while (U2STAbits.TRMT == 0 ); // wait while transmitting   
+    U2TXREG = c;
+    while (U2STAbits.TRMT == 0 ); // wait while transmitting  
+
+    Nop ();
+    Nop ();
+    Nop ();
+    //
+  	cCaracterRecibido = U2RXREG;    //autolectura
+    Nop ();
+    Nop ();
+    Nop ();
+    
+    IFS1bits.U2RXIF     = 0;
+    Nop ();
+    Nop ();
+    Nop ();    
+   
+}
+
+void UART2ReceiveCharacter (unsigned char c)
+{
+
+    Nop ();
+    Nop ();
+    Nop ();
+   
+}
+
+/*             INTERRUPCIONES           */
+
+void __attribute__((interrupt, no_auto_psv)) _U2TXInterrupt(void)
+{
+
+    IFS1bits.U2TXIF = 0; // Clear TX1 Interrupt flag
+    
+    //ucUART2_TX_DATA = *pcTramaPorInterrupcionUart1;
+    U2TXREG = ucUART2_TX_DATA;
+    
+}
+
+/*
+-----------------------------------------------------------------------------------------
+U2RXInterrupt
+-----------------------------------------------------------------------------------------
+*/
+void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void)
+{            
+
+	ucUART2_RX_DATA = U2RXREG;    
+    Nop();
+    Nop();
+
+    IFS1bits.U2RXIF = 0; // Clear RX1 Interrupt flag
+    Nop();
+    Nop();
+    
+    //OVERFLOW-ERROR?
+    if ( U2STAbits.OERR == 1 )  
+    {
+        U2STAbits.OERR  = 0; //limpiar el overflow implica limpiar el RXG, a partir de 5 caracteres seguidos salta
+
+        IEC1bits.U2RXIE = 0;        // Disable Recieve Interrupts
+        IEC1bits.U2RXIE = 1;        // Enable Recieve Interrupts    
+    }
+
+    //FRAME-ERROR?
+    if ( U2STAbits.FERR == 1 )  //Frame error 
+    {
+        U2STAbits.FERR = 0;
+    }
+
+    //aqui recoger los mensajes leidos en ucUART1_RX_DATA
+    UART2ReceiveCharacter(ucUART2_RX_DATA);
+    
+}
+
+void __attribute__((interrupt, no_auto_psv)) _U2ErrInterrupt(void)
+{
+
+    Nop();
+    
+    if (U2STAbits.FERR == 1)
+    {
+        U2STAbits.FERR = 0;
+    }
+    
+    //10.03.2021 DJU Limpiar overflow error RS485
+    if ( U2STAbits.OERR == 1 )  
+    {
+        U2STAbits.OERR  = 0;
+    }
+    
+    IFS4bits.U2EIF = 0;         // Clear Error Flag
 }
 
 void UART2init(){

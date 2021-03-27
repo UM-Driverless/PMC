@@ -34,10 +34,15 @@ typedef unsigned int Buffer_B_UART1[8];
 extern Buffer_A_UART1 UART1_BufferA __attribute__((space(dma)));
 extern Buffer_B_UART1 UART1_BufferB __attribute__((space(dma)));
 
+extern volatile unsigned char ucUART1_RX_DATA;
+extern volatile unsigned char ucUART1_TX_DATA;
+
 extern void UART1inicializacion();
 extern void UART1DMA5init(); //RX
 extern void UART1DMA6init(); //TX
 extern void UART1init();
+extern void UART1WriteCharacter(unsigned char c);
+extern void UART1ReceiveCharacter(unsigned char c);
 
 #endif	/* UART_H */
 

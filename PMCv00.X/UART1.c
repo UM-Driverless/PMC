@@ -1,6 +1,9 @@
 #include "xc.h"
 #include "UART1.h"
 
+volatile unsigned char ucUART1_RX_DATA;
+volatile unsigned char ucUART1_TX_DATA;
+
 void UART1inicializacion(){
     
     //Inicializacion de puertos
@@ -11,18 +14,32 @@ void UART1inicializacion(){
     U1MODEbits.STSEL = 0;			// 1-stop bit
 	U1MODEbits.PDSEL = 0;			// No Parity, 8-data bits
 	U1MODEbits.ABAUD = 0;			// Autobaud Disabled
+    U1MODEbits.BRGH     = 0;        // Standard-Speed mode
 
-	U1BRG = BRG_VAL;					// BAUD Rate Setting for 1115200
+	U1BRG = BRG_VAL_115200;					// BAUD Rate Setting for 1115200
 
 
 	//********************************************************************************
 	//  STEP 1:
 	//  Configure UART for DMA transfers
 	//********************************************************************************/
-	U1STAbits.UTXISEL0 = 0;			// Interrupt after one Tx character is transmitted
+	/*
+    U1STAbits.UTXISEL0 = 0;			// Interrupt after one Tx character is transmitted
 	U1STAbits.UTXISEL1 = 0;			                            
 	U1STAbits.URXISEL  = 0;			// Interrupt after one RX character is received
-
+    */
+    
+    //********************************************************************************
+	//  New STEP 1:
+	//  Enable UART Rx and Tx Interrupt
+	//********************************************************************************/
+    IFS0bits.U1TXIF     = 0;        //Clear the Transmit Interrupt Flag
+    IEC0bits.U1TXIE     = 1;        //Enable UART TX interrupt
+    
+	IFS0bits.U1RXIF     = 0;        //Clear the Recieve Interrupt Flag
+	IEC0bits.U1RXIE     = 1;        //Enable Recieve Interrupts  
+    
+    IEC4bits.U1EIE      = 1;        //Enable Error (Framing os Overflow) Interrupt for BREAK
 	
 	//********************************************************************************
 	//  STEP 2:
@@ -30,9 +47,9 @@ void UART1inicializacion(){
 	//********************************************************************************/
 	U1MODEbits.UARTEN   = 1;		// Enable UART
 	U1STAbits.UTXEN     = 1;		// Enable UART Tx
+    
 
 
-	IEC4bits.U1EIE = 0;
 }
 
 void UART1DMA5init(){ //RX
@@ -119,6 +136,106 @@ void UART1DMA6init(){ //TX
 	IFS4bits.DMA6IF  = 0;			// Clear DMA Interrupt Flag
 	IEC4bits.DMA6IE  = 1;			// Enable DMA interrupt
 
+}
+
+void UART1WriteCharacter (unsigned char c)
+{
+    char cCaracterRecibido;
+    
+    while (U1STAbits.TRMT == 0 ); // wait while transmitting   
+    U1TXREG = c;
+    while (U1STAbits.TRMT == 0 ); // wait while transmitting  
+
+    Nop ();
+    Nop ();
+    Nop ();
+    //
+  	cCaracterRecibido = U1RXREG;    //autolectura
+    Nop ();
+    Nop ();
+    Nop ();
+    
+    IFS0bits.U1RXIF     = 0;
+    Nop ();
+    Nop ();
+    Nop ();    
+   
+}
+
+void UART1ReceiveCharacter (unsigned char c)
+{
+
+    Nop ();
+    Nop ();
+    Nop ();
+   
+}
+
+/*             INTERRUPCIONES           */
+
+void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void)
+{
+
+    IFS0bits.U1TXIF = 0; // Clear TX1 Interrupt flag
+    
+    //ucUART1_TX_DATA = *pcTramaPorInterrupcionUart1;
+    U1TXREG = ucUART1_TX_DATA;
+    
+}
+
+/*
+-----------------------------------------------------------------------------------------
+U2RXInterrupt
+-----------------------------------------------------------------------------------------
+*/
+void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void)
+{            
+
+	ucUART1_RX_DATA = U1RXREG;    
+    Nop();
+    Nop();
+
+    IFS0bits.U1RXIF = 0; // Clear RX1 Interrupt flag
+    Nop();
+    Nop();
+    
+    //OVERFLOW-ERROR?
+    if ( U1STAbits.OERR == 1 )  
+    {
+        U1STAbits.OERR  = 0; //limpiar el overflow implica limpiar el RXG, a partir de 5 caracteres seguidos salta
+
+        IEC0bits.U1RXIE = 0;        // Disable Recieve Interrupts
+        IEC0bits.U1RXIE = 1;        // Enable Recieve Interrupts    
+    }
+
+    //FRAME-ERROR?
+    if ( U1STAbits.FERR == 1 )  //Frame error 
+    {
+        U1STAbits.FERR = 0;
+    }
+
+    //aqui recoger los mensajes leidos en ucUART1_RX_DATA
+    UART1ReceiveCharacter(ucUART1_RX_DATA);
+    
+}
+
+void __attribute__((interrupt, no_auto_psv)) _U1ErrInterrupt(void)
+{
+
+    Nop();
+    
+    if (U1STAbits.FERR == 1)
+    {
+        U1STAbits.FERR = 0;
+    }
+    
+    //10.03.2021 DJU Limpiar overflow error RS485
+    if ( U1STAbits.OERR == 1 )  
+    {
+        U1STAbits.OERR  = 0;
+    }
+    
+    IFS4bits.U1EIF = 0;         // Clear Error Flag
 }
 
 void UART1init(){

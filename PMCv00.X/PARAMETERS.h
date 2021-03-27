@@ -27,7 +27,15 @@ extern "C" {
 #define BAUDRATE 115200
 
 // UART //
-#define BRG_VAL ((FCY/BAUDRATE)/16)-1 
+#define BRG_VAL_1200 ((FCY/1200)/16)-1 
+#define BRG_VAL_2400 ((FCY/2400)/16)-1 
+#define BRG_VAL_4800 ((FCY/4800)/16)-1 
+#define BRG_VAL_9600 ((FCY/9600)/16)-1 
+#define BRG_VAL_19200 ((FCY/19200)/16)-1 
+#define BRG_VAL_38400 ((FCY/38400)/16)-1 
+#define BRG_VAL_57600 ((FCY/57600)/16)-1 
+#define BRG_VAL_115200 ((FCY/115200)/16)-1 
+
     
 // CAN //
 #define N_CAN 20
