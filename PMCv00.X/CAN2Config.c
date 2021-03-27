@@ -154,7 +154,14 @@ CiCFG1<BRP> =(FCAN /(2 ×N×FBAUD))– 1
 }
 
 void ecan2Init(void){
+    
+    //27.03.2021 Definir puertos físicos del CAN2 (EN URM PRUEBAS)
+    TRIS_STBYCAN2 = 0;  //Define as "CAN STANDBY" as output : drive RG3 "CAN STANDBY" low on the CANBUS chip.
+    TRISRXCAN2 = 1;     //Define as "RX CAN" as input   : RPI96/RF0 RX CANBUS.
+    TRISTXCAN2 = 0;     //Define as "TX CAN" as output  : RP97/RF1  TX CANBUS.
 
+    STBYCAN2 = 0;       //Poner "CAN STANDBY" low para activar el driver de CAN
+    
 /* Request Configuration Mode */
 
 	C2CTRL1bits.REQOP=4;

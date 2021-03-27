@@ -31,6 +31,14 @@ extern "C" {
 #define  CAN1_MSG_BUF_LENGTH 	4
 typedef unsigned int uiaTablaMensajesCAN1 [CAN1_MSG_BUF_LENGTH][8];
 
+//27.03.2021 Definir puertos físicos del CAN1 (EN URM PRUEBAS)
+#define STBYCAN1        _LATG2
+#define TRIS_STBYCAN1   _TRISG2
+#define RXCAN1          _LATF0
+#define TRISRXCAN1      _TRISF0
+#define TXCAN1          _LATF1
+#define TRISTXCAN1      _TRISF1
+
 /* S22-P18: inicialización del buffer de DMA  */
 extern uiaTablaMensajesCAN1 uiaCAN1BufferMensajes __attribute__((space(dma)));
 

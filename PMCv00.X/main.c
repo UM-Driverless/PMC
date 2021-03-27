@@ -110,7 +110,14 @@ int main(void) {
 
 	while (1); 
     // fin código copia pega
-    
+        Nop();
+        Nop();
+        Nop();
+        Nop();
+        Nop();
+        Nop();
+        Nop();
+        Nop();
     return 0;
 }
 
@@ -131,6 +138,8 @@ void rx_CAN1(msgCAN* mensaje){
     mensaje->uc_datos[5] = (unsigned char) ((uiaCAN1BufferMensajes[mensaje->uc_buffer_num][5] & 0xFF00) >> 8);
     mensaje->uc_datos[6] = (unsigned char) uiaCAN1BufferMensajes[mensaje->uc_buffer_num][6];
     mensaje->uc_datos[7] = (unsigned char) ((uiaCAN1BufferMensajes[mensaje->uc_buffer_num][6] & 0xFF00) >> 8);
+    Nop();
+    Nop();
 }
 
 void rx_CAN2(msgCAN* mensaje){
@@ -143,6 +152,8 @@ void rx_CAN2(msgCAN* mensaje){
     mensaje->uc_datos[5] = (unsigned char) ((uiaCAN2BufferMensajes[mensaje->uc_buffer_num][5] & 0xFF00) >> 8);
     mensaje->uc_datos[6] = (unsigned char) uiaCAN2BufferMensajes[mensaje->uc_buffer_num][6];
     mensaje->uc_datos[7] = (unsigned char) ((uiaCAN2BufferMensajes[mensaje->uc_buffer_num][6] & 0xFF00) >> 8);
+    Nop();
+    Nop();
 }
 
 
@@ -417,15 +428,16 @@ void oscConfig(void){
 	RCONbits.SWDTEN=0;
 
 /* Clock switch to incorporate PLL*/
-	__builtin_write_OSCCONH(0x03);		// Initiate Clock Switch to Primary
+	/*__builtin_write_OSCCONH(0x03);		// Initiate Clock Switch to Primary
 													// Oscillator with PLL (NOSC=0b011)
 	__builtin_write_OSCCONL(0x01);		// Start clock switching
 	while (OSCCONbits.COSC != 0b011);	// Wait for Clock switch to occur	
-
+    */
 
 /* Wait for PLL to lock */
-
+    /*
 	while(OSCCONbits.LOCK!=1) {};
+    */
 }
 
 
