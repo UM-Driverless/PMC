@@ -1,7 +1,342 @@
 #include "xc.h"
 #include "CAN1Config.h"
 #include "PARAMETERS.h"
-#include "CAN1Drv.h"
+
+
+/*
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+VARIABLES GLOBALES
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
+*/
+//Multidimensional array (indexing with INT, not CHAR)
+volatile unsigned char ucCAN1BUSTXList[16][13];    //15 TX buffers of 12 data bytes
+volatile unsigned char ucCAN1BUSTXRead;                                        //an array index is INT
+volatile unsigned char ucCAN1BUSTXWrite;                                       //an array index is INT
+volatile unsigned char ucCAN1BUSTXOverFlow;
+volatile unsigned char ucCAN1BUSTXCounter;
+
+//Multidimensional array (indexing with INT, not CHAR)
+volatile unsigned char ucCAN1BUSRXList[16][13];    //15 RX buffers of 12 data bytes
+volatile unsigned char ucCAN1BUSRXRead;                                        //an array index is INT
+volatile unsigned char ucCAN1BUSRXWrite;                                       //an array index is INT
+volatile unsigned char ucCAN1BUSRXOverFlow;
+volatile unsigned char ucCAN1BUSRXCounter;
+volatile unsigned char ucCAN1BUSValidMessage;
+
+
+
+// funciones de manipulación de mensajes CAN
+void rx_CAN1(msgCAN* mensaje);
+void rx_ECAN1(mIDCAN1* mensaje);
+
+// CAN Messages in RAM
+mIDCAN1 rx_CAN1Mensaje;
+//msgCAN rx_CAN1Mensaje;
+
+/* Definimos los buffers de mensajes de los módulos CAN */
+uiaTablaMensajesCAN1 uiaCAN1BufferMensajes __attribute__((space(dma),aligned(CAN1_MSG_BUF_LENGTH*16)));
+
+/* 
+This function configures Acceptance Filter "n" 
+
+Inputs:
+n-> Filter number [0-15]
+identifier-> Bit ordering is given below
+Filter Identifier (29-bits) : 0b000f ffff ffff ffff ffff ffff ffff ffff
+								   |____________|_____________________|
+									  SID10:0           EID17:0
+
+
+Filter Identifier (11-bits) : 0b0000 0000 0000 0000 0000 0fff ffff ffff
+														  |___________|
+															  SID10:0
+exide -> "0" for standard identifier 
+		 "1" for Extended identifier
+
+bufPnt -> Message buffer to store filtered message [0-15]
+maskSel -> Optinal Masking of identifier bits [0-3]
+						
+*/
+
+void ecan1WriteRxAcptFilter(int n, long identifier, unsigned int exide, unsigned int bufPnt,unsigned int maskSel) {
+
+unsigned long sid10_0=0, eid15_0=0, eid17_16=0;
+unsigned int *sidRegAddr,*bufPntRegAddr,*maskSelRegAddr, *fltEnRegAddr;
+
+
+	C1CTRL1bits.WIN=1;
+
+	// Obtain the Address of CiRXFnSID, CiBUFPNTn, CiFMSKSELn and CiFEN register for a given filter number "n"
+	sidRegAddr = (unsigned int *)(&C1RXF0SID + (n << 1));
+	bufPntRegAddr = (unsigned int *)(&C1BUFPNT1 + (n >> 2));
+	maskSelRegAddr = (unsigned int *)(&C1FMSKSEL1 + (n >> 3));
+	fltEnRegAddr = (unsigned int *)(&C1FEN1);
+
+
+	// Bit-filed manupulation to write to Filter identifier register
+	if(exide==1) { 	// Filter Extended Identifier
+		eid15_0 = (identifier & 0xFFFF);
+		eid17_16= (identifier>>16) & 0x3;
+		sid10_0 = (identifier>>18) & 0x7FF;
+
+		*sidRegAddr=(((sid10_0)<<5) + 0x8) + eid17_16;	// Write to CiRXFnSID Register
+	    *(sidRegAddr+1)= eid15_0;					// Write to CiRXFnEID Register
+
+	}else{			// Filter Standard Identifier
+		sid10_0 = (identifier & 0x7FF);			
+		*sidRegAddr=(sid10_0)<<5;					// Write to CiRXFnSID Register
+		*(sidRegAddr+1)=0;							// Write to CiRXFnEID Register
+	}
+
+
+   *bufPntRegAddr = (*bufPntRegAddr) & (0xFFFF - (0xF << (4 *(n & 3)))); // clear nibble
+   *bufPntRegAddr = ((bufPnt << (4 *(n & 3))) | (*bufPntRegAddr));       // Write to C1BUFPNTn Register
+
+   *maskSelRegAddr = (*maskSelRegAddr) & (0xFFFF - (0x3 << ((n & 7) * 2))); // clear 2 bits
+   *maskSelRegAddr = ((maskSel << (2 * (n & 7))) | (*maskSelRegAddr));      // Write to C1FMSKSELn Register
+
+   *fltEnRegAddr = ((0x1 << n) | (*fltEnRegAddr)); // Write to C1FEN1 Register
+
+   C1CTRL1bits.WIN=0;
+
+
+}
+
+
+/* 
+This function configures Acceptance Filter Mask "m" 
+
+Inputs:
+m-> Mask number [0-2]
+identifier-> Bit ordering is given below
+Filter Mask Identifier (29-bits) : 0b000f ffff ffff ffff ffff ffff ffff ffff
+								        |____________|_____________________|
+									        SID10:0           EID17:0
+
+
+Filter Mask Identifier (11-bits) : 0b0000 0000 0000 0000 0000 0fff ffff ffff
+														       |___________|
+															      SID10:0
+
+mide ->  "0"  Match either standard or extended address message if filters match 
+         "1"  Match only message types that correpond to 'exide' bit in filter
+					
+*/
+
+void ecan1WriteRxAcptMask(int m, long identifier, unsigned int mide, unsigned int exide){
+
+unsigned long sid10_0=0, eid15_0=0, eid17_16=0;
+unsigned int *maskRegAddr;
+
+
+	C1CTRL1bits.WIN=1;
+
+	// Obtain the Address of CiRXMmSID register for given Mask number "m"
+	maskRegAddr = (unsigned int *)(&C1RXM0SID + (m << 1));
+
+	// Bit-filed manupulation to write to Filter Mask register
+	if(exide==1) 
+	{ 	// Filter Extended Identifier
+		eid15_0 = (identifier & 0xFFFF);
+		eid17_16= (identifier>>16) & 0x3;
+		sid10_0 = (identifier>>18) & 0x7FF;
+
+		if(mide==1)
+			*maskRegAddr=((sid10_0)<<5) + 0x0008 + eid17_16;	// Write to CiRXMnSID Register
+		else
+			*maskRegAddr=((sid10_0)<<5) + eid17_16;	// Write to CiRXMnSID Register
+	    *(maskRegAddr+1)= eid15_0;					// Write to CiRXMnEID Register
+
+	}
+	else
+	{			// Filter Standard Identifier
+		sid10_0 = (identifier & 0x7FF);			
+		if(mide==1)
+			*maskRegAddr=((sid10_0)<<5) + 0x0008;					// Write to CiRXMnSID Register
+		else
+			*maskRegAddr=(sid10_0)<<5;					// Write to CiRXMnSID Register	
+		
+		*(maskRegAddr+1)=0;							// Write to CiRXMnEID Register
+	}
+
+
+	C1CTRL1bits.WIN=0;	
+
+}
+
+
+/* ECAN Transmit Message Buffer Configuration
+
+Inputs:
+buf	-> Transmit Buffer Number
+
+txIdentifier ->	
+
+Extended Identifier (29-bits) : 0b000f ffff ffff ffff ffff ffff ffff ffff
+								     |____________|_____________________|
+									        SID10:0           EID17:0
+
+
+
+Standard Identifier (11-bits) : 0b0000 0000 0000 0000 0000 0fff ffff ffff
+														    |___________|
+															      SID10:0
+
+Standard Message Format: 
+											Word0 : 0b000f ffff ffff ffff
+													     |____________|||___
+ 									        				SID10:0   SRR   IDE     
+
+											Word1 : 0b0000 0000 0000 0000
+														   |____________|
+															  EID17:6
+
+											Word2 : 0b0000 00f0 0000 ffff
+													  |_____||	  	 |__|
+													  EID5:0 RTR   	  DLC
+										
+																  
+																	
+Extended Message Format: 
+											Word0 : 0b000f ffff ffff ffff
+													     |____________|||___
+ 									        				SID10:0   SRR   IDE     
+
+											Word1 : 0b0000 ffff ffff ffff
+														   |____________|
+															  EID17:6
+
+											Word2 : 0bffff fff0 0000 ffff
+													  |_____||	  	 |__|
+													  EID5:0 RTR   	  DLC
+
+ide -> "0"  Message will transmit standard identifier
+	   "1"  Message will transmit extended identifier
+
+
+
+remoteTransmit -> "0" Message transmitted is a normal message
+				  "1" Message transmitted is a remote message
+
+				Standard Message Format: 
+											Word0 : 0b000f ffff ffff ff1f
+													     |____________|||___
+ 									        				SID10:0   SRR   IDE     
+
+											Word1 : 0b0000 0000 0000 0000
+														   |____________|
+															  EID17:6
+
+											Word2 : 0b0000 0010 0000 ffff
+													  |_____||	  	 |__|
+													  EID5:0 RTR   	  DLC
+										
+																  
+																	
+				Extended Message Format: 
+											Word0 : 0b000f ffff ffff ff1f
+													     |____________|||___
+ 									        				SID10:0   SRR   IDE     
+
+											Word1 : 0b0000 ffff ffff ffff
+														   |____________|
+															  EID17:6
+
+											Word2 : 0bffff ff10 0000 ffff
+													  |_____||	  	 |__|
+													  EID5:0 RTR   	  DLC
+
+*/
+
+void ecan1WriteTxMsgBufId(unsigned int buf, long txIdentifier, unsigned int ide, unsigned int remoteTransmit){
+
+    unsigned long word0=0, word1=0, word2=0;
+    unsigned long sid10_0=0, eid5_0=0, eid17_6=0;
+
+
+    if(ide)
+    {
+        eid5_0  = (txIdentifier & 0x3F);
+        eid17_6 = (txIdentifier>>6) & 0xFFF;
+        sid10_0 = (txIdentifier>>18) & 0x7FF;
+        word1 = eid17_6;
+    }
+    else
+    {
+        sid10_0 = (txIdentifier & 0x7FF);
+    }
+
+
+    if(remoteTransmit==1) { 	// Transmit Remote Frame
+
+        word0 = ((sid10_0 << 2) | ide | 0x2);
+        word2 = ((eid5_0 << 10)| 0x0200);
+    }
+    else {
+        word0 = ((sid10_0 << 2) | ide);
+        word2 = (eid5_0 << 10);
+    }
+
+    // Obtain the Address of Transmit Buffer in DMA RAM for a given Transmit Buffer number
+
+    if(ide)
+    {
+        uiaCAN1BufferMensajes[buf][0] = (word0 | 0x0002);
+    }
+    else
+    {
+        uiaCAN1BufferMensajes[buf][0] = word0;
+
+        uiaCAN1BufferMensajes[buf][1] = word1;
+        uiaCAN1BufferMensajes[buf][2] = word2;
+    }
+}
+
+
+/* ECAN Transmit Data
+
+Inputs :
+buf -> Transmit Buffer Number
+
+dataLength -> Length of Data in Bytes to be transmitted
+
+data1/data2/data3/data4 ->  Transmit Data Bytes 
+
+*/
+
+void ecan1WriteTxMsgBufData(unsigned int buf, unsigned int dataLength, unsigned int data1, unsigned int data2, unsigned int data3, unsigned int data4)
+{
+
+	uiaCAN1BufferMensajes[buf][2] = ((uiaCAN1BufferMensajes[buf][2] & 0xFFF0) + dataLength) ;
+	
+	uiaCAN1BufferMensajes[buf][3] = data1;
+	uiaCAN1BufferMensajes[buf][4] = data2;
+	uiaCAN1BufferMensajes[buf][5] = data3;
+	uiaCAN1BufferMensajes[buf][6] = data4;
+
+}
+
+/*------------------------------------------------------------------------------
+ Disable RX Acceptance Filter
+ void ecan1DisableRXFilter(int n)
+------------------------------------------------------------------------------
+
+n -> Filter number [0-15]
+*/
+
+void ecan1DisableRXFilter(int n)
+{
+    unsigned int *fltEnRegAddr;
+    C1CTRL1bits.WIN=1;
+    fltEnRegAddr = (unsigned int *)(&C1FEN1);
+    *fltEnRegAddr = (*fltEnRegAddr) & (0xFFFF - (0x1 << n));
+    C1CTRL1bits.WIN=0;
+
+}
+
+
 
 void CAN1ConfigInicializacionDMA0(void){
     /* Este controlador de DMA0 lo vamos a utilizar para transmitir datos */
@@ -191,7 +526,7 @@ void ecan1Init(void){
 	
 */
 
-	ecan1WriteRxAcptFilter(1,0x1FFEFFFF,1,1,0);
+	ecan1WriteRxAcptFilter(1,0x1FFEFFFF,ucTipoMensajeCAN1,1,0);
 
 
 /*	Mask Configuration
@@ -210,7 +545,7 @@ void ecan1Init(void){
 	
 */
 
-	ecan1WriteRxAcptMask(1,0x1FFFFFFF,1,1);
+	ecan1WriteRxAcptMask(1,0x1FFFFFFF,ucTipoMensajeCAN1,1);
 	
 
 /* Enter Normal Mode */
@@ -225,4 +560,201 @@ void ecan1Init(void){
 	C1TR01CONbits.TX0PRI=0b11; 		/* Message Buffer 0 Priority Level */
 	C1TR01CONbits.TX1PRI=0b11; 		/* Message Buffer 1 Priority Level */
 		
+}
+
+/*
+ Como sabemos qué clase de mensajes se envían, podemos ahorrarnos muchas
+ * comprobaciones previas:
+ * - Siempre estamos utilizando el formato de datos estándar
+ * - RTR siempre estará a cero
+ */
+/*void rx_CAN1(msgCAN* mensaje){
+    mensaje->ul_identificador = (uiaCAN1BufferMensajes[mensaje->uc_buffer_num][0] & 0x1FFC) >> 2;
+    mensaje->uc_datos[0] = (unsigned char) uiaCAN1BufferMensajes[mensaje->uc_buffer_num][3];
+    mensaje->uc_datos[1] = (unsigned char) ((uiaCAN1BufferMensajes[mensaje->uc_buffer_num][3] & 0xFF00) >> 8);
+    mensaje->uc_datos[2] = (unsigned char) uiaCAN1BufferMensajes[mensaje->uc_buffer_num][4];
+    mensaje->uc_datos[3] = (unsigned char) ((uiaCAN1BufferMensajes[mensaje->uc_buffer_num][4] & 0xFF00) >> 8);
+    mensaje->uc_datos[4] = (unsigned char) uiaCAN1BufferMensajes[mensaje->uc_buffer_num][5];
+    mensaje->uc_datos[5] = (unsigned char) ((uiaCAN1BufferMensajes[mensaje->uc_buffer_num][5] & 0xFF00) >> 8);
+    mensaje->uc_datos[6] = (unsigned char) uiaCAN1BufferMensajes[mensaje->uc_buffer_num][6];
+    mensaje->uc_datos[7] = (unsigned char) ((uiaCAN1BufferMensajes[mensaje->uc_buffer_num][6] & 0xFF00) >> 8);
+    Nop();
+    Nop();
+    
+    
+}*/
+
+
+
+
+// inicio del copia y pega
+
+
+/* ECAN1 buffer loaded with Identifiers and Data */
+extern void ecan1WriteMessage(unsigned long id, unsigned char dataLength, unsigned char data1, unsigned char data2, unsigned char data3, unsigned char data4, unsigned char data5, unsigned char data6, unsigned char data7, unsigned char data8)
+{
+    unsigned int ucData1;
+    unsigned int ucData2;
+    unsigned int ucData3;
+    unsigned int ucData4;
+
+    /* Writing the message for Transmission
+    ecan1WriteTxMsgBufId(unsigned int buf, long txIdentifier, unsigned int ide, unsigned int remoteTransmit);
+    ecan1WriteTxMsgBufData(unsigned int buf, unsigned int dataLength, unsigned int data1, unsigned int data2, unsigned int data3, unsigned int data4);
+
+    buf -> Transmit Buffer number
+
+    txIdentifier -> SID<10:0> : EID<17:0>
+
+    ide = 0 -> Message will transmit standard identifier
+    ide = 1 -> Message will transmit extended identifier
+
+    remoteTransmit = 0 -> Normal message
+    remoteTransmit = 1 -> Message will request remote transmission
+
+    dataLength -> Data length can be from 0 to 8 bytes
+
+    data1, data2, data3, data4 -> Data words (2 bytes) each
+
+    */
+    
+    ucData1 = ( data1 << 0x08 ) & 0xFF00;
+    ucData1 |= data2;
+    ucData2 = ( data3 << 0x08 ) & 0xFF00;
+    ucData2 |= data4;
+    ucData3 = ( data5 << 0x08 ) & 0xFF00;
+    ucData3 |= data6;
+    ucData4 = ( data7 << 0x08 ) & 0xFF00;
+    ucData4 |= data8;
+
+    ecan1WriteTxMsgBufId(0,id,ucTipoMensajeCAN1,0);
+    ecan1WriteTxMsgBufData(0,dataLength,ucData1,ucData2,ucData3,ucData4);
+
+}
+
+
+/******************************************************************************
+*                                                                             
+*    Function:			rxECAN1
+*    Description:       moves the message from the DMA memory to RAM
+*                                                                             
+*    Arguments:			*message: a pointer to the message structure in RAM 
+*						that will store the message. 
+*	 Author:            Jatinder Gharoo                                                      
+*	                                                                 
+*                                                                              
+******************************************************************************/
+void rxECAN1(mIDCAN1* message)
+{
+	unsigned int ide=0;
+	unsigned int srr=0;
+	unsigned long id=0;
+			
+	/*
+	Standard Message Format: 
+	Word0 : 0bUUUx xxxx xxxx xxxx
+			     |____________|||
+ 					SID10:0   SRR IDE(bit 0)     
+	Word1 : 0bUUUU xxxx xxxx xxxx
+			   	   |____________|
+						EID17:6
+	Word2 : 0bxxxx xxx0 UUU0 xxxx
+			  |_____||	     |__|
+			  EID5:0 RTR   	  DLC
+	word3-word6: data bytes
+	word7: filter hit code bits
+	
+	Substitute Remote Request Bit
+	SRR->	"0"	 Normal Message 
+			"1"  Message will request remote transmission
+	
+	Extended  Identifier Bit			
+	IDE-> 	"0"  Message will transmit standard identifier
+	   		"1"  Message will transmit extended identifier
+	
+	Remote Transmission Request Bit
+	RTR-> 	"0"  Message transmitted is a normal message
+			"1"  Message transmitted is a remote message
+	*/
+	/* read word 0 to see the message type */
+	ide=uiaCAN1BufferMensajes[message->buffer][0] & 0x0001;	
+	srr=uiaCAN1BufferMensajes[message->buffer][0] & 0x0002;	
+	
+	/* check to see what type of message it is */
+	/* message is standard identifier */
+	if(ide==0)
+	{
+		message->id=(uiaCAN1BufferMensajes[message->buffer][0] & 0x1FFC) >> 2;		
+		message->frame_type=CAN_FRAME_STD;
+	}
+	/* mesage is extended identifier */
+	else
+	{
+		id=uiaCAN1BufferMensajes[message->buffer][0] & 0x1FFC;		
+		message->id=id << 16;
+		id=uiaCAN1BufferMensajes[message->buffer][1] & 0x0FFF;
+		message->id=message->id+(id << 6);
+		id=(uiaCAN1BufferMensajes[message->buffer][2] & 0xFC00) >> 10;
+		message->id=message->id+id;		
+		message->frame_type=CAN_FRAME_EXT;
+	}
+	/* check to see what type of message it is */
+	/* RTR message */
+	if(srr==1)
+	{
+		message->message_type=CAN_MSG_RTR;	
+	}
+	/* normal message */
+	else
+	{
+		message->message_type=CAN_MSG_DATA;
+		message->data[0]=(unsigned char)uiaCAN1BufferMensajes[message->buffer][3];
+		message->data[1]=(unsigned char)((uiaCAN1BufferMensajes[message->buffer][3] & 0xFF00) >> 8);
+		message->data[2]=(unsigned char)uiaCAN1BufferMensajes[message->buffer][4];
+		message->data[3]=(unsigned char)((uiaCAN1BufferMensajes[message->buffer][4] & 0xFF00) >> 8);
+		message->data[4]=(unsigned char)uiaCAN1BufferMensajes[message->buffer][5];
+		message->data[5]=(unsigned char)((uiaCAN1BufferMensajes[message->buffer][5] & 0xFF00) >> 8);
+		message->data[6]=(unsigned char)uiaCAN1BufferMensajes[message->buffer][6];
+		message->data[7]=(unsigned char)((uiaCAN1BufferMensajes[message->buffer][6] & 0xFF00) >> 8);
+		message->data_length=(unsigned char)(uiaCAN1BufferMensajes[message->buffer][2] & 0x000F);
+        
+        
+        
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][0] = (rx_CAN1Mensaje.id & 0x00000FF); 
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][1] = ((rx_CAN1Mensaje.id>>8) & 0x00000FF);
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][2] = ((rx_CAN1Mensaje.id>>16) & 0x00000FF);
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][3] = (unsigned char)(uiaCAN1BufferMensajes[message->buffer][2] & 0x000F);
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][4] = (unsigned char)(uiaCAN1BufferMensajes[message->buffer][3] & 0x00FF);
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][5] = (unsigned char)((uiaCAN1BufferMensajes[message->buffer][3] & 0xFF00) >> 8);
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][6] = (unsigned char)uiaCAN1BufferMensajes[message->buffer][4];
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][7] = (unsigned char)((uiaCAN1BufferMensajes[message->buffer][4] & 0xFF00) >> 8);
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][8] = (unsigned char)uiaCAN1BufferMensajes[message->buffer][5];
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][9] = (unsigned char)((uiaCAN1BufferMensajes[message->buffer][5] & 0xFF00) >> 8);
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][10] = (unsigned char)uiaCAN1BufferMensajes[message->buffer][6];
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][11] = (unsigned char)((uiaCAN1BufferMensajes[message->buffer][6] & 0xFF00) >> 8);               
+        ucCAN1BUSRXList[ucCAN1BUSRXWrite][12] = 0x01; 
+	}	
+}
+
+
+
+void __attribute__((interrupt, no_auto_psv))_C1Interrupt(void)  
+{    
+	IFS2bits.C1IF = 0;        // clear interrupt flag
+	if(C1INTFbits.TBIF)
+    { 
+    	C1INTFbits.TBIF = 0;
+    } 
+ 
+    if(C1INTFbits.RBIF)
+    {      
+		// read the message 
+	    if(C1RXFUL1bits.RXFUL1==1)
+	    {
+	    	rx_CAN1Mensaje.buffer=1;
+	    	C1RXFUL1bits.RXFUL1=0;
+	    }	    
+	    rxECAN1(&rx_CAN1Mensaje); 	    	    
+		C1INTFbits.RBIF = 0;
+	}
 }

@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=CAN1Config.c CAN2Config.c main.c RTC.c GPS.c escrituraSD.c UART1.c UART2.c CAN1Drv.c CAN2Drv.c
+SOURCEFILES_QUOTED_IF_SPACED=CAN1Config.c CAN2Config.c main.c RTC.c GPS.c escrituraSD.c UART1.c UART2.c PARAMETERS.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/CAN1Config.o ${OBJECTDIR}/CAN2Config.o ${OBJECTDIR}/main.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/GPS.o ${OBJECTDIR}/escrituraSD.o ${OBJECTDIR}/UART1.o ${OBJECTDIR}/UART2.o ${OBJECTDIR}/CAN1Drv.o ${OBJECTDIR}/CAN2Drv.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/CAN1Config.o.d ${OBJECTDIR}/CAN2Config.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/RTC.o.d ${OBJECTDIR}/GPS.o.d ${OBJECTDIR}/escrituraSD.o.d ${OBJECTDIR}/UART1.o.d ${OBJECTDIR}/UART2.o.d ${OBJECTDIR}/CAN1Drv.o.d ${OBJECTDIR}/CAN2Drv.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/CAN1Config.o ${OBJECTDIR}/CAN2Config.o ${OBJECTDIR}/main.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/GPS.o ${OBJECTDIR}/escrituraSD.o ${OBJECTDIR}/UART1.o ${OBJECTDIR}/UART2.o ${OBJECTDIR}/PARAMETERS.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/CAN1Config.o.d ${OBJECTDIR}/CAN2Config.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/RTC.o.d ${OBJECTDIR}/GPS.o.d ${OBJECTDIR}/escrituraSD.o.d ${OBJECTDIR}/UART1.o.d ${OBJECTDIR}/UART2.o.d ${OBJECTDIR}/PARAMETERS.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/CAN1Config.o ${OBJECTDIR}/CAN2Config.o ${OBJECTDIR}/main.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/GPS.o ${OBJECTDIR}/escrituraSD.o ${OBJECTDIR}/UART1.o ${OBJECTDIR}/UART2.o ${OBJECTDIR}/CAN1Drv.o ${OBJECTDIR}/CAN2Drv.o
+OBJECTFILES=${OBJECTDIR}/CAN1Config.o ${OBJECTDIR}/CAN2Config.o ${OBJECTDIR}/main.o ${OBJECTDIR}/RTC.o ${OBJECTDIR}/GPS.o ${OBJECTDIR}/escrituraSD.o ${OBJECTDIR}/UART1.o ${OBJECTDIR}/UART2.o ${OBJECTDIR}/PARAMETERS.o
 
 # Source Files
-SOURCEFILES=CAN1Config.c CAN2Config.c main.c RTC.c GPS.c escrituraSD.c UART1.c UART2.c CAN1Drv.c CAN2Drv.c
+SOURCEFILES=CAN1Config.c CAN2Config.c main.c RTC.c GPS.c escrituraSD.c UART1.c UART2.c PARAMETERS.c
 
 
 
@@ -143,17 +143,11 @@ ${OBJECTDIR}/UART2.o: UART2.c  .generated_files/c685e66698cc83b6115b4734b8e82982
 	@${RM} ${OBJECTDIR}/UART2.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  UART2.c  -o ${OBJECTDIR}/UART2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/UART2.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/CAN1Drv.o: CAN1Drv.c  .generated_files/1c4fda4b706dc209670e6132f82c0a66df45eaad.flag .generated_files/2b4b8ffe1cbd523a114041026badb7013261e432.flag
+${OBJECTDIR}/PARAMETERS.o: PARAMETERS.c  .generated_files/ff841e2fc30e7cbc96515b4fe1cacc21961f49b7.flag .generated_files/2b4b8ffe1cbd523a114041026badb7013261e432.flag
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/CAN1Drv.o.d 
-	@${RM} ${OBJECTDIR}/CAN1Drv.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  CAN1Drv.c  -o ${OBJECTDIR}/CAN1Drv.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/CAN1Drv.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
-	
-${OBJECTDIR}/CAN2Drv.o: CAN2Drv.c  .generated_files/9c0b21781d29fae66fcf233d1c700d8c0fd4c0ed.flag .generated_files/2b4b8ffe1cbd523a114041026badb7013261e432.flag
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/CAN2Drv.o.d 
-	@${RM} ${OBJECTDIR}/CAN2Drv.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  CAN2Drv.c  -o ${OBJECTDIR}/CAN2Drv.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/CAN2Drv.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	@${RM} ${OBJECTDIR}/PARAMETERS.o.d 
+	@${RM} ${OBJECTDIR}/PARAMETERS.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  PARAMETERS.c  -o ${OBJECTDIR}/PARAMETERS.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/PARAMETERS.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1    -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 else
 ${OBJECTDIR}/CAN1Config.o: CAN1Config.c  .generated_files/b01c271ca099cfaf87644ea4b8ed39c20087c377.flag .generated_files/2b4b8ffe1cbd523a114041026badb7013261e432.flag
@@ -204,17 +198,11 @@ ${OBJECTDIR}/UART2.o: UART2.c  .generated_files/900280f9c8f079981d4896517ee7bca9
 	@${RM} ${OBJECTDIR}/UART2.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  UART2.c  -o ${OBJECTDIR}/UART2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/UART2.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
-${OBJECTDIR}/CAN1Drv.o: CAN1Drv.c  .generated_files/6faf5e47d8fa929a9e16a7032b3f5b8acb186fa5.flag .generated_files/2b4b8ffe1cbd523a114041026badb7013261e432.flag
+${OBJECTDIR}/PARAMETERS.o: PARAMETERS.c  .generated_files/3c76497de54e6da7297e388210fc62dd766f798c.flag .generated_files/2b4b8ffe1cbd523a114041026badb7013261e432.flag
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/CAN1Drv.o.d 
-	@${RM} ${OBJECTDIR}/CAN1Drv.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  CAN1Drv.c  -o ${OBJECTDIR}/CAN1Drv.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/CAN1Drv.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
-	
-${OBJECTDIR}/CAN2Drv.o: CAN2Drv.c  .generated_files/1e48fc0a104ed294bc50a94625e217982512bed8.flag .generated_files/2b4b8ffe1cbd523a114041026badb7013261e432.flag
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/CAN2Drv.o.d 
-	@${RM} ${OBJECTDIR}/CAN2Drv.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  CAN2Drv.c  -o ${OBJECTDIR}/CAN2Drv.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/CAN2Drv.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	@${RM} ${OBJECTDIR}/PARAMETERS.o.d 
+	@${RM} ${OBJECTDIR}/PARAMETERS.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  PARAMETERS.c  -o ${OBJECTDIR}/PARAMETERS.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/PARAMETERS.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 endif
 

@@ -12,12 +12,18 @@
 extern "C" {
 #endif
 
-
-
-
 #ifdef	__cplusplus
 }
 #endif
+
+// FUNCIONES COPIADAS Y PEGADAS
+extern void ecan1WriteRxAcptFilter(int n, long identifier, unsigned int exide,unsigned int bufPnt,unsigned int maskSel);
+extern void ecan1WriteRxAcptMask(int m, long identifierMask, unsigned int mide,unsigned int exide);
+
+extern void ecan1WriteTxMsgBufId(unsigned int buf, long txIdentifier, unsigned int ide, unsigned int remoteTransmit);
+extern void ecan1WriteTxMsgBufData(unsigned int buf, unsigned int dataLength, unsigned int data1, unsigned int data2, unsigned int data3, unsigned int data4);
+
+extern void ecan1DisableRXFilter(int n);
 
 /* CAN Baud Rate Configuration 		*/
 /*
@@ -42,23 +48,58 @@ typedef unsigned int uiaTablaMensajesCAN1 [CAN1_MSG_BUF_LENGTH][8];
 /* S22-P18: inicialización del buffer de DMA  */
 extern uiaTablaMensajesCAN1 uiaCAN1BufferMensajes __attribute__((space(dma)));
 
+/* message structure in RAM */
+typedef struct{
+	/* keep track of the buffer status */
+	unsigned char buffer_status;
+	/* RTR message or data message */
+	unsigned char message_type;
+	/* frame type extended or standard */
+	unsigned char frame_type;
+	/* buffer being used to reference the message */
+	unsigned char buffer;
+	/* 29 bit id max of 0x1FFF FFFF 
+	*  11 bit id max of 0x7FF */
+	unsigned long id; 
+	/* message data */
+	unsigned char data[8];	
+	/* received message data length */
+	unsigned char data_length;
+}mIDCAN1;
+
+// CAN Messages in RAM
+extern mIDCAN1 rx_CAN1Mensaje;
+
 /* Funciones de inicialización del CAN1 */
 extern void CAN1ConfigInicializacionCAN(void);
 extern void CAN1ConfigInicializacionDMA0(void);
 extern void CAN1ConfigInicializacionDMA2(void);
 extern void CAN1ConfigInicializar(void);
+
 // funciones copiadas y pegadas
 extern void dma0init(void);
 extern void dma2init(void);
 extern void ecan1Init(void);
 extern void ecan1ClkInit(void);
+extern void ecan1WriteMessage(unsigned long id, unsigned char dataLength, unsigned char data1, unsigned char data2, unsigned char data3, unsigned char data4, unsigned char data5, unsigned char data6, unsigned char data7, unsigned char data8);
+//void rxECAN1(mIDCAN1 *message);
 
+//CAN2Buffers 
+extern volatile unsigned char ucCAN1BUSTXList[16][13];  //15 TX buffers of 12 data bytes
+extern volatile unsigned char ucCAN1BUSTXRead;
+extern volatile unsigned char ucCAN1BUSTXWrite;
+extern volatile unsigned char ucCAN1BUSTXOverFlow;
+extern volatile unsigned char ucCAN1BUSTXCounter;
+
+extern volatile unsigned char ucCAN1BUSRXList[16][13];  //15 RX buffers of 12 data bytes
+extern volatile unsigned char ucCAN1BUSRXRead;
+extern volatile unsigned char ucCAN1BUSRXWrite;
+extern volatile unsigned char ucCAN1BUSRXOverFlow;
+extern volatile unsigned char ucCAN1BUSRXCounter;
+extern volatile unsigned char ucCAN1BUSValidMessage;
 
 
 // extern void CAN1ConfigEnvioMsg()
-
-
-
 
 #endif	/* CAN1CONFIG_H */
 

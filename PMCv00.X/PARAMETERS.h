@@ -12,6 +12,13 @@
 extern "C" {
 #endif
 
+    
+/*--------------------------------------------------
+ * 
+ *          ////// DEFINICIONES //////////
+ * 
+  --------------------------------------------------*/
+    
 // OSCILATOR FREQUENCY //
 //#define FCY 10000000 //PMC 
 #define FCY 80000000 //URM pruebas
@@ -64,31 +71,29 @@ typedef struct {
     // unsigned char RTR_o_datos;
 }msgCAN;
 
-// COPIADO Y PEGADO
-
 #define CAN_MSG_DATA	0x01 // message type 
 #define CAN_MSG_RTR		0x02 // data or RTR
 #define CAN_FRAME_EXT	0x03 // Frame type
 #define CAN_FRAME_STD	0x04 // extended or standard
 
-/* message structure in RAM */
-typedef struct{
-	/* keep track of the buffer status */
-	unsigned char buffer_status;
-	/* RTR message or data message */
-	unsigned char message_type;
-	/* frame type extended or standard */
-	unsigned char frame_type;
-	/* buffer being used to reference the message */
-	unsigned char buffer;
-	/* 29 bit id max of 0x1FFF FFFF 
-	*  11 bit id max of 0x7FF */
-	unsigned long id; 
-	/* message data */
-	unsigned char data[8];	
-	/* received message data length */
-	unsigned char data_length;
-}mID;
+//Definición tipo de CAN
+#define CAN_STANDARD	0x00 // standard CAN 11bits
+#define CAN_EXTENDED	0x01 // extended CAN 29bits
+
+
+
+
+
+
+
+/*--------------------------------------------------
+ * 
+ *          ////// PARAMETROS //////////
+ * 
+  --------------------------------------------------*/
+
+extern const unsigned char ucTipoMensajeCAN1; // standard CAN1 11bits
+extern const unsigned char ucTipoMensajeCAN2; // standard CAN2 11bits
 
 
 #ifdef	__cplusplus
