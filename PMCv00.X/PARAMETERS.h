@@ -80,8 +80,9 @@ typedef struct {
 #define CAN_STANDARD	0x00 // standard CAN 11bits
 #define CAN_EXTENDED	0x01 // extended CAN 29bits
 
-
-
+//Definición tipo de esclavo SPI
+#define RTC	0x00 // standard CAN 11bits
+#define SD	0x01 // extended CAN 29bits
 
 
 

@@ -20,7 +20,7 @@ extern "C" {
 #endif
 #include "PARAMETERS.h"
 
-//Definir puertos fisicos UART1
+//Definir puertos fisicos UART2
 #define TRIS_UART2_RX _TRISF4 
 #define TRIS_UART2_TX _TRISF5 
 

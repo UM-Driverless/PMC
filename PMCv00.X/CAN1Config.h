@@ -3,6 +3,9 @@
  * Author: heqro
  *
  * Created on September 15, 2020, 12:30 PM
+ * 
+ * CAN 1 DEDICADO A CAN ECU HALTECH ELITE
+ * 
  */
 
 #ifndef CAN1CONFIG_H
@@ -69,6 +72,29 @@ typedef struct{
 
 // CAN Messages in RAM
 extern mIDCAN1 rx_CAN1Mensaje;
+
+
+//----------------------------------------------------------------//
+/*                                                                */
+/*             DEFINICION ID CAN ECU HALTECH v2.0                 */
+/*                                                                */
+//----------------------------------------------------------------//
+
+#define ECU_ID1 0x360   //50Hz RPM, Manifold Pressure
+#define ECU_ID2 0x360   //50Hz RPM, Manifold Pressure
+#define ECU_ID3 0x360   //50Hz RPM, Manifold Pressure
+#define ECU_ID4 0x360   //50Hz RPM, Manifold Pressure
+
+
+
+
+
+
+
+
+
+
+
 
 /* Funciones de inicialización del CAN1 */
 extern void CAN1ConfigInicializacionCAN(void);

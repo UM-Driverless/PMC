@@ -4,6 +4,9 @@
 volatile unsigned char ucUART1_RX_DATA;
 volatile unsigned char ucUART1_TX_DATA;
 
+Buffer_A_UART1 UART1_BufferA __attribute__((space(dma)));
+Buffer_B_UART1 UART1_BufferB __attribute__((space(dma)));
+
 void UART1inicializacion(){
     
     //Inicializacion de puertos
@@ -14,7 +17,7 @@ void UART1inicializacion(){
     U1MODEbits.STSEL = 0;			// 1-stop bit
 	U1MODEbits.PDSEL = 0;			// No Parity, 8-data bits
 	U1MODEbits.ABAUD = 0;			// Autobaud Disabled
-    U1MODEbits.BRGH     = 0;        // Standard-Speed mode
+    U1MODEbits.BRGH  = 0;        // Standard-Speed mode
 
 	U1BRG = BRG_VAL_115200;					// BAUD Rate Setting for 1115200
 

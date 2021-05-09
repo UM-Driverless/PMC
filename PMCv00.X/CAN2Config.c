@@ -557,6 +557,13 @@ void ecan2Init(void){
 	C2TR01CONbits.TXEN1=0;			/* ECAN2, Buffer 1 is a Receive Buffer */
 	C2TR01CONbits.TX0PRI=0b11; 		/* Message Buffer 0 Priority Level */
 	C2TR01CONbits.TX1PRI=0b11; 		/* Message Buffer 1 Priority Level */
+    
+    /* Enable ECAN2 Interrupt */ 
+	
+	IEC3bits.C2IE = 1;
+	C2INTEbits.TBIE = 1;	
+	C2INTEbits.RBIE = 1;
+
 
 }
 
@@ -564,7 +571,7 @@ void ecan2Init(void){
 
 
 
-void rx_CAN2(msgCAN* mensaje){
+/*void rx_CAN2(msgCAN* mensaje){
     mensaje->ul_identificador = (uiaCAN2BufferMensajes[mensaje->uc_buffer_num][0] & 0x1FFC) >> 2;
     mensaje->uc_datos[0] = (unsigned char) uiaCAN2BufferMensajes[mensaje->uc_buffer_num][3];
     mensaje->uc_datos[1] = (unsigned char) ((uiaCAN2BufferMensajes[mensaje->uc_buffer_num][3] & 0xFF00) >> 8);
@@ -576,7 +583,7 @@ void rx_CAN2(msgCAN* mensaje){
     mensaje->uc_datos[7] = (unsigned char) ((uiaCAN2BufferMensajes[mensaje->uc_buffer_num][6] & 0xFF00) >> 8);
     Nop();
     Nop();
-}
+}*/
 
 
 

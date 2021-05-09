@@ -4,6 +4,9 @@
 volatile unsigned char ucUART2_RX_DATA;
 volatile unsigned char ucUART2_TX_DATA;
 
+Buffer_A_UART2 UART2_BufferA __attribute__((space(dma)));
+Buffer_B_UART2 UART2_BufferB __attribute__((space(dma)));
+
 void UART2inicializacion(){
         
     //Inicializacion de puertos

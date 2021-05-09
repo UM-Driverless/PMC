@@ -559,6 +559,13 @@ void ecan1Init(void){
 	C1TR01CONbits.TXEN1=0;			/* ECAN1, Buffer 1 is a Receive Buffer */
 	C1TR01CONbits.TX0PRI=0b11; 		/* Message Buffer 0 Priority Level */
 	C1TR01CONbits.TX1PRI=0b11; 		/* Message Buffer 1 Priority Level */
+    
+    
+    /* Enable ECAN1 Interrupt */ 				
+    	
+	IEC2bits.C1IE = 1;
+	C1INTEbits.TBIE = 1;	
+	C1INTEbits.RBIE = 1;
 		
 }
 

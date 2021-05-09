@@ -69,6 +69,26 @@ typedef struct{
 // CAN Messages in RAM
 extern mIDCAN2 rx_CAN2Mensaje;
 
+//----------------------------------------------------------------//
+/*                                                                */
+/*                   DEFINICION ID CAN FSG DV                     */
+/*                                                                */
+//----------------------------------------------------------------//
+
+#define DV_ID1 0x360   //XXHz
+#define DV_ID2 0x360   //50Hz RPM, Manifold Pressure
+#define DV_ID3 0x360   //50Hz RPM, Manifold Pressure
+#define DV_ID4 0x360   //50Hz RPM, Manifold Pressure
+
+
+
+
+
+
+
+
+
+
 /* Funciones de inicialización del CAN2 */
 extern void CAN2ConfigInicializacionCAN(void);
 extern void CAN2ConfigInicializacionDMA1(void);

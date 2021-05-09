@@ -11,12 +11,7 @@
 #include "CAN2Config.h"
 #include "UART1.h"
 #include "UART2.h"
-//#include "escrituraSD.h"
-
-Buffer_A_UART1 UART1_BufferA __attribute__((space(dma)));
-Buffer_B_UART1 UART1_BufferB __attribute__((space(dma)));
-Buffer_A_UART2 UART2_BufferA __attribute__((space(dma)));
-Buffer_B_UART2 UART2_BufferB __attribute__((space(dma)));
+#include "SPI.h"
 
 // Prototype Declaration
 void oscConfig(void);
@@ -27,71 +22,67 @@ void clearIntrflags(void);
 //uiaTablaMensajesCAN2 uiaCAN2BufferMensajes __attribute__((space(dma),aligned(CAN2_MSG_BUF_LENGTH*16)));
 
 
-int main(void) {
-    /*
-    CAN1ConfigInicializar();
-    UART1init();
-    CAN2ConfigInicializar();
-    UART2init();
-    while(1){
-        Nop();
-    } 
-     */
-    
-    
-    // inicio código copia pega
+int main(void) {   
     
     /* Configure Oscillator Clock Source 	*/
 	oscConfig();
 
-/* Clear Interrupt Flags 				*/
+    /* Clear Interrupt Flags 				*/
 	clearIntrflags();
 
-
-/* ECAN1 Initialisation 		
-   Configure DMA Channel 0 for ECAN1 Transmit
-   Configure DMA Channel 2 for ECAN1 Receive */
+    //----------------------------------------------//
+    //              INICIALIZACIONES                //
+    //----------------------------------------------//
+    
+    
+    //ECAN1 Initialisation 		
+    //Configure DMA Channel 0 for ECAN1 Transmit
+    //Configure DMA Channel 2 for ECAN1 Receive 
 	ecan1Init();
 	dma0init();	
 	dma2init();
 
-/* Enable ECAN1 Interrupt */ 				
-    	
-	IEC2bits.C1IE = 1;
-	C1INTEbits.TBIE = 1;	
-	C1INTEbits.RBIE = 1;
-
-/* ECAN2 Initialisation 		
-   Configure DMA Channel 1 for ECAN2 Transmit
-   Configure DMA Channel 3 for ECAN2 Receive */
+    //ECAN2 Initialisation 		
+    //Configure DMA Channel 1 for ECAN2 Transmit
+    //Configure DMA Channel 3 for ECAN2 Receive 
 	ecan2Init();
 	dma1init();	
 	dma3init();
+    
+    //INICIALIZACION UART1
+    UART1inicializacion();    
 
-/* Enable ECAN2 Interrupt */ 
-	
-	IEC3bits.C2IE = 1;
-	C2INTEbits.TBIE = 1;	
-	C2INTEbits.RBIE = 1;
-
- 
-/* Write a Message in ECAN1 Transmit Buffer	
-   Request Message Transmission			*/
+    //INICIALIZACION UART2
+    UART2inicializacion();
+    
+    //INICIALIZACION SPI2
+    InicializacionSPI2();
+    
+    
+    
+    //--------------------------------//
+    //      CODIGO TESTER             //
+    //--------------------------------//
+    
+    /* Write a Message in ECAN1 Transmit Buffer	
+    Request Message Transmission			*/
 	ecan1WriteMessage(0x152, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
 	C1TR01CONbits.TXREQ0=1;	
 	
 
-
-/* Write a Message in ECAN2 Transmit Buffer
-   Request Message Transmission			*/
+    /* Write a Message in ECAN2 Transmit Buffer
+    Request Message Transmission			*/
 	ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
 	C2TR01CONbits.TXREQ0=1;
 	
+    //Write SPI message to RTC
+    WriteSPI2(0X39, RTC);
 
-/* Loop infinitely */
+    //Write SPI message to SD
+    WriteSPI2(0X59, SD);
+    
 
 	while (1); 
-    // fin código copia pega
         Nop();
         Nop();
         Nop();
@@ -102,11 +93,6 @@ int main(void) {
         Nop();
     return 0;
 }
-
-
-
-
-
 
 
 
@@ -148,11 +134,6 @@ void oscConfig(void){
 	while(OSCCONbits.LOCK!=1) {};
     */
 }
-
-
-
-
-
 
  
 
