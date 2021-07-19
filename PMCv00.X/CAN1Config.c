@@ -600,10 +600,10 @@ void ecan1Init(void){
 /* ECAN1 buffer loaded with Identifiers and Data */
 extern void ecan1WriteMessage(unsigned long id, unsigned char dataLength, unsigned char data1, unsigned char data2, unsigned char data3, unsigned char data4, unsigned char data5, unsigned char data6, unsigned char data7, unsigned char data8)
 {
-    unsigned int ucData1;
-    unsigned int ucData2;
-    unsigned int ucData3;
-    unsigned int ucData4;
+    unsigned int uiData1;
+    unsigned int uiData2;
+    unsigned int uiData3;
+    unsigned int uiData4;
 
     /* Writing the message for Transmission
     ecan1WriteTxMsgBufId(unsigned int buf, long txIdentifier, unsigned int ide, unsigned int remoteTransmit);
@@ -625,17 +625,17 @@ extern void ecan1WriteMessage(unsigned long id, unsigned char dataLength, unsign
 
     */
     
-    ucData1 = ( data1 << 0x08 ) & 0xFF00;
-    ucData1 |= data2;
-    ucData2 = ( data3 << 0x08 ) & 0xFF00;
-    ucData2 |= data4;
-    ucData3 = ( data5 << 0x08 ) & 0xFF00;
-    ucData3 |= data6;
-    ucData4 = ( data7 << 0x08 ) & 0xFF00;
-    ucData4 |= data8;
+    uiData1 = ( data1 << 0x08 ) & 0xFF00;
+    uiData1 |= data2;
+    uiData2 = ( data3 << 0x08 ) & 0xFF00;
+    uiData2 |= data4;
+    uiData3 = ( data5 << 0x08 ) & 0xFF00;
+    uiData3 |= data6;
+    uiData4 = ( data7 << 0x08 ) & 0xFF00;
+    uiData4 |= data8;
 
     ecan1WriteTxMsgBufId(0,id,ucTipoMensajeCAN1,0);
-    ecan1WriteTxMsgBufData(0,dataLength,ucData1,ucData2,ucData3,ucData4);
+    ecan1WriteTxMsgBufData(0,dataLength,uiData1,uiData2,uiData3,uiData4);
 
 }
 
