@@ -1,6 +1,7 @@
 #include "xc.h"
 #include "CAN2Config.h"
 #include "PARAMETERS.h"
+#include "MESSAGES.h"
 
 
 /*
@@ -723,16 +724,19 @@ void rxECAN2(mIDCAN2 *message)
         ucCAN2BUSRXList[ucCAN2BUSRXWrite][0] = (rx_CAN2Mensaje.id & 0x00000FF); 
         ucCAN2BUSRXList[ucCAN2BUSRXWrite][1] = ((rx_CAN2Mensaje.id>>8) & 0x00000FF);
         ucCAN2BUSRXList[ucCAN2BUSRXWrite][2] = ((rx_CAN2Mensaje.id>>16) & 0x00000FF);
-        ucCAN2BUSRXList[ucCAN2BUSRXWrite][3] = (unsigned char)(uiaCAN2BufferMensajes[message->buffer][2] & 0x000F);
-        ucCAN2BUSRXList[ucCAN2BUSRXWrite][4] = (unsigned char)(uiaCAN2BufferMensajes[message->buffer][3] & 0x00FF);
-        ucCAN2BUSRXList[ucCAN2BUSRXWrite][5] = (unsigned char)((uiaCAN2BufferMensajes[message->buffer][3] & 0xFF00) >> 8);
-        ucCAN2BUSRXList[ucCAN2BUSRXWrite][6] = (unsigned char)uiaCAN2BufferMensajes[message->buffer][4];
-        ucCAN2BUSRXList[ucCAN2BUSRXWrite][7] = (unsigned char)((uiaCAN2BufferMensajes[message->buffer][4] & 0xFF00) >> 8);
-        ucCAN2BUSRXList[ucCAN2BUSRXWrite][8] = (unsigned char)uiaCAN2BufferMensajes[message->buffer][5];
-        ucCAN2BUSRXList[ucCAN2BUSRXWrite][9] = (unsigned char)((uiaCAN2BufferMensajes[message->buffer][5] & 0xFF00) >> 8);
-        ucCAN2BUSRXList[ucCAN2BUSRXWrite][10] = (unsigned char)uiaCAN2BufferMensajes[message->buffer][6];
-        ucCAN2BUSRXList[ucCAN2BUSRXWrite][11] = (unsigned char)((uiaCAN2BufferMensajes[message->buffer][6] & 0xFF00) >> 8);               
+        ucCAN2BUSRXList[ucCAN2BUSRXWrite][3] = (unsigned char)(uiaCAN2BufferMensajes[message->buffer][2] & 0x000F);         //DATA LENGHT
+        ucCAN2BUSRXList[ucCAN2BUSRXWrite][4] = (unsigned char)(uiaCAN2BufferMensajes[message->buffer][3] & 0x00FF);         //DATA0
+        ucCAN2BUSRXList[ucCAN2BUSRXWrite][5] = (unsigned char)((uiaCAN2BufferMensajes[message->buffer][3] & 0xFF00) >> 8);  //DATA1
+        ucCAN2BUSRXList[ucCAN2BUSRXWrite][6] = (unsigned char)uiaCAN2BufferMensajes[message->buffer][4];                    //DATA2
+        ucCAN2BUSRXList[ucCAN2BUSRXWrite][7] = (unsigned char)((uiaCAN2BufferMensajes[message->buffer][4] & 0xFF00) >> 8);  //DATA3
+        ucCAN2BUSRXList[ucCAN2BUSRXWrite][8] = (unsigned char)uiaCAN2BufferMensajes[message->buffer][5];                    //DATA4
+        ucCAN2BUSRXList[ucCAN2BUSRXWrite][9] = (unsigned char)((uiaCAN2BufferMensajes[message->buffer][5] & 0xFF00) >> 8);  //DATA5
+        ucCAN2BUSRXList[ucCAN2BUSRXWrite][10] = (unsigned char)uiaCAN2BufferMensajes[message->buffer][6];                   //DATA6
+        ucCAN2BUSRXList[ucCAN2BUSRXWrite][11] = (unsigned char)((uiaCAN2BufferMensajes[message->buffer][6] & 0xFF00) >> 8); //DATA7       
         ucCAN2BUSRXList[ucCAN2BUSRXWrite][12] = 0x01; 
+        
+        //DJU Añadir procesamiento de mensajes CAN a mayor nivel
+        MESSAGES_CAN2_Rx();
 	}	
 }
 

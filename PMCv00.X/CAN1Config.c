@@ -1,6 +1,7 @@
 #include "xc.h"
 #include "CAN1Config.h"
 #include "PARAMETERS.h"
+#include "MESSAGES.h"
 
 
 /*
@@ -740,6 +741,9 @@ void rxECAN1(mIDCAN1* message)
         ucCAN1BUSRXList[ucCAN1BUSRXWrite][10] = (unsigned char)uiaCAN1BufferMensajes[message->buffer][6];
         ucCAN1BUSRXList[ucCAN1BUSRXWrite][11] = (unsigned char)((uiaCAN1BufferMensajes[message->buffer][6] & 0xFF00) >> 8);               
         ucCAN1BUSRXList[ucCAN1BUSRXWrite][12] = 0x01; 
+        
+        //DJU Añadir procesamiento de mensajes CAN a mayor nivel
+        MESSAGES_CAN1_Rx();
 	}	
 }
 
