@@ -12,6 +12,7 @@
 #include "UART1.h"
 #include "UART2.h"
 #include "SPI.h"
+#include "GPIO.h"
 
 // Prototype Declaration
 void oscConfig(void);
@@ -58,23 +59,22 @@ int main(void) {
     //INICIALIZACION SPI2
     InicializacionSPI2();
     
+    //INICIALIZACION LEDS
     //27.03.2021 DJU Inicializacion LEDs
-    #define LED1        _LATD7
-    #define TRIS_LED1   _TRISD7
-    TRIS_LED1 = 0;
+    GPIO_init();
     
     //--------------------------------//
     //      CODIGO TESTER             //
     //--------------------------------//
-    
-    /* Write a Message in ECAN1 Transmit Buffer	
-    Request Message Transmission			*/
+    /*
+    //Write a Message in ECAN1 Transmit Buffer	
+    //Request Message Transmission			
 	ecan1WriteMessage(0x152, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
 	C1TR01CONbits.TXREQ0=1;	
 	
 
-    /* Write a Message in ECAN2 Transmit Buffer
-    Request Message Transmission			*/
+     Write a Message in ECAN2 Transmit Buffer
+    //Request Message Transmission			
 	ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
 	C2TR01CONbits.TXREQ0=1;
 	
@@ -83,19 +83,16 @@ int main(void) {
 
     //Write SPI message to SD
     WriteSPI2(0X59, SD);
-    
+    */
 
-	while (1); 
-        Nop();
-        Nop();
-        Nop();
-        Nop();
-        LED1=1;
-        Nop();
-        Nop();
-        Nop();
-        Nop();
-    return 0;
+    while (1)
+    {
+        // Add your application code
+        LED1_SetHigh();
+        LED2_SetHigh();
+        LED3_SetHigh();
+        
+    }
 }
 
 
