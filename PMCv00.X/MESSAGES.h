@@ -13,7 +13,7 @@ extern "C" {
 #endif
 
 // INICIALIZACION DE VARIABLES //
-extern volatile unsigned int uiCAN1RXID;
+extern volatile unsigned long ulCAN1RXID;
 extern volatile unsigned char ucCAN1RXDataLenght;
 extern volatile unsigned char ucCAN1RXData0;
 extern volatile unsigned char ucCAN1RXData1;
@@ -24,7 +24,7 @@ extern volatile unsigned char ucCAN1RXData5;
 extern volatile unsigned char ucCAN1RXData6;
 extern volatile unsigned char ucCAN1RXData7;
 
-extern volatile unsigned int uiCAN2RXID;
+extern volatile unsigned long ulCAN2RXID;
 extern volatile unsigned char ucCAN2RXDataLenght;
 extern volatile unsigned char ucCAN2RXData0;
 extern volatile unsigned char ucCAN2RXData1;

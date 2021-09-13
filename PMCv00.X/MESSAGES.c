@@ -18,7 +18,7 @@
 #include "PARAMETERS.h"
 
 // INICIALIZACION DE VARIABLES //
-volatile unsigned int uiCAN1RXID;
+volatile unsigned long ulCAN1RXID;
 volatile unsigned char ucCAN1RXDataLenght;
 volatile unsigned char ucCAN1RXData0;
 volatile unsigned char ucCAN1RXData1;
@@ -29,7 +29,7 @@ volatile unsigned char ucCAN1RXData5;
 volatile unsigned char ucCAN1RXData6;
 volatile unsigned char ucCAN1RXData7;
 
-volatile unsigned int uiCAN2RXID;
+volatile unsigned long ulCAN2RXID;
 volatile unsigned char ucCAN2RXDataLenght;
 volatile unsigned char ucCAN2RXData0;
 volatile unsigned char ucCAN2RXData1;
@@ -48,7 +48,7 @@ void MESSAGES_CAN2_Rx(void);
 
 void MESSAGES_CAN1_Rx(){
     
-    uiCAN1RXID          = ( ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][0] ) | ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][1] << 8 ) | ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][2] << 16 ) );
+    ulCAN1RXID          = ( ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][0] ) | ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][1] << 8 ) | ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][2] << 16 ) );
     ucCAN1RXDataLenght  = ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][3] );
     ucCAN1RXData0       = ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][4] );
     ucCAN1RXData1       = ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][5] );
@@ -59,7 +59,7 @@ void MESSAGES_CAN1_Rx(){
     ucCAN1RXData6       = ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][10] );
     ucCAN1RXData7       = ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][11] ); 
     
-    switch ( uiCAN1RXID )  
+    switch ( ulCAN1RXID )  
     {
         case 1:
             
@@ -74,7 +74,7 @@ void MESSAGES_CAN1_Rx(){
 
 void MESSAGES_CAN2_Rx(){
     
-    uiCAN2RXID          = ( ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][0] ) | ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][1] << 8 ) | ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][2] << 16 ) );
+    ulCAN2RXID          = ( ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][0] ) | ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][1] << 8 ) | ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][2] << 16 ) );
     ucCAN2RXDataLenght  = ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][3] );
     ucCAN2RXData0       = ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][4] );
     ucCAN2RXData1       = ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][5] );
@@ -85,7 +85,7 @@ void MESSAGES_CAN2_Rx(){
     ucCAN2RXData6       = ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][10] );
     ucCAN2RXData7       = ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][11] ); 
     
-    switch ( uiCAN2RXID )  
+    switch ( ulCAN2RXID )  
     {
         case 1:
             

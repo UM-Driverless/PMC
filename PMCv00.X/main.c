@@ -58,7 +58,10 @@ int main(void) {
     //INICIALIZACION SPI2
     InicializacionSPI2();
     
-    
+    //27.03.2021 DJU Inicializacion LEDs
+    #define LED1        _LATD7
+    #define TRIS_LED1   _TRISD7
+    TRIS_LED1 = 0;
     
     //--------------------------------//
     //      CODIGO TESTER             //
@@ -87,6 +90,7 @@ int main(void) {
         Nop();
         Nop();
         Nop();
+        LED1=1;
         Nop();
         Nop();
         Nop();
