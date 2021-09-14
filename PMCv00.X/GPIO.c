@@ -15,5 +15,6 @@ void GPIO_init (void)
     LED1_SetDigitalOutput();
     LED2_SetDigitalOutput();
     LED3_SetDigitalOutput();
+    ENT1_SetDigitalInput();
     
 }
