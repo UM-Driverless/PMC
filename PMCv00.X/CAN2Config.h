@@ -37,8 +37,6 @@ extern void ecan2DisableRXFilter(int n);
 typedef unsigned int uiaTablaMensajesCAN2 [CAN2_MSG_BUF_LENGTH][8];
 
 //27.03.2021 Definir puertos físicos del CAN2 (EN URM PRUEBAS)
-#define STBYCAN2        _LATG3
-#define TRIS_STBYCAN2   _TRISG3
 #define RXCAN2          _LATG0
 #define TRISRXCAN2      _TRISG0
 #define TXCAN2          _LATG1

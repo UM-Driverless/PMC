@@ -75,10 +75,8 @@ extern "C" {
 #define LED3_SetAnalogMode()      do { ANSELFbits.ANSELF6 = 1; } while(0)
 #define LED3_SetDigitalMode()     do { ANSELFbits.ANSELF6 = 0; } while(0)
     
-    
-    
 // get/set ENT1 aliases
-#define ENT1_TRIS                 TRISDbits.TRISD9
+/*#define ENT1_TRIS                 TRISDbits.TRISD9
 #define ENT1_LAT                  LATDbits.LATD9
 #define ENT1_PORT                 PORTDbits.RD9
 #define ENT1_WPU                  WPUDbits.WPUD9
@@ -95,7 +93,47 @@ extern "C" {
 #define ENT1_SetPushPull()        do { ODCONFbits.ODCF6 = 0; } while(0)
 #define ENT1_SetOpenDrain()       do { ODCONFbits.ODCF6 = 1; } while(0)
 #define ENT1_SetAnalogMode()      do { ANSELFbits.ANSELF6 = 1; } while(0)
-#define ENT1_SetDigitalMode()     do { ANSELFbits.ANSELF6 = 0; } while(0)
+#define ENT1_SetDigitalMode()     do { ANSELFbits.ANSELF6 = 0; } while(0)*/
+    
+// get/set CANSTB1 aliases
+#define CANSTB1_TRIS                 TRISGbits.TRISG14
+#define CANSTB1_LAT                  LATGbits.LATG14
+#define CANSTB1_PORT                 PORTGbits.RG14
+#define CANSTB1_WPU                  WPUGbits.WPUG14
+#define CANSTB1_OD                   ODCONGbits.ODCG14
+#define CANSTB1_ANS                  ANSELGbits.ANSELG14
+#define CANSTB1_SetHigh()            do { LATGbits.LATG14 = 1; } while(0)
+#define CANSTB1_SetLow()             do { LATGbits.LATG14 = 0; } while(0)
+#define CANSTB1_Toggle()             do { LATGbits.LATG14 = ~LATFbits.LATG14; } while(0)
+#define CANSTB1_GetValue()           PORTGbits.RG14
+#define CANSTB1_SetDigitalInput()    do { TRISGbits.TRISG14 = 1; } while(0)
+#define CANSTB1_SetDigitalOutput()   do { TRISGbits.TRISG14 = 0; } while(0)
+#define CANSTB1_SetPullup()          do { WPUGbits.WPUG14 = 1; } while(0)
+#define CANSTB1_ResetPullup()        do { WPUGbits.WPUG14 = 0; } while(0)
+#define CANSTB1_SetPushPull()        do { ODCONGbits.ODCG14 = 0; } while(0)
+#define CANSTB1_SetOpenDrain()       do { ODCONGbits.ODCG14 = 1; } while(0)
+#define CANSTB1_SetAnalogMode()      do { ANSELGbits.ANSELG14 = 1; } while(0)
+#define CANSTB1_SetDigitalMode()     do { ANSELGbits.ANSELG14 = 0; } while(0)
+    
+// get/set CANSTB2 aliases
+#define CANSTB2_TRIS                 TRISGbits.TRISG12
+#define CANSTB2_LAT                  LATGbits.LATG12
+#define CANSTB2_PORT                 PORTGbits.RG12
+#define CANSTB2_WPU                  WPUGbits.WPUG12
+#define CANSTB2_OD                   ODCONGbits.ODCG12
+#define CANSTB2_ANS                  ANSELGbits.ANSELG12
+#define CANSTB2_SetHigh()            do { LATGbits.LATG12 = 1; } while(0)
+#define CANSTB2_SetLow()             do { LATGbits.LATG12 = 0; } while(0)
+#define CANSTB2_Toggle()             do { LATGbits.LATG12 = ~LATGbits.LATG12; } while(0)
+#define CANSTB2_GetValue()           PORTGbits.RG12
+#define CANSTB2_SetDigitalInput()    do { TRISGbits.TRISG12 = 1; } while(0)
+#define CANSTB2_SetDigitalOutput()   do { TRISGbits.TRISG12 = 0; } while(0)
+#define CANSTB2_SetPullup()          do { WPUGbits.WPUG12 = 1; } while(0)
+#define CANSTB2_ResetPullup()        do { WPUGbits.WPUG12 = 0; } while(0)
+#define CANSTB2_SetPushPull()        do { ODCONGbits.ODCG12 = 0; } while(0)
+#define CANSTB2_SetOpenDrain()       do { ODCONGbits.ODCG12 = 1; } while(0)
+#define CANSTB2_SetAnalogMode()      do { ANSELGbits.ANSELG12 = 1; } while(0)
+#define CANSTB2_SetDigitalMode()     do { ANSELGbits.ANSELG12 = 0; } while(0)
     
 //INICIALIZACION DE GPIO
 void GPIO_init (void);
