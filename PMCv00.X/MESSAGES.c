@@ -87,7 +87,7 @@ void MESSAGES_CAN2_Rx(){
     
     switch ( ulCAN2RXID )  
     {
-        case 1:
+        case 1: 
             
             break;
         case 2:

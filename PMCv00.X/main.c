@@ -70,12 +70,12 @@ int main(void) {
     //Write a Message in ECAN1 Transmit Buffer	
     //Request Message Transmission			
 	ecan1WriteMessage(0x152, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
-	
+	LED1_SetHigh();
 
     //Write a Message in ECAN2 Transmit Buffer
     //Request Message Transmission			
 	ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
-	
+	LED2_SetHigh();
     /*
     //Write SPI message to RTC
     WriteSPI2(0X39, RTC);
@@ -87,10 +87,12 @@ int main(void) {
     while (1)
     {
         // Add your application code
-        LED1_SetHigh();
-        LED2_SetHigh();
-        LED3_SetHigh();
-        Nop();
+        //LED1_SetHigh();
+        //LED2_SetHigh();
+        //LED3_SetHigh();
+        //Nop();
+        ecan1WriteMessage(0x152, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
+        ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
         
     }
 }
