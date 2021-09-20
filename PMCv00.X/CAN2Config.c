@@ -456,33 +456,33 @@ void dma3init(void){
 
 void ecan2ClkInit(void){
 
-/* FCAN is selected to be FCY
-    FCAN = FCY = 40MHz */
+    /* FCAN is selected to be FCY
+    FCAN = 2* FCY = 20MHz */
 	C2CTRL1bits.CANCKS = 0x1;
 
-/*
-Bit Time = (Sync Segment + Propagation Delay + Phase Segment 1 + Phase Segment 2)=20*TQ
-Phase Segment 1 = 8TQ
-Phase Segment 2 = 6Tq
-Propagation Delay = 5Tq
-Sync Segment = 1TQ
-CiCFG1<BRP> =(FCAN /(2 ×N×FBAUD))– 1
-*/
+    /*
+    Bit Time = (Sync Segment + Propagation Delay + Phase Segment 1 + Phase Segment 2)=20*TQ
+    Phase Segment 1 = 6TQ
+    Phase Segment 2 = 1Tq
+    Propagation Delay = 2Tq
+    Sync Segment = 1TQ
+    CiCFG1<BRP> =(FCAN /(2 ×N×FBAUD))– 1 = 0 
+    */
 
-	/* Synchronization Jump Width set to 4 TQ */
-	C2CFG1bits.SJW = 0x3;
+	/* Synchronization Jump Width set to 1 TQ */
+	C2CFG1bits.SJW = 0x00;
 	/* Baud Rate Prescaler */
 	C2CFG1bits.BRP = BRP_VAL;
 	
 
-	/* Phase Segment 1 time is 8 TQ */
-	C2CFG2bits.SEG1PH=0x7;
+	/* Phase Segment 1 time is 6 TQ */
+	C2CFG2bits.SEG1PH=0x5;
 	/* Phase Segment 2 time is set to be programmable */
 	C2CFG2bits.SEG2PHTS = 0x1;
-	/* Phase Segment 2 time is 6 TQ */
-	C2CFG2bits.SEG2PH = 0x5;
-	/* Propagation Segment time is 5 TQ */
-	C2CFG2bits.PRSEG = 0x4;
+	/* Phase Segment 2 time is 1 TQ */
+	C2CFG2bits.SEG2PH = 0x00;
+	/* Propagation Segment time is 2 TQ */
+	C2CFG2bits.PRSEG = 0x1;
 	/* Bus line is sampled three times at the sample point */
 	C2CFG2bits.SAM = 0x1;
                
@@ -749,12 +749,12 @@ void rxECAN2(mIDCAN2 *message)
 void __attribute__((interrupt, no_auto_psv))_C2Interrupt(void)  
 {
 	IFS3bits.C2IF = 0;        // clear interrupt flag
-	if(C2INTFbits.TBIF)
+	if(C2INTFbits.TBIF) //INTERRUPCION POR TRANSMISION
     { 
 		C2INTFbits.TBIF = 0;
     } 
     
-    if(C2INTFbits.RBIF)
+    if(C2INTFbits.RBIF) //INTERRUPCION POR RECEPCION
      {      
 		// read the message 
 	    if(C2RXFUL1bits.RXFUL1==1)

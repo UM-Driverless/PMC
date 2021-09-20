@@ -459,33 +459,32 @@ void dma2init(void){
 
 void ecan1ClkInit(void){
 
-/* FCAN is selected to be FCY ..-> clock source from the CPU
- FCAN = FCY = 40MHz */
+    /* FCAN is selected to be FCY ..-> clock source from the CPU
+     FCAN = 2 * FCY = 20MHz */
 	C1CTRL1bits.CANCKS = 0x1;
 
-/*
-Bit Time = (Sync Segment + Propagation Delay + Phase Segment 1 + Phase Segment 2)=20*TQ
-Phase Segment 1 = 8TQ
-Phase Segment 2 = 6Tq
-Propagation Delay = 5Tq
-Sync Segment = 1TQ
-CiCFG1<BRP> =(FCAN /(2 ×N×FBAUD))– 1
-*/
+    /*
+    Bit Time = (Sync Segment + Propagation Delay + Phase Segment 1 + Phase Segment 2)=20*TQ
+    Phase Segment 1 = 6TQ
+    Phase Segment 2 = 1Tq
+    Propagation Delay = 2Tq
+    Sync Segment = 1TQ
+    CiCFG1<BRP> =(FCAN /(2 ×N×FBAUD))– 1 = 0
+    */
 
-	/* Synchronization Jump Width set to 4 TQ */
-	C1CFG1bits.SJW = 0x3;
+	/* Synchronization Jump Width set to 1 TQ */
+	C1CFG1bits.SJW = 0x00;  
 	/* Baud Rate Prescaler */
 	C1CFG1bits.BRP = BRP_VAL;
-	
 
-	/* Phase Segment 1 time is 8 TQ */
-	C1CFG2bits.SEG1PH=0x7;
+	/* Phase Segment 1 time is 6 TQ */
+	C1CFG2bits.SEG1PH=0x5;
 	/* Phase Segment 2 time is set to be programmable */
 	C1CFG2bits.SEG2PHTS = 0x1;
-	/* Phase Segment 2 time is 6 TQ */
-	C1CFG2bits.SEG2PH = 0x5;
-	/* Propagation Segment time is 5 TQ */
-	C1CFG2bits.PRSEG = 0x4;
+	/* Phase Segment 2 time is 1 TQ */
+	C1CFG2bits.SEG2PH = 0x00;
+	/* Propagation Segment time is 2 TQ */
+	C1CFG2bits.PRSEG = 0x1;
 	/* Bus line is sampled three times at the sample point */
 	C1CFG2bits.SAM = 0x1;
 }
@@ -500,7 +499,7 @@ void ecan1Init(void){
     CANSTB1_SetHigh();
     
     
-/* Request Configuration Mode */
+/* Request Configuration Mode */   
 	C1CTRL1bits.REQOP=4;
 	while(C1CTRL1bits.OPMODE!=4);
 
@@ -637,9 +636,68 @@ extern void ecan1WriteMessage(unsigned long id, unsigned char dataLength, unsign
     uiData4 = ( data7 << 0x08 ) & 0xFF00;
     uiData4 |= data8;
 
-    ecan1WriteTxMsgBufId(0,id,ucTipoMensajeCAN1,0);
+    ecan1WriteTxMsgBufId(0,id,ucTipoMensajeCAN1,0); //(buffer,if,tipoCAN,remoteTransmit)
     ecan1WriteTxMsgBufData(0,dataLength,uiData1,uiData2,uiData3,uiData4);
     
+    /* Request message buffer 0 transmission */
+    Nop();
+    Nop();
+    Nop();
+
+    /*switch ( ucCANTXBuffer )
+    {
+        ///LVL (22/10/2017) : 7 TX BUFFERS 24 RX BUFFERS
+        case 0:
+            C1TR01CONbits.TXREQ0 = TRUE;
+            ucCANBUSTXFLAG0 = TRUE;
+            uiCANBUSTXBUF0++;
+            ucCANTXBuffer = 6;  //TRANSMIT buffers, highest priority n°5
+            break;    
+        ///LVL (22/10/2017) : 7 TX BUFFERS 24 RX BUFFERS
+        case 1:
+            C1TR01CONbits.TXREQ1 = TRUE;
+            ucCANBUSTXFLAG1 = TRUE;
+            uiCANBUSTXBUF1++;
+            ucCANTXBuffer--;
+            break;    
+        ///LVL (22/10/2017) : 7 TX BUFFERS 24 RX BUFFERS
+        case 2:
+            C1TR23CONbits.TXREQ2 = TRUE;
+            ucCANBUSTXFLAG2 = TRUE;
+            uiCANBUSTXBUF2++;
+            ucCANTXBuffer--;
+            break;    
+        ///LVL (22/10/2017) : 7 TX BUFFERS 24 RX BUFFERS
+        case 3:
+            C1TR23CONbits.TXREQ3 = TRUE;
+            ucCANBUSTXFLAG3 = TRUE;
+            uiCANBUSTXBUF3++;
+            ucCANTXBuffer--;
+            break;                
+        ///LVL (22/10/2017) : 7 TX BUFFERS 24 RX BUFFERS
+        case 4:
+            C1TR45CONbits.TXREQ4 = TRUE;
+            ucCANBUSTXFLAG4 = TRUE;
+            uiCANBUSTXBUF4++;
+            ucCANTXBuffer--;
+            break;    
+        ///LVL (22/10/2017) : 7 TX BUFFERS 24 RX BUFFERS
+        case 5:
+            C1TR45CONbits.TXREQ5 = TRUE;
+            ucCANBUSTXFLAG5 = TRUE;
+            uiCANBUSTXBUF5++;
+            ucCANTXBuffer--;
+            break;    
+        ///LVL (22/10/2017) : 7 TX BUFFERS 24 RX BUFFERS
+        case 6:
+            C1TR67CONbits.TXREQ6 = TRUE;
+            ucCANBUSTXFLAG6 = TRUE;
+            uiCANBUSTXBUF6++;
+            ucCANTXBuffer--;
+            break;    
+    } */
+        
+        
     //EJECUTAR BUFFER
     C1TR01CONbits.TXREQ0=1;	
 
@@ -757,12 +815,12 @@ void rxECAN1(mIDCAN1* message)
 void __attribute__((interrupt, no_auto_psv))_C1Interrupt(void)  
 {    
 	IFS2bits.C1IF = 0;        // clear interrupt flag
-	if(C1INTFbits.TBIF)
+	if(C1INTFbits.TBIF) //INTERRUPCION POR TRANSMISION
     { 
     	C1INTFbits.TBIF = 0;
     } 
  
-    if(C1INTFbits.RBIF)
+    if(C1INTFbits.RBIF) //INTERRUPCION POR RECEPCION
     {      
 		// read the message 
 	    if(C1RXFUL1bits.RXFUL1==1)

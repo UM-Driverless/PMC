@@ -20,8 +20,8 @@ extern "C" {
   --------------------------------------------------*/
     
 // OSCILATOR FREQUENCY //
-//#define FCY 10000000 //PMC 
-#define FCY 80000000 //URM pruebas
+#define FCY 10000000 //PMC 
+//#define FCY 80000000 //URM pruebas
     
 // BAUDRATES //
 //#define BAUDRATE 1200
@@ -45,9 +45,15 @@ extern "C" {
 
     
 // CAN //
-#define N_CAN 20
-#define FTQ         N_CAN*BAUDRATE
-#define BRP_VAL		((FCY/(2*FTQ))-1)
+#define CANBAUDRATE 1000000
+#define N_CAN 10
+#define FTQ         N_CAN*CANBAUDRATE
+//#define BRP_VAL		((FCY/(2*FTQ))-1)
+#define BRP_VAL		0
+    
+//SISTEMA    
+#define TRUE       1
+#define FALSE      0
 
 // Estructura de datos del mensaje CAN
 typedef struct {
