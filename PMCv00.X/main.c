@@ -51,13 +51,13 @@ int main(void) {
 	dma3init();
     
     //INICIALIZACION UART1
-    UART1inicializacion();    
+    //UART1inicializacion();    
 
     //INICIALIZACION UART2
-    UART2inicializacion();
+    //UART2inicializacion();
     
     //INICIALIZACION SPI2
-    InicializacionSPI2();
+    //InicializacionSPI2();
     
     //INICIALIZACION LEDS
     //27.03.2021 DJU Inicializacion LEDs
@@ -70,12 +70,13 @@ int main(void) {
     //Write a Message in ECAN1 Transmit Buffer	
     //Request Message Transmission			
 	ecan1WriteMessage(0x152, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
-	LED1_SetHigh();
+	//LED1_SetHigh();
 
     //Write a Message in ECAN2 Transmit Buffer
     //Request Message Transmission			
 	ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
-	LED2_SetHigh();
+
+	//LED2_SetHigh();
     /*
     //Write SPI message to RTC
     WriteSPI2(0X39, RTC);
@@ -87,16 +88,15 @@ int main(void) {
     while (1)
     {
         // Add your application code
-        //LED1_SetHigh();
-        //LED2_SetHigh();
-        //LED3_SetHigh();
+        LED1_Toggle();
+        LED2_Toggle();
+        LED3_Toggle();
         //Nop();
-        ecan1WriteMessage(0x152, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
-        ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
+        //ecan1WriteMessage(0x152, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
+        //ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
         
     }
 }
-
 
 
 void clearIntrflags(void){
@@ -116,7 +116,7 @@ void oscConfig(void){
  	Fosc= Fin*M/(N1*N2), Fcy=Fosc/2
  	Fosc= 8M*40/(2*2)=80Mhz for 8M input clock */
 
-	PLLFBD=38;					/* M=40 */
+	PLLFBD=34;					/* M=32 */
 	CLKDIVbits.PLLPOST=0;		/* N1=2 */
 	CLKDIVbits.PLLPRE=0;		/* N2=2 */
 	OSCTUN=0;					/* Tune FRC oscillator, if FRC is used */
@@ -133,9 +133,9 @@ void oscConfig(void){
     */
 
 /* Wait for PLL to lock */
-    /*
-	while(OSCCONbits.LOCK!=1) {};
-    */
+    
+	//while(OSCCONbits.LOCK!=1) {};
+    
 }
 
  

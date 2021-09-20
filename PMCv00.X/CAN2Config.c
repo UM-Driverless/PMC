@@ -494,8 +494,8 @@ void ecan2Init(void){
     TRISRXCAN2 = 1;     //Define as "RX CAN" as input   : RPI96/RF0 RX CANBUS.
     TRISTXCAN2 = 0;     //Define as "TX CAN" as output  : RP97/RF1  TX CANBUS.
 
-    CANSTB1_SetDigitalOutput();
-    CANSTB1_SetHigh();
+    CANSTB2_SetDigitalOutput();
+    CANSTB2_SetHigh();
     
 /* Request Configuration Mode */
 
@@ -633,8 +633,10 @@ extern void ecan2WriteMessage(unsigned long id, unsigned char dataLength, unsign
     ecan2WriteTxMsgBufId(0,id,ucTipoMensajeCAN2,0);
     ecan2WriteTxMsgBufData(0,dataLength,ucData1,ucData2,ucData3,ucData4);
     
-    //EJECUTAR BUFFER
+        //EJECUTAR BUFFER
     C2TR01CONbits.TXREQ0=1;
+    
+
 }
 
 

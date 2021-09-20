@@ -413,6 +413,7 @@ void CAN1ConfigInicializacionCAN(void){
 	while(C1CTRL1bits.OPMODE != 0); /* Esperar hasta entrar en el modo 
                                      * de operación normal */
     
+    ecan1ClkInit();
     
     C1TR01CONbits.TXEN0=1;			/* S21-P28, Buffer 0 del CAN1 para transmisión */
 	C1TR01CONbits.TXEN1=0;			/* S21-P28, Buffer 1 del CAN1 para recepción */
@@ -420,6 +421,8 @@ void CAN1ConfigInicializacionCAN(void){
 	C1TR01CONbits.TX1PRI=0b11; 		/* S21-P28, prioridad máxima al buffer 1 */
     
     C1CFG1bits.BRP = 0;
+    
+    CAN1ConfigInicializar();
 }
 
 void CAN1ConfigInicializar(void){
@@ -564,10 +567,10 @@ void ecan1Init(void){
     
     
     /* Enable ECAN1 Interrupt */ 				
-    	
 	IEC2bits.C1IE = 1;
 	C1INTEbits.TBIE = 1;	
 	C1INTEbits.RBIE = 1;
+   
 		
 }
 
@@ -699,7 +702,10 @@ extern void ecan1WriteMessage(unsigned long id, unsigned char dataLength, unsign
         
         
     //EJECUTAR BUFFER
-    C1TR01CONbits.TXREQ0=1;	
+    C1TR01CONbits.TXREQ0 = 0x1;
+    /* The following shows an example of how the TXREQ bit can be polled to check if transmission
+    is complete. */
+    //while(C1TR01CONbits.TXREQ0 == 1);
 
 }
 

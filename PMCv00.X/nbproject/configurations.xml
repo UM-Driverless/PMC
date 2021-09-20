@@ -14,8 +14,12 @@
       <itemPath>SPI.h</itemPath>
       <itemPath>MESSAGES.h</itemPath>
       <itemPath>GPIO.h</itemPath>
+<<<<<<< Updated upstream
       <itemPath>../../../../Downloads/MESSAGES1.h</itemPath>
       <itemPath>../../../../Downloads/MESSAGES2.h</itemPath>
+=======
+      <itemPath>TIMER.h</itemPath>
+>>>>>>> Stashed changes
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -35,6 +39,7 @@
       <itemPath>SPI.c</itemPath>
       <itemPath>MESSAGES.c</itemPath>
       <itemPath>GPIO.c</itemPath>
+      <itemPath>TIMER.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -55,7 +60,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>pk4hybrid</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.60</languageToolchainVersion>
+        <languageToolchainVersion>1.41</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
