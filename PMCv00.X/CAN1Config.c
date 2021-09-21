@@ -499,7 +499,7 @@ void ecan1Init(void){
     TRISTXCAN1 = 0;     //Define as "TX CAN" as output  : RP97/RF1  TX CANBUS.
 
     CANSTB1_SetDigitalOutput();
-    CANSTB1_SetHigh();
+    CANSTB1_SetLow();
     
     
 /* Request Configuration Mode */   
@@ -561,9 +561,9 @@ void ecan1Init(void){
 
 	C1RXFUL1=C1RXFUL2=C1RXOVF1=C1RXOVF2=0x0000;
 	C1TR01CONbits.TXEN0=1;			/* ECAN1, Buffer 0 is a Transmit Buffer */
-	C1TR01CONbits.TXEN1=0;			/* ECAN1, Buffer 1 is a Receive Buffer */
+	//C1TR01CONbits.TXEN1=0;			/* ECAN1, Buffer 1 is a Receive Buffer */
 	C1TR01CONbits.TX0PRI=0b11; 		/* Message Buffer 0 Priority Level */
-	C1TR01CONbits.TX1PRI=0b11; 		/* Message Buffer 1 Priority Level */
+	//C1TR01CONbits.TX1PRI=0b11; 		/* Message Buffer 1 Priority Level */
     
     
     /* Enable ECAN1 Interrupt */ 				

@@ -495,7 +495,7 @@ void ecan2Init(void){
     TRISTXCAN2 = 0;     //Define as "TX CAN" as output  : RP97/RF1  TX CANBUS.
 
     CANSTB2_SetDigitalOutput();
-    CANSTB2_SetHigh();
+    CANSTB2_SetLow();
     
 /* Request Configuration Mode */
 

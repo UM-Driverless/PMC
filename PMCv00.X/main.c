@@ -123,7 +123,7 @@ void oscConfig(void){
  	Fosc= Fin*M/(N1*N2), Fcy=Fosc/2
  	Fosc= 8M*40/(2*2)=80Mhz for 8M input clock */
 
-	PLLFBD=34;					/* M=32 */
+	PLLFBD=30;					/* M=32 */
 	CLKDIVbits.PLLPOST=0;		/* N1=2 */
 	CLKDIVbits.PLLPRE=0;		/* N2=2 */
 	OSCTUN=0;					/* Tune FRC oscillator, if FRC is used */
