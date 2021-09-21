@@ -135,7 +135,7 @@ extern "C" {
 #define CANSTB2_SetAnalogMode()      do { ANSELGbits.ANSELG12 = 1; } while(0)
 #define CANSTB2_SetDigitalMode()     do { ANSELGbits.ANSELG12 = 0; } while(0)
     
- // get/set CTR232 aliases
+/*// get/set CTR232 aliases
 #define CANSTB2_TRIS                 TRISGbits.TRISRB14
 #define CANSTB2_LAT                  LATGbits.LATRB14
 #define CANSTB2_PORT                 PORTGbits.RRB14
@@ -357,6 +357,8 @@ extern "C" {
 #define CANSTB2_SetOpenDrain()       do { ODCONGbits.ODCRD5 = 1; } while(0)
 #define CANSTB2_SetAnalogMode()      do { ANSELGbits.ANSELRD5 = 1; } while(0)
 #define CANSTB2_SetDigitalMode()     do { ANSELGbits.ANSELRD5 = 0; } while(0) 
+*/
+
 //INICIALIZACION DE GPIO
 void GPIO_init (void);
 

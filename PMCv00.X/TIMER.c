@@ -21,6 +21,7 @@ void TIMER1Init (void)
     T1CONBITS.TCS = 0;          // Select internal instruction cycle clock (Fosc / 2)
     T1CONBITS.TGATE = 0;        // Disable Gated Timer mode
     T1CONBITS.TCKPS = 0x3;      // Select 1:256 Prescaler
+    TMR1 = 0x00;                // Clear timer register  
  // PR1 = 39062;                // Load the period value (250ms/(256*25ns))
 //    PR2 = 1562;                 // Load the period value (10ms/(256*25ns))    256 * 25ns = 6,4us   10ms / 6,4us = 1562,5    
     PR1 = 15625;                // Load the period value (100ms/(256*25ns))   
@@ -43,7 +44,6 @@ void TIMER2Init (void)
     TMR2 = 0x00;                // Clear timer register     
 //    PR2 = 1562;                 // Load the period value (10ms/(256*25ns))    256 * 25ns = 6,4us   10ms / 6,4us = 1562,5
     PR2 = 156;                  // Load the period value (1ms/(256*25ns))       256 * 25ns = 6,4us   1ms / 6,4us = 156,25    
-    
     IPC1bits.T2IP = 0x02;       // Set Timer 2 Interrupt Priority Level
     IFS0bits.T2IF = 0;          // Clear Timer 2 Interrupt Flag
     IEC0bits.T2IE = 1;          // Enable Timer2 interrupt
