@@ -65,10 +65,10 @@ int main(void) {
     GPIO_init();
     
     //INICIALIZACION TIMER
-    //TIMER1Init();
-    //TIMER2Init();
-    //TIMER1Start();
-    //TIMER2Start();
+    TIMER1Init();
+    TIMER2Init();
+    TIMER1Start();
+    TIMER2Start();
     
     //--------------------------------//
     //      CODIGO TESTER             //

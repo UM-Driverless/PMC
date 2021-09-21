@@ -21,9 +21,9 @@ void TIMER1Init (void)      // Timer 1 to generate an interrupt every 100ms
 void TIMER1Init (void)
 {
     TIMER1Stop ();
-    T1CONBITS.TCS = 0;          // Select internal instruction cycle clock (Fosc / 2)
-    T1CONBITS.TGATE = 0;        // Disable Gated Timer mode
-    T1CONBITS.TCKPS = 0x3;      // Select 1:256 Prescaler
+    T1CONbits.TCS = 0;          // Select internal instruction cycle clock (Fosc / 2)
+    T1CONbits.TGATE = 0;        // Disable Gated Timer mode
+    T1CONbits.TCKPS = 0x3;      // Select 1:256 Prescaler
     TMR1 = 0x00;                // Clear timer register  
     PR1 = 19531;                // Load the period value Ftimer=256*(2/10MHz)=19531.25 Ttimer=5.12us PR1=100ms/5.12us=19531.25
     IPC0bits.T1IP = 0x03;       // Set Timer 1 Interrupt Priority Level
@@ -39,9 +39,9 @@ void TIMER2Init (void)      // Timer 2 to generate an interrupt every 10ms
 void TIMER2Init (void)
 { 
     TIMER2Stop ();
-    T2CONBITS.TCS = 0;          // Select internal instruction cycle clock (Fosc / 2)
-    T2CONBITS.TGATE = 0;        // Disable Gated Timer mode
-    T2CONBITS.TCKPS = 0x3;      // Select 1:256 Prescaler
+    T2CONbits.TCS = 0;          // Select internal instruction cycle clock (Fosc / 2)
+    T2CONbits.TGATE = 0;        // Disable Gated Timer mode
+    T2CONbits.TCKPS = 0x3;      // Select 1:256 Prescaler
     TMR2 = 0x00;                // Clear timer register     
     PR1 = 1953;                // Load the period value Ftimer=256*(2/10MHz)=19531.25 Ttimer=5.12us PR1=10ms/5.12us=19531.25
     IPC1bits.T2IP = 0x02;       // Set Timer 2 Interrupt Priority Level
@@ -56,7 +56,7 @@ void TIMER1Start (void)      // Timer 1 habilitado para funcionar
 */
 void TIMER1Start (void)
 {
-    T1CONBITS.TON = 1;          // Start Timer1
+    T1CONbits.TON = 1;          // Start Timer1
 }
 
 /*
@@ -66,7 +66,7 @@ void TIMER2Start (void)      // Timer 2 habilitado para funcionar
 */
 void TIMER2Start (void)
 {
-    T2CONBITS.TON = 1;          // Start Timer2
+    T2CONbits.TON = 1;          // Start Timer2
 }
 
 /*
@@ -76,7 +76,7 @@ void TIMER1Stop (void)      // Timer 1 deshabilitado para funcionar
 */
 void TIMER1Stop (void)
 {
-    T1CONBITS.TON = 0;          // Stop Timer1
+    T1CONbits.TON = 0;          // Stop Timer1
 }
 
 /*
@@ -86,7 +86,7 @@ void TIMER2Stop (void)      // Timer 2 deshabilitado para funcionar
 */
 void TIMER2Stop (void)
 {
-    T2CONBITS.TON = 0;          // Stop Timer2
+    T2CONbits.TON = 0;          // Stop Timer2
 }
 
 

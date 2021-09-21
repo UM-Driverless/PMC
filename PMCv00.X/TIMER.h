@@ -28,7 +28,7 @@ void TIMER1Stop (void);
 void TIMER2Stop (void);
 
 
-volatile unsigned char Count1s;
+extern volatile unsigned char Count1s;
 
 #ifdef	__cplusplus
 }
