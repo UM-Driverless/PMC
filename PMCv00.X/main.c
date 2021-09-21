@@ -13,6 +13,7 @@
 #include "UART2.h"
 #include "SPI.h"
 #include "GPIO.h"
+#include "TIMER.h"
 
 // Prototype Declaration
 void oscConfig(void);
@@ -63,6 +64,12 @@ int main(void) {
     //27.03.2021 DJU Inicializacion LEDs
     GPIO_init();
     
+    //INICIALIZACION TIMER
+    //TIMER1Init();
+    //TIMER2Init();
+    //TIMER1Start();
+    //TIMER2Start();
+    
     //--------------------------------//
     //      CODIGO TESTER             //
     //--------------------------------//
@@ -88,9 +95,9 @@ int main(void) {
     while (1)
     {
         // Add your application code
-        LED1_Toggle();
-        LED2_Toggle();
-        LED3_Toggle();
+        //LED1_Toggle();
+        //LED2_Toggle();
+        //LED3_Toggle();
         //Nop();
         //ecan1WriteMessage(0x152, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
         //ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
