@@ -41,15 +41,14 @@ int main(void) {
     //Configure DMA Channel 0 for ECAN1 Transmit
     //Configure DMA Channel 2 for ECAN1 Receive 
 	ecan1Init();
-	dma0init();	
-	dma2init();
+
 
     //ECAN2 Initialisation 		
     //Configure DMA Channel 1 for ECAN2 Transmit
     //Configure DMA Channel 3 for ECAN2 Receive 
 	ecan2Init();
-	dma1init();	
-	dma3init();
+	//dma1init();	
+	//dma3init();
     
     //INICIALIZACION UART1
     //UART1inicializacion();    
@@ -76,12 +75,12 @@ int main(void) {
     
     //Write a Message in ECAN1 Transmit Buffer	
     //Request Message Transmission			
-	ecan1WriteMessage(0x152, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
+	ecan1WriteMessage(0x002, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
 	//LED1_SetHigh();
 
     //Write a Message in ECAN2 Transmit Buffer
     //Request Message Transmission			
-	ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
+	//ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
 
 	//LED2_SetHigh();
     /*
@@ -99,7 +98,7 @@ int main(void) {
         //LED2_Toggle();
         //LED3_Toggle();
         //Nop();
-        //ecan1WriteMessage(0x152, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
+        ecan1WriteMessage(0x001, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
         //ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
         
     }

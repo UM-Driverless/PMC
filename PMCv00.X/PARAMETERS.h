@@ -20,8 +20,9 @@ extern "C" {
   --------------------------------------------------*/
     
 // OSCILATOR FREQUENCY //
-#define FCY 10000000 //PMC 
-//#define FCY 80000000 //URM pruebas
+//#define FCY 10000000 //PMC 
+//#define FCY 8000000 //URM pruebas
+#define FCY 20000000 //nuevo cristal pruebas
     
 // BAUDRATES //
 //#define BAUDRATE 1200
@@ -45,11 +46,12 @@ extern "C" {
 
     
 // CAN //
-#define CANBAUDRATE 1000000
+//#define CANBAUDRATE 1000000
+#define CANBAUDRATE 50000
 #define N_CAN 10
 #define FTQ         N_CAN*CANBAUDRATE
-//#define BRP_VAL		((FCY/(2*FTQ))-1)
-#define BRP_VAL		0
+#define BRP_VAL		((2*FCY/(2*FTQ))-1)
+//#define BRP_VAL		0
     
 //SISTEMA    
 #define TRUE       1
