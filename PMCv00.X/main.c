@@ -101,6 +101,10 @@ int main(void) {
         ecan1WriteMessage(0x001, 0x08, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22);
         //ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
         
+        //EJEMPLO MAIN (SOF PackNumber Byte1 Byte2 Byte3 Byte4 Byte5 Byte6 Byte7 Byte8 CRC EOF)
+        //TELEMETRYSendFrame(PackNumber Byte1 Byte2 Byte3 Byte4 Byte5 Byte6 Byte7 Byte8 );
+        //UART1WriteSTring(*string)
+        
     }
 }
 

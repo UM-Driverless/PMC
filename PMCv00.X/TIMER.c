@@ -11,6 +11,7 @@
 #include "GPIO.h"
 
 volatile unsigned char Count1s;
+volatile unsigned char Count1000ms;
 
 
 /*
@@ -104,8 +105,8 @@ void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
     
     if (++Count1s >= 10)
     {
-        LED1_Toggle();
-        LED2_Toggle();
+        //LED1_Toggle();
+        //LED2_Toggle();
         LED3_Toggle();
         
         Count1s = 0;
@@ -119,4 +120,13 @@ void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void)
 {
     /* Interrupt Service Routine code goes here */
     IFS0bits.T2IF = 0; // Clear Timer1 Interrupt Flag
+    
+    if (++Count1000ms >= 100)
+    {
+        LED1_Toggle();
+        LED2_Toggle();
+        //LED3_Toggle();
+        
+        Count1000ms = 0;
+    }
 }

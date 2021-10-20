@@ -29,6 +29,7 @@ void TIMER2Stop (void);
 
 
 extern volatile unsigned char Count1s;
+extern volatile unsigned char Count1000ms;
 
 #ifdef	__cplusplus
 }

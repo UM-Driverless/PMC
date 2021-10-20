@@ -15,6 +15,7 @@
       <itemPath>MESSAGES.h</itemPath>
       <itemPath>GPIO.h</itemPath>
       <itemPath>TIMER.h</itemPath>
+      <itemPath>TELEMETRY.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -35,6 +36,7 @@
       <itemPath>MESSAGES.c</itemPath>
       <itemPath>GPIO.c</itemPath>
       <itemPath>TIMER.c</itemPath>
+      <itemPath>TELEMETRY.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

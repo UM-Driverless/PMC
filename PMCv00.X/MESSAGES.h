@@ -40,9 +40,17 @@ extern volatile unsigned char ucCAN2RXData7;
 extern void MESSAGES_CAN1_Rx(void);
 extern void MESSAGES_CAN2_Rx(void);
 
-
+//CAN1
 // DECLARACION DE CONSTANTES DE ID //
-#define ID1 0x0FFF
+#define CAN1_ID1 0x0FFF
+//CRISTIAN AÑADE LOS ID!!!!
+
+
+//CAN2
+// DECLARACION DE CONSTANTES DE ID //
+#define CAN2_ID1 0x0FFF
+//CRISTIAN AÑADE LOS ID!!!!
+
 
 
 #ifdef	__cplusplus
