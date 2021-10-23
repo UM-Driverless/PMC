@@ -464,7 +464,7 @@ void ecan1ClkInit(void){
 
     /* FCAN is selected to be FCY ..-> clock source from the CPU
      FCAN = 2 * FCY = 20MHz */
-	C1CTRL1bits.CANCKS = 0x1;
+	//C1CTRL1bits.CANCKS = 0x1;
 
     /*
     Bit Time = (Sync Segment + Propagation Delay + Phase Segment 1 + Phase Segment 2)=20*TQ
@@ -475,21 +475,55 @@ void ecan1ClkInit(void){
     CiCFG1<BRP> =(FCAN /(2 ×N×FBAUD))– 1 = 0
     */
 
-	/* Synchronization Jump Width set to 1 TQ */
+    //ASI SE VE CAN EN OSC, pero no son mensajes
+	/*//Synchronization Jump Width set to 1 TQ
 	C1CFG1bits.SJW = 0x00;  
-	/* Baud Rate Prescaler */
+	//Baud Rate Prescaler
 	C1CFG1bits.BRP = BRP_VAL;
-
-	/* Phase Segment 1 time is 6 TQ */
+	//Phase Segment 1 time is 6 TQ 
 	C1CFG2bits.SEG1PH=0x4;
-	/* Phase Segment 2 time is set to be programmable */
+	//Phase Segment 2 time is set to be programmable 
 	C1CFG2bits.SEG2PHTS = 0x1;
-	/* Phase Segment 2 time is 1 TQ */
+	//Phase Segment 2 time is 1 TQ 
 	C1CFG2bits.SEG2PH = 0x01;
-	/* Propagation Segment time is 2 TQ */
+	//Propagation Segment time is 2 TQ 
 	C1CFG2bits.PRSEG = 0x1;
-	/* Bus line is sampled three times at the sample point */
-	C1CFG2bits.SAM = 0x1;
+	//Bus line is sampled three times at the sample point
+	C1CFG2bits.SAM = 0x1;*/
+    
+    //Synchronization Jump Width set to 1 TQ
+	C1CFG1bits.SJW = 0x03;  
+	//Baud Rate Prescaler
+	C1CFG1bits.BRP = 0x00;
+	//Phase Segment 1 time is 6 TQ 
+	C1CFG2bits.SEG1PH=0x07;
+	//Phase Segment 2 time is set to be programmable 
+	C1CFG2bits.SEG2PHTS = 0x01;
+	//Phase Segment 2 time is 1 TQ 
+	C1CFG2bits.SEG2PH = 0x05;
+	//Propagation Segment time is 2 TQ 
+	C1CFG2bits.PRSEG = 0x04;
+	//Bus line is sampled three times at the sample point
+	C1CFG2bits.SAM = 0x00;
+    
+    //CODIGO EJEMPLO PARA CUANDO TENGAMOS 40MHZ
+    //Phase Segment 1 time is 8 TQ
+    C1CFG2bits.SEG1PH = 0x7;
+    //Phase Segment 2 time is set to be programmable 
+    C1CFG2bits.SEG2PHTS = 0x1;
+    //Phase Segment 2 time is 6 TQ 
+    C1CFG2bits.SEG2PH = 0x5;
+    //Propagation Segment time is 5 TQ 
+    C1CFG2bits.PRSEG = 0x4;
+    //Bus line is sampled three times at the sample point
+    C1CFG2bits.SAM = 0x1;
+    // Synchronization Jump Width set to 4 TQ 
+    C1CFG1bits.SJW = 0x3;
+    //Baud Rate Prescaler bits set to 1:1, i.e., TQ = (2*1*1)/ FCAN 
+    C1CFG1bits.BRP = 0x0 ;
+    //Put the ECAN Module into Normal Mode Operating Mode
+    C1CTRL1bits.REQOP = 0;
+    
 }
 
 void ecan1Init(void){

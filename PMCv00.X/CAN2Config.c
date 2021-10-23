@@ -473,8 +473,6 @@ void ecan2ClkInit(void){
 	C2CFG1bits.SJW = 0x00;
 	/* Baud Rate Prescaler */
 	C2CFG1bits.BRP = BRP_VAL;
-	
-
 	/* Phase Segment 1 time is 6 TQ */
 	C2CFG2bits.SEG1PH=0x5;
 	/* Phase Segment 2 time is set to be programmable */
