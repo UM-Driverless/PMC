@@ -3,6 +3,8 @@
 
 volatile unsigned char ucUART2_RX_DATA;
 volatile unsigned char ucUART2_TX_DATA;
+int len_2;
+int j;
 
 Buffer_A_UART2 UART2_BufferA __attribute__((space(dma)));
 Buffer_B_UART2 UART2_BufferB __attribute__((space(dma)));
@@ -166,6 +168,14 @@ void UART2WriteCharacter (unsigned char c)
     Nop ();
     Nop ();    
    
+}
+
+extern void UART2WriteString(char s[])
+{
+   len_2 = sizeof(s); 
+   for(j = 0; j < len_2; j++) {
+       UART2WriteCharacter(s[j]);
+   }
 }
 
 void UART2ReceiveCharacter (unsigned char c)

@@ -16,7 +16,6 @@
 #include "CAN1Config.h"
 #include "CAN2Config.h"
 #include "PARAMETERS.h"
-#include "MESSAGES.h"
 
 // INICIALIZACION DE VARIABLES //
 volatile unsigned long ulCAN1RXID;
@@ -62,7 +61,7 @@ void MESSAGES_CAN1_Rx(){
     
     switch ( ulCAN1RXID )  
     {
-        case CAN1_ID1:
+        case 1:
             
             break;
         case 2:
@@ -88,7 +87,7 @@ void MESSAGES_CAN2_Rx(){
     
     switch ( ulCAN2RXID )  
     {
-        case CAN2_ID1: 
+        case 1: 
             
             break;
         case 2:

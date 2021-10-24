@@ -3,6 +3,8 @@
 
 volatile unsigned char ucUART1_RX_DATA;
 volatile unsigned char ucUART1_TX_DATA;
+int len_1;
+int i;
 
 Buffer_A_UART1 UART1_BufferA __attribute__((space(dma)));
 Buffer_B_UART1 UART1_BufferB __attribute__((space(dma)));
@@ -145,7 +147,7 @@ void UART1WriteCharacter (unsigned char c)
 {
     char cCaracterRecibido;
     
-    while (U1STAbits.TRMT == 0 ); // wait while transmitting   
+    while (U1STAbits.TRMT == 0 ); // wait while transmitting  (check 8th bit) 
     U1TXREG = c;
     while (U1STAbits.TRMT == 0 ); // wait while transmitting  
 
@@ -165,6 +167,13 @@ void UART1WriteCharacter (unsigned char c)
    
 }
 
+extern void UART1WriteString(char s[])
+{
+   len_1 = sizeof(s);
+   for(i = 0; i < len_1; i++) {
+       UART1WriteCharacter(s[i]);
+   }
+}
 void UART1ReceiveCharacter (unsigned char c)
 {
 
