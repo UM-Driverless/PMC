@@ -29,7 +29,8 @@ void TIMER1Init (void)
     //calculated
     //PR1 = 1953;               // Load the period value Ttimer=256*(2/10MHz)=0,0000512=51.2us PR1=100ms/51.2us=1953.125
     //estimated
-    PR1 = 1464;                 // 1.334s-1953.12 por regla 3 1s-1464
+    //PR1 = 1464;                 // 1.334s-1953.12 por regla 3 1s-1464
+    PR1 = 15625;                 // 
     IPC0bits.T1IP = 0x03;       // Set Timer 1 Interrupt Priority Level
     IFS0bits.T1IF = 0;          // Clear Timer 1 Interrupt Flag
     IEC0bits.T1IE = 1;          // Enable Timer1 interrupt
@@ -50,7 +51,8 @@ void TIMER2Init (void)
     //calculated
     //PR2 = 195;               // Load the period value Ttimer=256*(2/10MHz)=0,0000512=51.2us PR1=10ms/51.2us=195.3125
     //estimated
-    PR2 = 146;                 // 1.334s-1953.12 por regla 3 1s-1464 (146)
+    //PR2 = 146;                 // 1.334s-1953.12 por regla 3 1s-1464 (146)
+    PR2 = 1562;
     IPC1bits.T2IP = 0x02;       // Set Timer 2 Interrupt Priority Level
     IFS0bits.T2IF = 0;          // Clear Timer 2 Interrupt Flag
     IEC0bits.T2IE = 1;          // Enable Timer2 interrupt

@@ -463,11 +463,11 @@ void dma2init(void){
 void ecan1ClkInit(void){
 
     /* FCAN is selected to be FCY ..-> clock source from the CPU
-     FCAN = 2 * FCY = 20MHz */
+     FCAN = 2 * FCY = 40MHz */
 	//C1CTRL1bits.CANCKS = 0x1;
 
     /*
-    Bit Time = (Sync Segment + Propagation Delay + Phase Segment 1 + Phase Segment 2)=20*TQ
+    Bit Time = (Sync Segment + Propagation Delay + Phase Segment 1 + Phase Segment 2)=10*TQ
     Phase Segment 1 = 6TQ
     Phase Segment 2 = 1Tq
     Propagation Delay = 2Tq
@@ -491,10 +491,10 @@ void ecan1ClkInit(void){
 	//Bus line is sampled three times at the sample point
 	C1CFG2bits.SAM = 0x1;*/
     
-    //Synchronization Jump Width set to 1 TQ
+    /*//Synchronization Jump Width set to 1 TQ
 	C1CFG1bits.SJW = 0x03;  
 	//Baud Rate Prescaler
-	C1CFG1bits.BRP = 0x00;
+	C1CFG1bits.BRP = BRP_VAL;
 	//Phase Segment 1 time is 6 TQ 
 	C1CFG2bits.SEG1PH=0x07;
 	//Phase Segment 2 time is set to be programmable 
@@ -504,7 +504,7 @@ void ecan1ClkInit(void){
 	//Propagation Segment time is 2 TQ 
 	C1CFG2bits.PRSEG = 0x04;
 	//Bus line is sampled three times at the sample point
-	C1CFG2bits.SAM = 0x00;
+	C1CFG2bits.SAM = 0x00;*/
     
     //CODIGO EJEMPLO PARA CUANDO TENGAMOS 40MHZ
     //Phase Segment 1 time is 8 TQ
@@ -695,16 +695,16 @@ extern void ecan1WriteMessage(unsigned long id, unsigned char dataLength, unsign
 
     */
     
-    uiData1 = ( data1 << 0x08 ) & 0xFF00;
-    uiData1 |= data2;
-    uiData2 = ( data3 << 0x08 ) & 0xFF00;
-    uiData2 |= data4;
-    uiData3 = ( data5 << 0x08 ) & 0xFF00;
-    uiData3 |= data6;
-    uiData4 = ( data7 << 0x08 ) & 0xFF00;
-    uiData4 |= data8;
+    uiData1 = ( data2 << 0x08 ) & 0xFF00;
+    uiData1 |= data1;
+    uiData2 = ( data4 << 0x08 ) & 0xFF00;
+    uiData2 |= data3;
+    uiData3 = ( data6 << 0x08 ) & 0xFF00;
+    uiData3 |= data5;
+    uiData4 = ( data8 << 0x08 ) & 0xFF00;
+    uiData4 |= data7;
 
-    ecan1WriteTxMsgBufId(0,id,ucTipoMensajeCAN1,0); //(buffer,if,tipoCAN,remoteTransmit)
+    ecan1WriteTxMsgBufId(0,id,ucTipoMensajeCAN1,0); //(buffer,iD,tipoCAN,remoteTransmit)
     ecan1WriteTxMsgBufData(0,dataLength,uiData1,uiData2,uiData3,uiData4);
     
     /* Request message buffer 0 transmission */

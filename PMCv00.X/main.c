@@ -23,6 +23,11 @@ void clearIntrflags(void);
 //uiaTablaMensajesCAN1 uiaCAN1BufferMensajes __attribute__((space(dma),aligned(CAN1_MSG_BUF_LENGTH*16)));
 //uiaTablaMensajesCAN2 uiaCAN2BufferMensajes __attribute__((space(dma),aligned(CAN2_MSG_BUF_LENGTH*16)));
 
+// Select Internal FRC at POR
+_FOSCSEL(FNOSC_PRIPLL & IESO_OFF);
+// Enable Clock Switching and Configure POSC in XT mode
+_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_HS);
+
 
 int main(void) {   
     
@@ -98,14 +103,14 @@ int main(void) {
         //LED2_Toggle();
         //LED3_Toggle();
         Nop();
-        ecan1WriteMessage(0x001, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
-        ecan1WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
+        //ecan1WriteMessage(0x001, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
+        ecan1WriteMessage(0xFFF, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
         
-        ecan2WriteMessage(0x001, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
-        ecan2WriteMessage(0x001, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
+        ecan2WriteMessage(0x003, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
+        ecan2WriteMessage(0x004, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
         
         //EJEMPLO MAIN (SOF PackNumber Byte1 Byte2 Byte3 Byte4 Byte5 Byte6 Byte7 Byte8 CRC EOF)
-        //TELEMETRYSendFrame(PackNumber Byte1 Byte2 Byte3 Byte4 Byte5 Byte6 Byte7 Byte8 );
+        
         //UART1WriteSTring(*string)
         
     }
@@ -125,13 +130,14 @@ void clearIntrflags(void){
 
 void oscConfig(void){
 
-/*  Configure Oscillator to operate the device at 40Mhz
+/*  Configure Oscillator to operate the device at 20Mhz
  	Fosc= Fin*M/(N1*N2), Fcy=Fosc/2
- 	Fosc= 8M*40/(2*2)=80Mhz for 8M input clock */
+ 	Fosc= 20M*32/(4*2)=80Mhz for 10M input clock
+    FCY = Fosc/2 = 40 MIPS */
 
-	PLLFBD=30;					/* M=32 */
+	PLLFBDbits.PLLDIV=30;		/* M=32 */
 	CLKDIVbits.PLLPOST=0;		/* N1=2 */
-	CLKDIVbits.PLLPRE=0;		/* N2=2 */
+	CLKDIVbits.PLLPRE=2;		/* N2=4 */
 	OSCTUN=0;					/* Tune FRC oscillator, if FRC is used */
 
 /* Disable Watch Dog Timer */
@@ -139,15 +145,15 @@ void oscConfig(void){
 	RCONbits.SWDTEN=0;
 
 /* Clock switch to incorporate PLL*/
-	/*__builtin_write_OSCCONH(0x03);		// Initiate Clock Switch to Primary
+	__builtin_write_OSCCONH(0x03);		// Initiate Clock Switch to Primary
 													// Oscillator with PLL (NOSC=0b011)
 	__builtin_write_OSCCONL(0x01);		// Start clock switching
 	while (OSCCONbits.COSC != 0b011);	// Wait for Clock switch to occur	
-    */
+    
 
 /* Wait for PLL to lock */
     
-	//while(OSCCONbits.LOCK!=1) {};
+	while(OSCCONbits.LOCK!=1) {};
     
 }
 

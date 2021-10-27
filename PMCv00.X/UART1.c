@@ -180,6 +180,19 @@ void UART1ReceiveCharacter (unsigned char c)
     Nop ();
     Nop ();
     Nop ();
+    /*switch (c)
+    {
+        case SOF: //EMPIEZO A CONCATENAR LA TRAMA RECIBIDA
+            break;
+            
+        case EOF: //DOY POR FINALIZADA LA TRAMA
+            // SI ucFrameCorrect=TRUE, EJECUTO RECEPCION DE TRAMA CON EL STRING RECOGIDO Y VERIFICADO
+            //TELEMETRYReceiptFrame(PUNTERO O ESTRUCTURA CON LOS DATOS)
+            break;
+        
+        default: //VOY RECOGIENDO LOS DATOS CON UN CONTADOR, SI ESE CONTADOR LLEGA A 8 ME CALCULO EL CRC Y COMPRUEBO SI ES CORRECTO, SI LO ES ACTIVO FLAG ucFrameCorrect
+            break;
+    }*/
    
 }
 
