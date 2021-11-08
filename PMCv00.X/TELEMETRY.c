@@ -4,40 +4,68 @@
  *
  * Created on 20 de octubre de 2021, 10:47
  */
+#include<stdio.h> 
+#include <string.h>
 
-
-
-//TELEMETRYSendFrame(PackNumber Byte1 Byte2 Byte3 Byte4 Byte5 Byte6 Byte7 Byte8 );
 void TELEMETRYSendFrame(unsigned char ucPackNumber, unsigned char data1, unsigned char data2, unsigned char data3, unsigned char data4, unsigned char data5, unsigned char data6, unsigned char data7, unsigned char data8)
 {
-    //AQUI QUIERO QUE CONCATENES TODOS ESTOS CHAR CON UN SOF EOF Y TE CALCULES UN CRC=SUM(SOF-DATA8)
-    //SOF PackNumber Byte1 Byte2 Byte3 Byte4 Byte5 Byte6 Byte7 Byte8 CRC EOF
-    //UART1WriteString(String completo);
+    unsigned char s[sizeof(unsigned char)*11]; 
+    unsigned char crc = ucPackNumber + data1 + data2 + data3 + data4 + data5 + data6 + data7 + data8;
+    s[0] = ucPackNumber;
+    s[1] = data1;
+    s[2] = data2;
+    s[3] = data3;
+    s[4] = data4;
+    s[5] = data5;
+    s[6] = data6;
+    s[7] = data7;
+    s[8] = data8;
+    s[9] = crc;
+    s[10] = EOF;
+    UART1WriteString(s);
 }
 
 
-void TELEMETRYReceiptFrame()
+void TELEMETRYReceiptFrame(unsigned char s[])
 {
-    //AQUI QUIERO EL CASO CONTRARIO
-    //SOF PackNumber Byte1 Byte2 Byte3 Byte4 Byte5 Byte6 Byte7 Byte8 CRC EOF
+    unsigned char ucComando;
     
-    /*unsigned char ucPackNumber;
-    unsigned char data1;
-    unsigned char data2;
-    unsigned char data3;
-    unsigned char data4;
-    unsigned char data5;
-    unsigned char data6;
-    unsigned char data7;
-    unsigned char data8;
-    
-    ucPackNumber = posicion string pasado por la funcion;
-    
+    unsigned char ucPackNumber = s[0];
+    unsigned char data1 = s[1];
+    unsigned char data2 = s[2];
+    unsigned char data3 = s[3];
+    unsigned char data4 = s[4];
+    unsigned char data5 = s[5];
+    unsigned char data6 = s[6];
+    unsigned char data7 = s[7];
+    unsigned char data8 = s[8];
+        
     switch (ucPackNumber)
     {
-        case PRIMERO:
+        case "1":
             ucComando = data1;
             break;
-    }*/
+        case "2":
+            ucComando = data2;
+            break;
+        case "3":
+            ucComando = data3;
+            break;
+        case "4":
+            ucComando = data4;
+            break;
+        case "5":
+            ucComando = data5;
+            break;
+        case "6":
+            ucComando = data6;
+            break;
+        case "7":
+            ucComando = data7;
+            break;
+        case "8":
+            ucComando = data8;
+            break;    
+    }
     
 }
