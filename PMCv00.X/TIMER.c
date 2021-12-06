@@ -9,9 +9,7 @@
 #include "xc.h"
 #include "TIMER.h"
 #include "GPIO.h"
-
-volatile unsigned char Count1s;
-volatile unsigned char Count1000ms;
+#include "TEMPORIZATIONS.h"
 
 
 /*
@@ -105,30 +103,42 @@ void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void)
     /* Interrupt Service Routine code goes here */
     IFS0bits.T1IF = 0; // Clear Timer1 Interrupt Flag
     
-    if (++Count1s >= 10)
+    TEMPORIZATION_100ms();
+    if ( ucCount500ms++ == t500ms )
     {
-        //LED1_Toggle();
-        //LED2_Toggle();
-        LED3_Toggle();
-        
-        Count1s = 0;
+        ucCount500ms = 0;
+        TEMPORIZATION_500ms();
+    }
+    if ( ucCount1s++ == t1s )
+    {
+        ucCount1s = 0;
+        TEMPORIZATION_1s();
+    }
+    if ( ucCount5s++ == t5s )
+    {
+        ucCount5s = 0;
+        TEMPORIZATION_5s();
+    }
+    if ( ucCount10s++ == t10s )
+    {
+        ucCount10s = 0;
+        TEMPORIZATION_10s();
+    }
+
+    if ( uiCount1min++ == t1min )
+    {
+        uiCount1min = 0;
+        TEMPORIZATION_1mins();
     }
     
     
 }
 
-/* Example code for Timer1 ISR */   //10ms
+/* Example code for Timer2 ISR */   //10ms
 void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void)
 {
     /* Interrupt Service Routine code goes here */
     IFS0bits.T2IF = 0; // Clear Timer1 Interrupt Flag
     
-    if (++Count1000ms >= 100)
-    {
-        LED1_Toggle();
-        LED2_Toggle();
-        //LED3_Toggle();
-        
-        Count1000ms = 0;
-    }
+    TEMPORIZATION_10ms();
 }

@@ -16,6 +16,8 @@
 #include "CAN1Config.h"
 #include "CAN2Config.h"
 #include "PARAMETERS.h"
+#include "MESSAGES.h"
+#include "STATEMACHINE.h"
 
 // INICIALIZACION DE VARIABLES //
 volatile unsigned long ulCAN1RXID;
@@ -41,11 +43,33 @@ volatile unsigned char ucCAN2RXData6;
 volatile unsigned char ucCAN2RXData7;
 
 
+//ASB
+unsigned char ucHDRPRES1;
+unsigned char ucHDRPRES2;
+unsigned char ucNPRES1;
+unsigned char ucNPRES2;
+unsigned char ucNPRES3;
+unsigned char ucNPRES4;
+unsigned char ucA1;
+unsigned char ucA2;
+unsigned char ucBrakePedalPress;
+
+//TRAJECTORY
+unsigned char ucMissionState;
+
+//RES
+unsigned char ucGOSignal;
+
+//ECU
+unsigned int uiRPM;
+
+
 // INICIALIZACION DE FUNCIONES //
 void MESSAGES_CAN1_Rx(void);
 void MESSAGES_CAN2_Rx(void);
 
 
+//DV CAN1
 void MESSAGES_CAN1_Rx(){
     
     ulCAN1RXID          = ( ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][0] ) | ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][1] << 8 ) | ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][2] << 16 ) );
@@ -61,17 +85,43 @@ void MESSAGES_CAN1_Rx(){
     
     switch ( ulCAN1RXID )  
     {
-        case 1:
-            
+        case ASB_ANALOG:
+            ucHDRPRES1 = ucCAN1RXData0;
+            ucHDRPRES2 = ucCAN1RXData1;
+            ucNPRES1 = ucCAN1RXData2;
+            ucNPRES2 = ucCAN1RXData3;
+            ucNPRES3 = ucCAN1RXData4;
+            ucNPRES4 = ucCAN1RXData5;
+            ucA1 = ucCAN1RXData6;
+            ucA2 = ucCAN1RXData7;
             break;
-        case 2:
-            
+        case TRAJECTORY_STATE:
+            ucMissionState = ucCAN1RXData2;
+            break;
+        case SENFL_SIG:
+            ucVelFL = ucCAN1RXData4;
+            break;
+        case SENFR_SIG:
+            ucVelFR = ucCAN1RXData4;
+            break;
+        case SENRL_SIG:
+            ucVelRL = ucCAN1RXData4;
+            break;
+        case SENRR_SIG:
+            ucVelRR = ucCAN1RXData4;
+            break;
+        case ASB_SIGNALS:
+            ucBrakePedalPress = ucCAN1RXData0;
+            break;
+        case RES_PDOTR:
+            ucGOSignal = ( ( ucCAN1RXData0 & 0x06 ) >> 1 );
             break;
     }
 
 }
 
 
+//ECU CAN2
 void MESSAGES_CAN2_Rx(){
     
     ulCAN2RXID          = ( ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][0] ) | ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][1] << 8 ) | ( ucCAN2BUSRXList[ucCAN2BUSRXWrite][2] << 16 ) );
@@ -87,7 +137,9 @@ void MESSAGES_CAN2_Rx(){
     
     switch ( ulCAN2RXID )  
     {
-        case 1: 
+        case ECUID1: 
+            uiRPM = ucCAN2RXData0;
+            uiRPM |= (ucCAN2RXData0 << 8 );
             
             break;
         case 2:

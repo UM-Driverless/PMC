@@ -93,9 +93,6 @@ typedef struct {
 #define RTC	0x00 // standard CAN 11bits
 #define SD	0x01 // extended CAN 29bits
 
-
-
-
 /*--------------------------------------------------
  * 
  *          ////// PARAMET-ROS //////////
@@ -105,6 +102,19 @@ typedef struct {
 extern const unsigned char ucTipoMensajeCAN1; // standard CAN1 11bits
 extern const unsigned char ucTipoMensajeCAN2; // standard CAN2 11bits
 
+//LIMITES ASB
+extern unsigned char ucHDRPRES1max;
+extern unsigned char ucHDRPRES2max;
+extern unsigned char ucNPRES1max;
+extern unsigned char ucNPRES2max;
+extern unsigned char ucNPRES3max;
+extern unsigned char ucNPRES4max;
+extern unsigned char ucNPRES3min;
+extern unsigned char ucNPRES4min;
+
+
+//FUNCIONES
+void PARAMETERS_Init(void);
 
 #ifdef	__cplusplus
 }

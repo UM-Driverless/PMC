@@ -14,6 +14,7 @@
 #include "SPI.h"
 #include "GPIO.h"
 #include "TIMER.h"
+#include "STATEMACHINE.h"
 
 // Prototype Declaration
 void oscConfig(void);
@@ -95,6 +96,8 @@ int main(void) {
     //Write SPI message to SD
     WriteSPI2(0X59, SD);
     */
+    
+    STATEMACHINE_Init();
 
     while (1)
     {
@@ -104,11 +107,10 @@ int main(void) {
         //LED3_Toggle();
         Nop();
         //ecan1WriteMessage(0x001, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
-        ecan1WriteMessage(0xFFF, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
-        
+        /*ecan1WriteMessage(0xFFF, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
         ecan2WriteMessage(0x003, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
         ecan2WriteMessage(0x004, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
-        
+        */
         //EJEMPLO MAIN (SOF PackNumber Byte1 Byte2 Byte3 Byte4 Byte5 Byte6 Byte7 Byte8 CRC EOF)
         
         //UART1WriteSTring(*string)

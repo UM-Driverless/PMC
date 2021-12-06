@@ -42,28 +42,28 @@ void TELEMETRYReceiptFrame(unsigned char s[])
         
     switch (ucPackNumber)
     {
-        case "1":
+        case 1:
             ucComando = data1;
             break;
-        case "2":
+        case 2:
             ucComando = data2;
             break;
-        case "3":
+        case 3:
             ucComando = data3;
             break;
-        case "4":
+        case 4:
             ucComando = data4;
             break;
-        case "5":
+        case 5:
             ucComando = data5;
             break;
-        case "6":
+        case 6:
             ucComando = data6;
             break;
-        case "7":
+        case 7:
             ucComando = data7;
             break;
-        case "8":
+        case 8:
             ucComando = data8;
             break;    
     }

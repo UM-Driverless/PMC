@@ -8,6 +8,19 @@
 #ifndef MESSAGES_H
 #define	MESSAGES_H
 
+//DEFINICIONES
+#define DataLength_0        			0
+#define DataLength_1        			1
+#define DataLength_2        			2
+#define DataLength_3        			3
+#define DataLength_4        			4
+#define DataLength_5        			5
+#define DataLength_6        			6
+#define DataLength_7        			7
+#define DataLength_8        			8
+
+
+//CAN 1 MSG
 #define DRIVING_DYNAMICS_1 0x500
 #define DRIVING_DYNAMICS_2 0x501
 #define SYSTEM_STATUS 0x502
@@ -23,75 +36,49 @@
 #define TIME_STAMP 0x100
 #define LSS_T 0x7E4
 #define LSS_R 0x7E5
-//ID Message
-#define ID1 0x360
-#define RATE1HZ 50
-//ID Message
-#define ID2 0x361
-#define RATE2HZ 50
-//ID Message
-#define ID3 0x362
-#define RATE3HZ 50
-//ID Message
-#define ID4 0x363
-#define RATE4HZ 20
-//ID Message
-#define ID5 0x368
-#define RATE5HZ 20
-//ID Message
-#define ID6 0x369
-#define RATE6HZ 20
-//ID Message
-#define ID7 0x36A
-#define RATE7HZ 20
-//ID Message
-#define ID8 0x36B
-#define RATE8HZ 20
-//ID Message
-#define ID9 0x36C
-#define RATE9HZ 20
-//ID Message
-#define ID10 0x36D
-#define RATE10HZ 20
-//ID Message
-#define ID11 0x36E
-#define RATE11HZ 20
-//ID Message
-#define ID12 0x36F
-#define RATE12HZ 20
-//ID Message
-#define ID13 0x370
-#define RATE13HZ 20
-//ID Message
-#define ID14 0x371
-#define RATE14HZ 10
-//ID Message
-#define ID15 0x372
-#define RATE15HZ 10
-//ID Message
-#define ID16 0x373
-#define RATE16HZ 10
-//ID Message
-#define ID17 0x374
-#define RATE17HZ 10
-//ID Message
-#define ID18 0x375
-#define RATE18HZ 10
-//ID Message
-#define ID19 0x3E0
-#define RATE19HZ 5
-//ID Message
-#define ID20 0x3E1
-#define RATE20HZ 5
-//ID Message
-#define ID21 0x3E2
-#define RATE21HZ 5
-//ID Message
-#define ID22 0x3E3
-#define RATE22HZ 5
-//ID Message
-#define ID23 0x3E4
-#define RATE23HZ 5
+#define DV_DRIVING_DYNAMICS_1       0x500
+#define DV_DRIVING_DYNAMICS_2       0x501
+#define DV_SYSTEM_STATUS            0x502
+#define TRAJECTORY_ACT              0x320
+#define TRAJECTORY_GPS              0x321
+#define TRAJECTORY_IMU              0x322
+#define TRAJECTORY_STATE            0x323
+//ASB MSG
+#define ASB_ANALOG                  0x360
+#define ASB_SIGNALS                 0x361
+#define ASB_STATE                   0x362
+//SEN MSG 
+#define SENFL_SIG       0x301
+#define SENFR_SIG       0x304
+#define SENRL_SIG       0x307
+#define SENRR_SIG       0x30A
+//RES MSG
+#define RES_PDOTR       0x191
+
+//CAN DE ECU
+#define ECUID1 0x360
+#define ECUID2 0x361
+#define ECUID3 0x362
+#define ECUID4 0x363
+#define ECUID5 0x368
+#define ECUID6 0x369
+#define ECUID7 0x36A
+#define ECUID8 0x36B
+#define ECUID9 0x36C
+#define ECUID10 0x36D
+#define ECUID11 0x36E
+#define ECUID12 0x36F
+#define ECUID13 0x370
+#define ECUID14 0x371
+#define ECUID15 0x372
+#define ECUID16 0x373
+#define ECUID17 0x374
+#define ECUID18 0x375
+#define ECUID19 0x3E0
+#define ECUID20 0x3E1
+#define ECUID21 0x3E2
+#define ECUID22 0x3E3
+#define ECUID23 0x3E4
 
 #ifdef	__cplusplus
 extern "C" {
@@ -120,6 +107,26 @@ extern volatile unsigned char ucCAN2RXData5;
 extern volatile unsigned char ucCAN2RXData6;
 extern volatile unsigned char ucCAN2RXData7;
 
+
+//ASB
+extern unsigned char ucHDRPRES1;
+extern unsigned char ucHDRPRES2;
+extern unsigned char ucNPRES1;
+extern unsigned char ucNPRES2;
+extern unsigned char ucNPRES3;
+extern unsigned char ucNPRES4;
+extern unsigned char ucA1;
+extern unsigned char ucA2;
+extern unsigned char ucBrakePedalPress;
+
+//TRAJECTORY
+extern unsigned char ucMissionState;
+
+//RES
+extern unsigned char ucGOSignal;
+
+//ECU
+extern unsigned int uiRPM;
 
 // INICIALIZACION DE FUNCIONES //
 extern void MESSAGES_CAN1_Rx(void);
