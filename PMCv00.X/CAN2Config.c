@@ -505,7 +505,7 @@ void ecan2Init(void){
 
 	ecan2ClkInit();
 
-	C2FCTRLbits.DMABS=0b000;		/* 4 CAN Message Buffers in DMA RAM */	
+	//C2FCTRLbits.DMABS=0b000;		/* 4 CAN Message Buffers in DMA RAM */	
 
 /*	Filter Configuration
 
@@ -528,7 +528,7 @@ void ecan2Init(void){
 	
 */
 
-	ecan2WriteRxAcptFilter(1,0x1FFEFFFF,ucTipoMensajeCAN2,1,0);
+	ecan2WriteRxAcptFilter(1,0x1FFFFFFF,ucTipoMensajeCAN2,1,0);
 
 /*	Mask Configuration
 
@@ -555,14 +555,53 @@ void ecan2Init(void){
 
 /* ECAN transmit/receive message control */	
 	
-	C2RXFUL1=C2RXFUL2=C2RXOVF1=C2RXOVF2=0x0000;
-	C2TR01CONbits.TXEN0=1;			/* ECAN2, Buffer 0 is a Transmit Buffer */
-	C2TR01CONbits.TXEN1=0;			/* ECAN2, Buffer 1 is a Receive Buffer */
+	/*C2RXFUL1=C2RXFUL2=C2RXOVF1=C2RXOVF2=0x0000;
+	C2TR01CONbits.TXEN0=1;			//ECAN2, Buffer 0 is a Transmit Buffer 
+	C2TR01CONbits.TXEN1=0;			// ECAN2, Buffer 1 is a Receive Buffer 
+	C2TR01CONbits.TX0PRI=0b11; 		// Message Buffer 0 Priority Level 
+	C2TR01CONbits.TX1PRI=0b11; 		// Message Buffer 1 Priority Level 
+    */
+    
+    // ECAN transmit/receive message control 
+	C1RXFUL1=C1RXFUL2=C1RXOVF1=C1RXOVF2=0x0000;
+    
+    ///LVL (22/10/2017) : 7 TX BUFFERS 24 RX BUFFERS 
+    //TRANSMIT buffers, highest priority n°5
+    //ucCANTXBuffer = 6;
+    //TX BUF 0 - 1
+	C2TR01CONbits.TXEN0=1;			/* ECAN1,  Buffer 0 is a Transmit Buffer */
+	C2TR01CONbits.TXEN1=1;			/* ECAN1,  Buffer 1 is a Transmit Buffer */
 	C2TR01CONbits.TX0PRI=0b11; 		/* Message Buffer 0 Priority Level */
 	C2TR01CONbits.TX1PRI=0b11; 		/* Message Buffer 1 Priority Level */
-    
-    /* Enable ECAN2 Interrupt */ 
+    //TX BUF 2 - 3
+	C2TR23CONbits.TXEN2=1;			/* ECAN1,  Buffer 2 is a Transmit Buffer */
+	C2TR23CONbits.TXEN3=1;			/* ECAN1,  Buffer 3 is a Transmit Buffer */
+	C2TR23CONbits.TX2PRI=0b11; 		/* Message Buffer 2 Priority Level */
+	C2TR23CONbits.TX3PRI=0b11; 		/* Message Buffer 2 Priority Level */
+    //TX BUF 4 - 5
+	C2TR45CONbits.TXEN4=1;			/* ECAN1,  Buffer 4 is a Transmit Buffer */
+	C2TR45CONbits.TXEN5=1;			/* ECAN1,  Buffer 5 is a Transmit Buffer */
+	C2TR45CONbits.TX4PRI=0b11; 		/* Message Buffer 4 Priority Level */
+	C2TR45CONbits.TX5PRI=0b11; 		/* Message Buffer 5 Priority Level */
+   //TX BUF 6
+	C2TR67CONbits.TXEN6=1;			/* ECAN1,  Buffer 6 is a Transmit Buffer */
+	C2TR67CONbits.TX7PRI=0b11; 		/* Message Buffer 6 Priority Level */
+
+    //RECEIVE buffers, FIFO 
+	C2TR67CONbits.TXEN7=0;			/* ECAN1,  Buffer 7 is a Receive Buffer */
 	
+    /* ECAN transmit/receive message control */
+
+	//C1RXFUL1=C1RXFUL2=C1RXOVF1=C1RXOVF2=0x0000;
+	//C1TR01CONbits.TXEN0=1;			/* ECAN1, Buffer 0 is a Transmit Buffer */
+	//C1TR01CONbits.TXEN1=0;			/* ECAN1, Buffer 1 is a Receive Buffer */
+	//C1TR01CONbits.TX0PRI=0b11; 		/* Message Buffer 0 Priority Level */
+	//C1TR01CONbits.TX1PRI=0b11; 		/* Message Buffer 1 Priority Level */
+    
+    dma0init();	
+	dma2init();
+    
+    /* Enable ECAN2 Interrupt */
 	IEC3bits.C2IE = 1;
 	C2INTEbits.TBIE = 1;	
 	C2INTEbits.RBIE = 1;
@@ -592,10 +631,10 @@ void ecan2Init(void){
 
 extern void ecan2WriteMessage(unsigned long id, unsigned char dataLength, unsigned char data1, unsigned char data2, unsigned char data3, unsigned char data4, unsigned char data5, unsigned char data6, unsigned char data7, unsigned char data8)
 {
-    unsigned int ucData1;
-    unsigned int ucData2;
-    unsigned int ucData3;
-    unsigned int ucData4;
+    unsigned int uiData1;
+    unsigned int uiData2;
+    unsigned int uiData3;
+    unsigned int uiData4;
     
     /* Writing the message for Transmission
 
@@ -618,24 +657,24 @@ extern void ecan2WriteMessage(unsigned long id, unsigned char dataLength, unsign
     data1, data2, data3, data4 -> Data words (2 bytes) each
     */
 
-    ucData1 = ( data1 << 0x08 ) & 0xFF00;
-    ucData1 |= data2;
-    ucData2 = ( data3 << 0x08 ) & 0xFF00;
-    ucData2 |= data4;
-    ucData3 = ( data5 << 0x08 ) & 0xFF00;
-    ucData3 |= data6;
-    ucData4 = ( data7 << 0x08 ) & 0xFF00;
-    ucData4 |= data8;
+    uiData1 = ( data2 << 0x08 ) & 0xFF00;
+    uiData1 |= data1;
+    uiData2 = ( data4 << 0x08 ) & 0xFF00;
+    uiData2 |= data3;
+    uiData3 = ( data6 << 0x08 ) & 0xFF00;
+    uiData3 |= data5;
+    uiData4 = ( data8 << 0x08 ) & 0xFF00;
+    uiData4 |= data7;
     
     
     //ecan2WriteTxMsgBufId(0,0x1FFEFFFF,1,0);
     //ecan2WriteTxMsgBufData(0,8,0xaaaa,0xbbbb,0xcccc,0xdddd);
 
     ecan2WriteTxMsgBufId(0,id,ucTipoMensajeCAN2,0);
-    ecan2WriteTxMsgBufData(0,dataLength,ucData1,ucData2,ucData3,ucData4);
+    ecan2WriteTxMsgBufData(0,dataLength,uiData1,uiData2,uiData3,uiData4);
     
         //EJECUTAR BUFFER
-    C2TR01CONbits.TXREQ0=1;
+    C2TR01CONbits.TXREQ0 = 0x1;
     
 
 }

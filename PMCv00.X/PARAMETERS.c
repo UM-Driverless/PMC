@@ -14,8 +14,8 @@
  *          ////// PARAMETROS //////////
  * 
   --------------------------------------------------*/
-const unsigned char ucTipoMensajeCAN1 = CAN_STANDARD; // standard CAN1 11bits
-const unsigned char ucTipoMensajeCAN2 = CAN_STANDARD; // standard CAN2 11bits
+const unsigned char ucTipoMensajeCAN1 = CAN_EXTENDED; // standard CAN1 11bits
+const unsigned char ucTipoMensajeCAN2 = CAN_EXTENDED; // standard CAN2 11bits
 //LIMITES ASB
 unsigned char ucHDRPRES1max;
 unsigned char ucHDRPRES2max;

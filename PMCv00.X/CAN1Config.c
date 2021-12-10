@@ -565,7 +565,7 @@ void ecan1Init(void){
 
     */
 
-	ecan1WriteRxAcptFilter(1,0x1FFEFFFF,ucTipoMensajeCAN1,1,0);
+	ecan1WriteRxAcptFilter(1,0x1FFFFFFF,ucTipoMensajeCAN1,1,0);
 
 
     /*	Mask Configuration
