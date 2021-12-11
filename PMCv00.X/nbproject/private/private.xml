@@ -13,12 +13,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/MESSAGES.c</file>
+            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/CAN1Config.h</file>
             <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/GPIO.h</file>
+            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/TELEMETRY.c</file>
             <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/PARAMETERS.h</file>
             <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/main.c</file>
             <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/CAN2Config.c</file>
             <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/PARAMETERS.c</file>
             <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/CAN1Config.c</file>
+            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/MESSAGES.h</file>
         </group>
     </open-files>
 </project-private>

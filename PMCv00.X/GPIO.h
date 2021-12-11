@@ -74,27 +74,7 @@ extern "C" {
 #define LED3_SetOpenDrain()       do { ODCONFbits.ODCF6 = 1; } while(0)
 #define LED3_SetAnalogMode()      do { ANSELFbits.ANSELF6 = 1; } while(0)
 #define LED3_SetDigitalMode()     do { ANSELFbits.ANSELF6 = 0; } while(0)
-    
-// get/set ENT1 aliases
-#define ENT1_TRIS                 TRISDbits.TRISD9
-#define ENT1_LAT                  LATDbits.LATD9
-#define ENT1_PORT                 PORTDbits.RD9
-#define ENT1_WPU                  WPUDbits.WPUD9
-#define ENT1_OD                   ODCONDbits.ODCD9
-#define ENT1_ANS                  ANSELDbits.ANSELD9
-#define ENT1_SetHigh()            do { LATFbits.LATD9= 1; } while(0)
-#define ENT1_SetLow()             do { LATFbits.LATD9 = 0; } while(0)
-#define ENT1_Toggle()             do { LATFbits.LATD9 = ~LATFbits.LATF6; } while(0)
-#define ENT1_GetValue()           PORTFbits.RD9
-#define ENT1_SetDigitalInput()    do { TRISFbits.TRISD9 = 1; } while(0)
-#define ENT1_SetDigitalOutput()   do { TRISFbits.TRISF6D9 = 0; } while(0)
-#define ENT1_SetPullup()          do { WPUFbits.WPUD9 = 1; } while(0)
-#define ENT1_ResetPullup()        do { WPUFbits.WPUF6 = 0; } while(0)
-#define ENT1_SetPushPull()        do { ODCONFbits.ODCD9 = 0; } while(0)
-#define ENT1_SetOpenDrain()       do { ODCONFbits.ODCD9 = 1; } while(0)
-#define ENT1_SetAnalogMode()      do { ANSELFbits.ANSELD9 = 1; } while(0)
-#define ENT1_SetDigitalMode()     do { ANSELFbits.ANSELD9 = 0; } while(0)
-    
+        
 // get/set CANSTB1 aliases
 #define CANSTB1_TRIS                 TRISGbits.TRISG14
 #define CANSTB1_LAT                  LATGbits.LATG14

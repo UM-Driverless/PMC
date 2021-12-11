@@ -53,8 +53,7 @@ int main(void) {
     //Configure DMA Channel 1 for ECAN2 Transmit
     //Configure DMA Channel 3 for ECAN2 Receive 
 	ecan2Init();
-	//dma1init();	
-	//dma3init();
+
     
     //INICIALIZACION UART1
     //UART1inicializacion();    
@@ -96,19 +95,23 @@ int main(void) {
     //Write SPI message to SD
     WriteSPI2(0X59, SD);
     */
+    //ecan1WriteMessage(0x501, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
     
     STATEMACHINE_Init();
+    //LED1_SetHigh();
+    //LED2_SetHigh();
+    LED3_SetHigh();
 
     while (1)
     {
         // Add your application code
-        LED1_Toggle();
+        /*LED1_Toggle();
         LED2_Toggle();
-        LED3_Toggle();
+        LED3_Toggle();*/
         Nop();
-        //ecan1WriteMessage(0x001, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
+        //ecan1WriteMessage(0x501, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
         //ecan1WriteMessage(0xFFF, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
-        ecan2WriteMessage(0x001, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
+        //ecan2WriteMessage(0x001, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
         //ecan2WriteMessage(0x004, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
         
         //EJEMPLO MAIN (SOF PackNumber Byte1 Byte2 Byte3 Byte4 Byte5 Byte6 Byte7 Byte8 CRC EOF)
@@ -160,7 +163,6 @@ void oscConfig(void){
 }
 
  
-
 //------------------------------------------------------------------------------
 //    DMA interrupt handlers
 //------------------------------------------------------------------------------
@@ -178,9 +180,12 @@ void __attribute__((interrupt, no_auto_psv)) _DMA1Interrupt(void)
 void __attribute__((interrupt, no_auto_psv)) _DMA2Interrupt(void)
 {
    IFS1bits.DMA2IF = 0;          // Clear the DMA2 Interrupt Flag;
+   LED1_Toggle();
+   rxECAN1(&rx_CAN1Mensaje); 
 }
 
 void __attribute__((interrupt, no_auto_psv)) _DMA3Interrupt(void)
 {
    IFS2bits.DMA3IF = 0;          // Clear the DMA3 Interrupt Flag;
+   
 }

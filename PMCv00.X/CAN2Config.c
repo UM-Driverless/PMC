@@ -420,34 +420,37 @@ void CAN2ConfigInicializacionCAN(void){
 
 void CAN2ConfigInicializar(void){
     CAN2ConfigInicializacionCAN(); /* Inicializar CAN2 */
-    // CAN2ConfigInicializacionDMA1(); /* Configurar DMA1 para transmitir por CAN2 */
+    CAN2ConfigInicializacionDMA1(); /* Configurar DMA1 para transmitir por CAN2 */
     CAN2ConfigInicializacionDMA3(); /* Configurar DMA3 para recibir por CAN2 */
 }
 
 
 // inicio del copia y pega
 
-void dma1init(void){
-
+void dma1init(void)
+{
+    DMACS0=0;
 	DMA1CON=0x2020;
-	DMA1PAD=(int)&C2TXD;		/* ECAN 2 (C2TXD) */
+	DMA1PAD=0x0542;		/* ECAN 2 (C2TXD) */
 	DMA1CNT=0x0007;	
 	DMA1REQ=0x0047; 	/* ECAN 2 Transmit .. H-> p135 librochip */
-	DMA1STA= __builtin_dmaoffset(uiaCAN2BufferMensajes);		
+	DMA1STA= __builtin_dmaoffset(uiaCAN2BufferMensajes);
+    IEC0bits.DMA1IE = 1;
 	DMA1CONbits.CHEN=1;
 			
 }
 
 
 /* Dma Initialization for ECAN2 Reception */
-void dma3init(void){
-
+void dma3init(void)
+{
 	 DMACS0=0;
      DMA3CON=0x0020;
-	 DMA3PAD=(int)&C2RXD;	/* ECAN 2 (C2RXD) */
+	 DMA3PAD=0x0540;	/* ECAN 2 (C2RXD) */
  	 DMA3CNT=0x0007;
 	 DMA3REQ=0x0037;	/* ECAN 2 Receive */
 	 DMA3STA=__builtin_dmaoffset(uiaCAN2BufferMensajes);	
+     IEC2bits.DMA3IE = 1;
 	 DMA3CONbits.CHEN=1;
 	 
 }
@@ -528,7 +531,7 @@ void ecan2Init(void){
 	
 */
 
-	ecan2WriteRxAcptFilter(1,0x1FFFFFFF,ucTipoMensajeCAN2,1,0);
+	ecan2WriteRxAcptFilter(1,0x1FFFFFFF,ucTipoMensajeCAN2,7,0);
 
 /*	Mask Configuration
 
@@ -546,7 +549,7 @@ void ecan2Init(void){
 	
 */
 
-	ecan2WriteRxAcptMask(1,0x1FFFFFFF,ucTipoMensajeCAN2,1);
+	ecan2WriteRxAcptMask(1,0x1FFFFFFF,0,ucTipoMensajeCAN2);
 	
 /* Enter Normal Mode */
 
@@ -597,9 +600,9 @@ void ecan2Init(void){
 	//C1TR01CONbits.TXEN1=0;			/* ECAN1, Buffer 1 is a Receive Buffer */
 	//C1TR01CONbits.TX0PRI=0b11; 		/* Message Buffer 0 Priority Level */
 	//C1TR01CONbits.TX1PRI=0b11; 		/* Message Buffer 1 Priority Level */
-    
-    dma0init();	
-	dma2init();
+    //CAN2ConfigInicializar();
+	dma1init();	
+	dma3init();
     
     /* Enable ECAN2 Interrupt */
 	IEC3bits.C2IE = 1;

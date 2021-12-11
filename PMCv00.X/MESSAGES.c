@@ -18,6 +18,7 @@
 #include "PARAMETERS.h"
 #include "MESSAGES.h"
 #include "STATEMACHINE.h"
+#include "GPIO.h"
 
 // INICIALIZACION DE VARIABLES //
 volatile unsigned long ulCAN1RXID;
@@ -82,7 +83,7 @@ void MESSAGES_CAN1_Rx(){
     ucCAN1RXData5       = ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][9] );
     ucCAN1RXData6       = ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][10] );
     ucCAN1RXData7       = ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][11] ); 
-    
+    LED3_Toggle();
     switch ( ulCAN1RXID )  
     {
         case ASB_ANALOG:
@@ -94,6 +95,7 @@ void MESSAGES_CAN1_Rx(){
             ucNPRES4 = ucCAN1RXData5;
             ucA1 = ucCAN1RXData6;
             ucA2 = ucCAN1RXData7;
+            LED2_Toggle();
             break;
         case TRAJECTORY_STATE:
             ucMissionState = ucCAN1RXData2;

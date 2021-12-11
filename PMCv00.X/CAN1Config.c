@@ -426,35 +426,37 @@ void CAN1ConfigInicializacionCAN(void){
 }
 
 void CAN1ConfigInicializar(void){
-    // CAN1ConfigInicializacionCAN(); /* Inicializar CAN1 */
+    CAN1ConfigInicializacionCAN(); /* Inicializar CAN1 */
     CAN1ConfigInicializacionDMA0(); /* Configurar DMA0 para transmitir por CAN1 */
     CAN1ConfigInicializacionDMA2(); /* Configurar DMA2 para recibir por CAN1 */
 }
 
 // funciones copiadas y pegadas
 /* Dma Initialization for ECAN1 Transmission */
-void dma0init(void){
-
-	 DMACS0=0; /* .. -> p142 librochip (DMA Controller Status Register 0) */
-     DMA0CON=0x2020; /*.. -> p56 (DMA Register Map; no aparece más referenciado) */
-	 DMA0PAD=0x0442;	/* ECAN 1 (C1TXD) .. -> p58 librochip (transmit data word) */
- 	 DMA0CNT=0x0007;  /* ..-> p56 librochip (DMA Register Map; no aparece más referenciado) */
-	 DMA0REQ=0x0046;	/* ECAN 1 Transmit .. -> p135 librochip */
-	 DMA0STA=  __builtin_dmaoffset(uiaCAN1BufferMensajes);	/*..-> p56 librochip*/
-	 DMA0CONbits.CHEN=1; /* ..-> Habilitamos el canal enchufándole un 1. */
+void dma0init(void)
+{
+	 DMACS0=0; // .. -> p142 librochip (DMA Controller Status Register 0) 
+     DMA0CON=0x2020; //.. -> p56 (DMA Register Map; no aparece más referenciado) 
+	 DMA0PAD=0x0442;	// ECAN 1 (C1TXD) .. -> p58 librochip (transmit data word) 
+ 	 DMA0CNT=0x0007;  // ..-> p56 librochip (DMA Register Map; no aparece más referenciado) 
+	 DMA0REQ=0x0046;	// ECAN 1 Transmit .. -> p135 librochip 
+	 DMA0STA=  __builtin_dmaoffset(uiaCAN1BufferMensajes);	//..-> p56 librochip
+     IEC0bits.DMA0IE = 1;
+	 DMA0CONbits.CHEN=1; // ..-> Habilitamos el canal enchufándole un 1. 
 }
 
 
 /* Dma Initialization for ECAN1 Reception */
      
-void dma2init(void){
-
+void dma2init(void)
+{
 	 DMACS0=0;
      DMA2CON=0x0020;
 	 DMA2PAD=0x0440;	/* ECAN 1 (C1RXD) .. -> p58 librochip (received data word) */
  	 DMA2CNT=0x0007;
 	 DMA2REQ=0x0022;	/* ECAN 1 Receive .. ->  p135 librochip */
 	 DMA2STA= __builtin_dmaoffset(uiaCAN1BufferMensajes);	
+     IEC1bits.DMA2IE = 1;
 	 DMA2CONbits.CHEN=1;
 
 }
@@ -541,6 +543,9 @@ void ecan1Init(void){
 	while(C1CTRL1bits.OPMODE!=4);
 
 	ecan1ClkInit();	
+    
+    C1FCTRLbits.FSA=0b01000;		/* FIFO Starts at Message Buffer 8 */
+	C1FCTRLbits.DMABS=0b110;		/* 32 CAN Message Buffers in DMA RAM */
 
 	//C1FCTRLbits.DMABS=0b000;		/* 4 CAN Message Buffers in DMA RAM */
 	
@@ -565,7 +570,8 @@ void ecan1Init(void){
 
     */
 
-	ecan1WriteRxAcptFilter(1,0x1FFFFFFF,ucTipoMensajeCAN1,1,0);
+    ecan1WriteRxAcptFilter(1,0x1FFEFFFF,1,15,0);
+	//ecan1WriteRxAcptFilter(0,0x00000000,ucTipoMensajeCAN1,7,0);
 
 
     /*	Mask Configuration
@@ -584,7 +590,8 @@ void ecan1Init(void){
 
     */
 
-	ecan1WriteRxAcptMask(1,0x1FFFFFFF,ucTipoMensajeCAN1,1);
+    ecan1WriteRxAcptMask(1,0x1FFFFFFF,1,1);
+	//ecan1WriteRxAcptMask(0,0x00000000,0,ucTipoMensajeCAN1);
 	
 
     /* Enter Normal Mode */
@@ -592,40 +599,52 @@ void ecan1Init(void){
 	while(C1CTRL1bits.OPMODE!=0);
     
     /* ECAN transmit/receive message control */
-	C1RXFUL1=C1RXFUL2=C1RXOVF1=C1RXOVF2=0x0000;
+	/*C1RXFUL1=C1RXFUL2=C1RXOVF1=C1RXOVF2=0x0000;
     
     ///LVL (22/10/2017) : 7 TX BUFFERS 24 RX BUFFERS 
     //TRANSMIT buffers, highest priority n°5
     //ucCANTXBuffer = 6;
     //TX BUF 0 - 1
-	C1TR01CONbits.TXEN0=1;			/* ECAN1,  Buffer 0 is a Transmit Buffer */
-	C1TR01CONbits.TXEN1=1;			/* ECAN1,  Buffer 1 is a Transmit Buffer */
-	C1TR01CONbits.TX0PRI=0b11; 		/* Message Buffer 0 Priority Level */
-	C1TR01CONbits.TX1PRI=0b11; 		/* Message Buffer 1 Priority Level */
+	C1TR01CONbits.TXEN0=1;			ECAN1,  Buffer 0 is a Transmit Buffer
+	C1TR01CONbits.TXEN1=1;			ECAN1,  Buffer 1 is a Transmit Buffer
+	C1TR01CONbits.TX0PRI=0b11; 		Message Buffer 0 Priority Level 
+	C1TR01CONbits.TX1PRI=0b11; 		Message Buffer 1 Priority Level 
     //TX BUF 2 - 3
-	C1TR23CONbits.TXEN2=1;			/* ECAN1,  Buffer 2 is a Transmit Buffer */
-	C1TR23CONbits.TXEN3=1;			/* ECAN1,  Buffer 3 is a Transmit Buffer */
-	C1TR23CONbits.TX2PRI=0b11; 		/* Message Buffer 2 Priority Level */
-	C1TR23CONbits.TX3PRI=0b11; 		/* Message Buffer 2 Priority Level */
+	C1TR23CONbits.TXEN2=1;			ECAN1,  Buffer 2 is a Transmit Buffer 
+	C1TR23CONbits.TXEN3=1;			ECAN1,  Buffer 3 is a Transmit Buffer 
+	C1TR23CONbits.TX2PRI=0b11; 		Message Buffer 2 Priority Level 
+	C1TR23CONbits.TX3PRI=0b11; 		Message Buffer 2 Priority Level 
     //TX BUF 4 - 5
-	C1TR45CONbits.TXEN4=1;			/* ECAN1,  Buffer 4 is a Transmit Buffer */
-	C1TR45CONbits.TXEN5=1;			/* ECAN1,  Buffer 5 is a Transmit Buffer */
-	C1TR45CONbits.TX4PRI=0b11; 		/* Message Buffer 4 Priority Level */
-	C1TR45CONbits.TX5PRI=0b11; 		/* Message Buffer 5 Priority Level */
+	C1TR45CONbits.TXEN4=1;			ECAN1,  Buffer 4 is a Transmit Buffer 
+	C1TR45CONbits.TXEN5=1;			ECAN1,  Buffer 5 is a Transmit Buffer 
+	C1TR45CONbits.TX4PRI=0b11; 		Message Buffer 4 Priority Level 
+	C1TR45CONbits.TX5PRI=0b11; 		Message Buffer 5 Priority Level 
    //TX BUF 6
-	C1TR67CONbits.TXEN6=1;			/* ECAN1,  Buffer 6 is a Transmit Buffer */
-	C1TR67CONbits.TX7PRI=0b11; 		/* Message Buffer 6 Priority Level */
+	C1TR67CONbits.TXEN6=1;			ECAN1,  Buffer 6 is a Transmit Buffer 
+	C1TR67CONbits.TX7PRI=0b11; 		Message Buffer 6 Priority Level 
 
     //RECEIVE buffers, FIFO 
-	C1TR67CONbits.TXEN7=0;			/* ECAN1,  Buffer 7 is a Receive Buffer */
+	C1TR67CONbits.TXEN7=0;			ECAN1,  Buffer 7 is a Receive Buffer */
 	
+    //ECAN transmit/receive message control 
+
     /* ECAN transmit/receive message control */
 
-	//C1RXFUL1=C1RXFUL2=C1RXOVF1=C1RXOVF2=0x0000;
-	//C1TR01CONbits.TXEN0=1;			/* ECAN1, Buffer 0 is a Transmit Buffer */
-	//C1TR01CONbits.TXEN1=0;			/* ECAN1, Buffer 1 is a Receive Buffer */
-	//C1TR01CONbits.TX0PRI=0b11; 		/* Message Buffer 0 Priority Level */
-	//C1TR01CONbits.TX1PRI=0b11; 		/* Message Buffer 1 Priority Level */
+	C1RXFUL1=C1RXFUL2=C1RXOVF1=C1RXOVF2=0x0000;
+	C1TR01CONbits.TXEN0=1;			/* ECAN1, Buffer 0 is a Transmit Buffer */
+	C1TR01CONbits.TXEN1=1;			/* ECAN1, Buffer 0 is a Transmit Buffer */
+	C1TR23CONbits.TXEN2=1;			/* ECAN1, Buffer 0 is a Transmit Buffer */
+	C1TR23CONbits.TXEN3=1;			/* ECAN1, Buffer 0 is a Transmit Buffer */
+	C1TR45CONbits.TXEN4=1;			/* ECAN1, Buffer 0 is a Transmit Buffer */
+	C1TR45CONbits.TXEN5=1;			/* ECAN1, Buffer 0 is a Transmit Buffer */
+
+
+	C1TR01CONbits.TX0PRI=0b11; 		/* Message Buffer 0 Priority Level */
+	C1TR01CONbits.TX1PRI=0b11; 		/* Message Buffer 0 Priority Level */
+	C1TR23CONbits.TX2PRI=0b11; 		/* Message Buffer 0 Priority Level */
+	C1TR23CONbits.TX3PRI=0b11; 		/* Message Buffer 0 Priority Level */
+	C1TR45CONbits.TX4PRI=0b11; 		/* Message Buffer 0 Priority Level */
+	C1TR45CONbits.TX5PRI=0b11; 		/* Message Buffer 0 Priority Level */
     
     dma0init();	
 	dma2init();
@@ -636,7 +655,12 @@ void ecan1Init(void){
 	C1INTEbits.TBIE = 1;	
 	C1INTEbits.RBIE = 1;
    
-		
+    //Interrupcion por errores
+    /*C1INTEbits.ERRIE = 1;
+    C1INTEbits.WAKIE = 1;	
+    C1INTEbits.IVRIE = 1;	
+    C1INTEbits.FIFOIE = 1;
+    C1INTEbits.RBOVIE = 1;	*/
 }
 
 /*
@@ -886,20 +910,157 @@ void rxECAN1(mIDCAN1* message)
 void __attribute__((interrupt, no_auto_psv))_C1Interrupt(void)  
 {    
 	IFS2bits.C1IF = 0;        // clear interrupt flag
-	if(C1INTFbits.TBIF) //INTERRUPCION POR TRANSMISION
+    
+    //INTERRUPCION POR ERRORES
+    if( C1INTFbits.ERRIF )
+    {
+        C1INTFbits.ERRIF = 0;
+    }
+    if( C1INTFbits.WAKIF )
+    {
+        C1INTFbits.WAKIF = 0;
+    }
+    if( C1INTFbits.IVRIF )
+    {
+        C1INTFbits.IVRIF = 0;
+    }
+    if( C1INTFbits.EWARN )
+    {
+        C1INTFbits.EWARN = 0;
+    }
+    if( C1INTFbits.RXWAR )
+    {
+        C1INTFbits.RXWAR = 0;
+    }
+    if( C1INTFbits.TXWAR )
+    {
+        C1INTFbits.TXWAR = 0;
+    }
+    if( C1INTFbits.RXBP )
+    {
+        C1INTFbits.RXBP = 0;
+    }
+    if( C1INTFbits.TXBP )
+    {
+        C1INTFbits.TXBP = 0;
+    }
+    if( C1INTFbits.TXBO )
+    {
+        C1INTFbits.TXBO = 0;
+    }
+    
+    //INTERRUPCION POR TRANSMISION
+	if(C1INTFbits.TBIF) 
     { 
     	C1INTFbits.TBIF = 0;
     } 
  
-    if(C1INTFbits.RBIF) //INTERRUPCION POR RECEPCION
+    //INTERRUPCION POR RECEPCION
+    if(C1INTFbits.RBIF) 
     {      
+        Nop();
 		// read the message 
 	    if(C1RXFUL1bits.RXFUL1==1)
 	    {
 	    	rx_CAN1Mensaje.buffer=1;
 	    	C1RXFUL1bits.RXFUL1=0;
 	    }	    
-	    rxECAN1(&rx_CAN1Mensaje); 	    	    
+        if (C1RXFUL1bits.RXFUL8)      
+        {         
+            C1RXFUL1bits.RXFUL8 = 0;
+        }
+        if (C1RXFUL1bits.RXFUL9)      
+        {         
+            C1RXFUL1bits.RXFUL9 = 0;
+        }
+        if (C1RXFUL1bits.RXFUL10)     
+        {         
+            C1RXFUL1bits.RXFUL10 = 0;
+        }
+        if (C1RXFUL1bits.RXFUL11)       
+        {         
+            C1RXFUL1bits.RXFUL11 = 0;
+        }
+        if (C1RXFUL1bits.RXFUL12)      
+        {         
+            C1RXFUL1bits.RXFUL12 = 0;
+        }
+        if (C1RXFUL1bits.RXFUL13)      
+        {         
+            C1RXFUL1bits.RXFUL13 = 0;
+        }
+        if (C1RXFUL1bits.RXFUL14)      
+        {         
+            C1RXFUL1bits.RXFUL14 = 0;
+        }
+        if (C1RXFUL1bits.RXFUL15)      
+        {         
+            C1RXFUL1bits.RXFUL15 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL16)      
+        {         
+            C1RXFUL2bits.RXFUL16 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL17)      
+        {         
+            C1RXFUL2bits.RXFUL17 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL18)      
+        {         
+            C1RXFUL2bits.RXFUL18 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL19)     
+        {         
+            C1RXFUL2bits.RXFUL19 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL20)      
+        {         
+            C1RXFUL2bits.RXFUL20 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL21)      
+        {         
+            C1RXFUL2bits.RXFUL21 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL22)      
+        {         
+            C1RXFUL2bits.RXFUL22 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL23)     
+        {         
+            C1RXFUL2bits.RXFUL23 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL24)      
+        {         
+            C1RXFUL2bits.RXFUL24 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL25)      
+        {         
+            C1RXFUL2bits.RXFUL25 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL26)     
+        {         
+            C1RXFUL2bits.RXFUL26 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL27)      
+        {         
+            C1RXFUL2bits.RXFUL27 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL28)      
+        {         
+            C1RXFUL2bits.RXFUL28 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL29)     
+        {         
+            C1RXFUL2bits.RXFUL29 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL30)      
+        {         
+            C1RXFUL2bits.RXFUL30 = 0;
+        }
+        if (C1RXFUL2bits.RXFUL31)      
+        {         
+            C1RXFUL2bits.RXFUL31 = 0;
+        }
 		C1INTFbits.RBIF = 0;
 	}
 }
