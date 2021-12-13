@@ -99,6 +99,7 @@ extern void dma3init(void);
 extern void ecan2Init(void);
 extern void ecan2ClkInit(void);
 extern void ecan2WriteMessage(unsigned long id, unsigned char dataLength, unsigned char data1, unsigned char data2, unsigned char data3, unsigned char data4, unsigned char data5, unsigned char data6, unsigned char data7, unsigned char data8);
+extern void rxECAN2(mIDCAN2 *message);
 
 //CAN2Buffers 
 extern volatile unsigned char ucCAN2BUSTXList[16][13];  //15 TX buffers of 12 data bytes

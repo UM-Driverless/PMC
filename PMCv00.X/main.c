@@ -187,5 +187,6 @@ void __attribute__((interrupt, no_auto_psv)) _DMA2Interrupt(void)
 void __attribute__((interrupt, no_auto_psv)) _DMA3Interrupt(void)
 {
    IFS2bits.DMA3IF = 0;          // Clear the DMA3 Interrupt Flag;
-   
+   LED2_Toggle();
+   rxECAN2(&rx_CAN2Mensaje); 
 }

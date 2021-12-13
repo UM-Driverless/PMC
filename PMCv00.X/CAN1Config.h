@@ -22,10 +22,8 @@ extern "C" {
 // FUNCIONES COPIADAS Y PEGADAS
 extern void ecan1WriteRxAcptFilter(int n, long identifier, unsigned int exide,unsigned int bufPnt,unsigned int maskSel);
 extern void ecan1WriteRxAcptMask(int m, long identifierMask, unsigned int mide,unsigned int exide);
-
 extern void ecan1WriteTxMsgBufId(unsigned int buf, long txIdentifier, unsigned int ide, unsigned int remoteTransmit);
 extern void ecan1WriteTxMsgBufData(unsigned int buf, unsigned int dataLength, unsigned int data1, unsigned int data2, unsigned int data3, unsigned int data4);
-
 extern void ecan1DisableRXFilter(int n);
 
 /* CAN Baud Rate Configuration 		*/
@@ -106,7 +104,7 @@ extern void dma2init(void);
 extern void ecan1Init(void);
 extern void ecan1ClkInit(void);
 extern void ecan1WriteMessage(unsigned long id, unsigned char dataLength, unsigned char data1, unsigned char data2, unsigned char data3, unsigned char data4, unsigned char data5, unsigned char data6, unsigned char data7, unsigned char data8);
-//void rxECAN1(mIDCAN1 *message);
+extern void rxECAN1(mIDCAN1 *message);
 
 //CAN2Buffers 
 extern volatile unsigned char ucCAN1BUSTXList[16][13];  //15 TX buffers of 12 data bytes

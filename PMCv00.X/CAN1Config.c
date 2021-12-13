@@ -570,7 +570,7 @@ void ecan1Init(void){
 
     */
 
-    ecan1WriteRxAcptFilter(1,0x1FFEFFFF,1,15,0);
+    ecan1WriteRxAcptFilter(1,0x1FFEFFFF,ucTipoMensajeCAN1,15,0);
 	//ecan1WriteRxAcptFilter(0,0x00000000,ucTipoMensajeCAN1,7,0);
 
 
@@ -590,7 +590,7 @@ void ecan1Init(void){
 
     */
 
-    ecan1WriteRxAcptMask(1,0x1FFFFFFF,1,1);
+    ecan1WriteRxAcptMask(1,0x1FFFFFFF,1,ucTipoMensajeCAN1);
 	//ecan1WriteRxAcptMask(0,0x00000000,0,ucTipoMensajeCAN1);
 	
 
@@ -958,13 +958,7 @@ void __attribute__((interrupt, no_auto_psv))_C1Interrupt(void)
     //INTERRUPCION POR RECEPCION
     if(C1INTFbits.RBIF) 
     {      
-        Nop();
-		// read the message 
-	    if(C1RXFUL1bits.RXFUL1==1)
-	    {
-	    	rx_CAN1Mensaje.buffer=1;
-	    	C1RXFUL1bits.RXFUL1=0;
-	    }	    
+        Nop();    
         if (C1RXFUL1bits.RXFUL8)      
         {         
             C1RXFUL1bits.RXFUL8 = 0;
