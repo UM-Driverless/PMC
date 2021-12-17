@@ -25,6 +25,7 @@ extern unsigned char ucCount1s;
 extern unsigned char ucCount5s;
 extern unsigned char ucCount10s;
 extern unsigned int uiCount1min;
+extern unsigned int uiFastTick;
 
 
 //FUNCIONES

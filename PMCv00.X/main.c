@@ -69,6 +69,7 @@ int main(void) {
     GPIO_init();
     
     //INICIALIZACION TIMER
+    TEMPORIZATIONInit();
     TIMER1Init();
     TIMER2Init();
     TIMER1Start();
@@ -100,7 +101,7 @@ int main(void) {
     STATEMACHINE_Init();
     //LED1_SetHigh();
     //LED2_SetHigh();
-    LED3_SetHigh();
+    //LED3_SetHigh();
 
     while (1)
     {
@@ -109,14 +110,16 @@ int main(void) {
         LED2_Toggle();
         LED3_Toggle();*/
         Nop();
-        //ecan1WriteMessage(0x501, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
+        ecan1WriteMessage(0x501, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
         //ecan1WriteMessage(0xFFF, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
-        //ecan2WriteMessage(0x001, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
+        ecan2WriteMessage(0x001, 0x08, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01);
         //ecan2WriteMessage(0x004, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08);
         
         //EJEMPLO MAIN (SOF PackNumber Byte1 Byte2 Byte3 Byte4 Byte5 Byte6 Byte7 Byte8 CRC EOF)
         
         //UART1WriteSTring(*string)
+        delay_10ms(100);
+        LED3_Toggle();
         
     }
 }

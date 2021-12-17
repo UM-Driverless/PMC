@@ -16,12 +16,24 @@ unsigned char ucCount1s;
 unsigned char ucCount5s;
 unsigned char ucCount10s;
 unsigned int uiCount1min;
+unsigned int uiFastTick;
 
 
 //FUNCIONES
+void TEMPORIZATIONInit (void)
+{
+    ucCount500ms = 0;
+    ucCount1s = 0;
+    ucCount5s = 0;
+    ucCount10s = 0;
+    uiCount1min = 0;
+    uiFastTick = 0;
+}
+
+
 void TEMPORIZATION_10ms (void)
 {
-
+    uiFastTick++;
 }
 
 void TEMPORIZATION_100ms (void)
@@ -55,4 +67,17 @@ void TEMPORIZATION_10s (void)
 void TEMPORIZATION_1mins (void)
 {
     
+}
+
+
+/*
+-----------------------------------------------------------------------------------------
+void delay_10ms (unsigned char num)
+-----------------------------------------------------------------------------------------
+*/
+void delay_10ms (unsigned char num)
+{
+    uiFastTick = 0;                         //fast_tick increments every 10ms
+    while (uiFastTick < num);               // wait here until 'num' ticks occur
+    uiFastTick = 0;
 }
