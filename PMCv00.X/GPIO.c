@@ -8,6 +8,10 @@
 #include "xc.h"
 #include "GPIO.h"
 
+
+//variables
+volatile unsigned char ucEntrada1;
+
 //INICIALIZACION DE GPIO
 
 void GPIO_init (void)
@@ -16,5 +20,13 @@ void GPIO_init (void)
     LED2_SetDigitalOutput();
     LED3_SetDigitalOutput();
     
+    //ENT1_SetDigitalInput();
     
+    
+}
+
+void GPIO_Entradas (void)
+{
+    //ucEntrada1 = ENT1_GetValue();
+    //ucEntr...
 }

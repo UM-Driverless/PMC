@@ -121,6 +121,9 @@ int main(void) {
         delay_10ms(100);
         LED3_Toggle();
         
+        //CREAR FUNCION DE LECTURA DE DIGITALES CONSTANTE
+        //GPIO_Entradas();
+        
     }
 }
 

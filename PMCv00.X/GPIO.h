@@ -157,24 +157,24 @@ extern "C" {
     
     
  // get/set ENT1 aliases
-# define ENT1_TRIS                 TRISGbits.TRISRD9
-# define ENT1_LAT                  LATGbits.LATRD9
-# define ENT1_PORT                 PORTGbits.RRD9
-# define ENT1_WPU                  WPUGbits.WPURD9
-# define ENT1_OD                   ODCONGbits.ODCRD9
-# define ENT1_ANS                  ANSELGbits.ANSELRD9
-# define ENT1_SetHigh()            do { LATGbits.LATRD9 = 1; } while(0)
-# define ENT1_SetLow()             do { LATGbits.LATRD9 = 0; } while(0)
-# define ENT1_Toggle()             do { LATGbits.LATRD9 = ~LATGbits.LATG12; } while(0)
-# define ENT1_GetValue()           PORTGbits.RRD9
-# define ENT1_SetDigitalInput()    do { TRISGbits.TRISRD9 = 1; } while(0)
-# define ENT1_SetDigitalOutput()   do { TRISGbits.TRISRD9 = 0; } while(0)
-# define ENT1_SetPullup()          do { WPUGbits.WPURD9 = 1; } while(0)
-# define ENT1_ResetPullup()        do { WPUGbits.WPURD9 = 0; } while(0)
-# define ENT1_SetPushPull()        do { ODCONGbits.ODCRD9 = 0; } while(0)
-# define ENT1_SetOpenDrain()       do { ODCONGbits.ODCRD9 = 1; } while(0)
-# define ENT1_SetAnalogMode()      do { ANSELGbits.ANSELRD9 = 1; } while(0)
-# define ENT1_SetDigitalMode()     do { ANSELGbits.ANSELRD9 = 0; } while(0)
+# define ENT1_TRIS                 TRISDbits.TRISRD9
+# define ENT1_LAT                  LATGDits.LATRD9
+# define ENT1_PORT                 PORTDbits.RRD9
+# define ENT1_WPU                  WPUDbits.WPURD9
+# define ENT1_OD                   ODCONDbits.ODCRD9
+# define ENT1_ANS                  ANSELDbits.ANSELRD9
+# define ENT1_SetHigh()            do { LATDbits.LATRD9 = 1; } while(0)
+# define ENT1_SetLow()             do { LATDbits.LATRD9 = 0; } while(0)
+# define ENT1_Toggle()             do { LATDbits.LATRD9 = ~LATDbits.LATRD9; } while(0)
+# define ENT1_GetValue()           PORTDbits.RRD9
+# define ENT1_SetDigitalInput()    do { TRISDbits.TRISRD9 = 1; } while(0)
+# define ENT1_SetDigitalOutput()   do { TRISDbits.TRISRD9 = 0; } while(0)
+# define ENT1_SetPullup()          do { WPUDbits.WPURD9 = 1; } while(0)
+# define ENT1_ResetPullup()        do { WPUDbits.WPURD9 = 0; } while(0)
+# define ENT1_SetPushPull()        do { ODCONDbits.ODCRD9 = 0; } while(0)
+# define ENT1_SetOpenDrain()       do { ODCONDbits.ODCRD9 = 1; } while(0)
+# define ENT1_SetAnalogMode()      do { ANSELDbits.ANSELRD9 = 1; } while(0)
+# define ENT1_SetDigitalMode()     do { ANSELDbits.ANSELRD9 = 0; } while(0)
     
 // get/set ENT2 aliases
 #define ENT2_TRIS                 TRISGbits.TRISRD10
@@ -337,6 +337,16 @@ extern "C" {
 #define OUT3_SetOpenDrain()       do { ODCONGbits.ODCRD5 = 1; } while(0)
 #define OUT3_SetAnalogMode()      do { ANSELGbits.ANSELRD5 = 1; } while(0)
 #define OUT3_SetDigitalMode()     do { ANSELGbits.ANSELRD5 = 0; } while(0) 
+
+
+//variables
+extern volatile unsigned char ucEntrada1;
+    
+    
+    
+    
+    
+    
 //INICIALIZACION DE GPIO
 void GPIO_init (void);
 
