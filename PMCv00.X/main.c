@@ -15,6 +15,7 @@
 #include "GPIO.h"
 #include "TIMER.h"
 #include "STATEMACHINE.h"
+#include "TEMPORIZATIONS.h"
 
 // Prototype Declaration
 void oscConfig(void);

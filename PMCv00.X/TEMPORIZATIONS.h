@@ -29,6 +29,7 @@ extern unsigned int uiFastTick;
 
 
 //FUNCIONES
+void TEMPORIZATIONInit (void);
 void TEMPORIZATION_10ms (void);
 void TEMPORIZATION_100ms (void);
 void TEMPORIZATION_500ms (void);
@@ -36,7 +37,7 @@ void TEMPORIZATION_1s (void);
 void TEMPORIZATION_5s (void);
 void TEMPORIZATION_10s (void);
 void TEMPORIZATION_1mins (void);
-
+void delay_10ms (unsigned char num);
 
 #ifdef	__cplusplus
 }
