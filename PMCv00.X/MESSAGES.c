@@ -63,6 +63,11 @@ unsigned char ucGOSignal;
 
 //ECU
 unsigned int uiRPM;
+unsigned int uiMAP;
+unsigned int uiTPS;
+unsigned int uiECT;
+unsigned int uiFuelP;
+unsigned int uiOilP;
 
 
 // INICIALIZACION DE FUNCIONES //
@@ -139,11 +144,54 @@ void MESSAGES_CAN2_Rx(){
     {
         case ECUID1: 
             uiRPM = ucCAN2RXData0;
-            uiRPM |= (ucCAN2RXData0 << 8 );
+            uiRPM |= (ucCAN2RXData1 << 8 );
+            uiMAP = ucCAN2RXData2;
+            uiMAP |= (ucCAN2RXData3 << 8 );
+            uiTPS = ucCAN2RXData4;
+            uiTPS |= (ucCAN2RXData5 << 8 );
+            //uiCoolantP = ucCAN2RXData6;
+            //uiCoolantP |= (ucCAN2RXData7 << 8 );
+            break;
+        case ECUID2:
+            uiFuelP = ucCAN2RXData0;
+            uiFuelP |= (ucCAN2RXData1 << 8 );
+            uiOilP = ucCAN2RXData2;
+            uiOilP |= (ucCAN2RXData3 << 8 );
+            /*uiEngineDemand = ucCAN2RXData4;
+            uiEngineDemand |= (ucCAN2RXData5 << 8 );
+            uiWastegatePressure = ucCAN2RXData6;
+            uiWastegatePressure |= (ucCAN2RXData7 << 8 );*/
+            break;
+        case ECUID3:
             
             break;
-        case 2:
+        case ECUID4:
             
             break;
+        case ECUID5:
+            
+            break;
+        case ECUID6:
+            
+            break;
+        case ECUID7:
+            
+            break;
+        case ECUID8:
+            
+            break;
+        case ECUID9:
+            
+            break;
+        case ECUID10:
+            
+            break;
+        case ECUID11:
+            
+            break;
+        case ECUID12:
+            
+            break;
+            
     }
 }

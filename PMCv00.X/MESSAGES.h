@@ -127,6 +127,11 @@ extern unsigned char ucGOSignal;
 
 //ECU
 extern unsigned int uiRPM;
+extern unsigned int uiMAP;
+extern unsigned int uiTPS;
+extern unsigned int uiECT;
+extern unsigned int uiFuelP;
+extern unsigned int uiOilP;
 
 // INICIALIZACION DE FUNCIONES //
 extern void MESSAGES_CAN1_Rx(void);
