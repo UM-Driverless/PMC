@@ -10,6 +10,7 @@
 #include "PARAMETERS.h"
 #include "MESSAGES.h"
 #include "CAN1Config.h"
+#include "GPIO.h"
 
 
 //VARIABLES
@@ -52,6 +53,7 @@ void TEMPORIZATION_100ms (void) //10Hz
 void TEMPORIZATION_500ms (void)
 {
     ecan1WriteMessage(DRIVING_DYNAMICS_1, DataLength_8, ucSpeedActual, ucSpeedTarget, ucSteeringAngleActual, ucSteeringAngleTarget, ucBrakeHDRActual, ucBrakeHDRTarget, ucMotorMovementActual, ucMotorMovementTarget);
+    GPIO_Entradas();
 }
 
 void TEMPORIZATION_1s (void)

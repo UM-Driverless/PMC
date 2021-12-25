@@ -404,12 +404,9 @@ extern volatile unsigned char ucEntrada1;
     
     
     
-    
-    
-    
 //INICIALIZACION DE GPIO
 void GPIO_init (void);
-
+void GPIO_Entradas (void);
 
 
 

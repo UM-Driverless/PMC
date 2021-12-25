@@ -134,6 +134,7 @@ extern unsigned int uiTPS;
 extern unsigned int uiECT;
 extern unsigned int uiFuelP;
 extern unsigned int uiOilP;
+extern unsigned int uiAirTemp;
 
 //DV
 extern unsigned char ucSpeedActual;

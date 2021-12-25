@@ -7,6 +7,8 @@
 #include<stdio.h> 
 #include <string.h>
 #include "UART1.h"
+#include "TELEMETRY.h"
+#include "MESSAGES.h"
 
 void TELEMETRYSendFrame(unsigned char ucPackNumber, unsigned char data1, unsigned char data2, unsigned char data3, unsigned char data4, unsigned char data5, unsigned char data6, unsigned char data7, unsigned char data8)
 {
@@ -69,4 +71,23 @@ void TELEMETRYReceiptFrame(unsigned char s[])
             break;    
     }
     
+}
+
+void TELEMETRYSendVARPACK1 (void)
+{
+    unsigned char ucData1;
+    unsigned char ucData2;
+    unsigned char ucData3;
+    unsigned char ucData4;
+    unsigned char ucData5;
+    unsigned char ucData6;
+    unsigned char ucData7;
+    unsigned char ucData8;
+    
+    ucData1 = ( uiRPM && 0x00FF );
+    ucData2 = ( ( uiRPM && 0xFF00 ) >> 8 );
+    ucData3 = ( uiECT && 0x00FF );
+    ucData4 = ( ( uiECT && 0xFF00 ) >> 8 );
+    
+    TELEMETRYSendFrame (VARPACK1, ucData1, ucData2, ucData3, ucData4, ucData5, ucData6, ucData7, ucData8);
 }

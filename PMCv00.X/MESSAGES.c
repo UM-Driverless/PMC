@@ -69,6 +69,7 @@ unsigned int uiTPS;
 unsigned int uiECT;
 unsigned int uiFuelP;
 unsigned int uiOilP;
+unsigned int uiAirTemp;
 
 //DV
 unsigned char ucSpeedActual;
@@ -226,6 +227,12 @@ void MESSAGES_CAN2_Rx(){
             break;
         case ECUID12:
             
+            break;
+        case ECUID19:
+            uiECT = ucCAN2RXData0;
+            uiECT |= (ucCAN2RXData1 << 8 );
+            uiAirTemp = ucCAN2RXData2;
+            uiAirTemp |= (ucCAN2RXData3 << 8 );
             break;
             
     }
