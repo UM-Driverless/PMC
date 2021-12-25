@@ -13,11 +13,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/MESSAGES.c</file>
-            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/UART1.c</file>
             <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/TEMPORIZATIONS.c</file>
-            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/TELEMETRY.c</file>
-            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/GPIO.c</file>
-            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/PARAMETERS.c</file>
+            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/STATEMACHINE.c</file>
+            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/AS.h</file>
+            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/main.c</file>
+            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/TEMPORIZATIONS.h</file>
+            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/CAN1Config.c</file>
+            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/AS.c</file>
+            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/STATEMACHINE.h</file>
             <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/TIMER.c</file>
             <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/MESSAGES.h</file>
         </group>

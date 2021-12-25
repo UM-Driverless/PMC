@@ -19,6 +19,7 @@
 #include "MESSAGES.h"
 #include "STATEMACHINE.h"
 #include "GPIO.h"
+#include "AS.h"
 
 // INICIALIZACION DE VARIABLES //
 volatile unsigned long ulCAN1RXID;
@@ -69,6 +70,20 @@ unsigned int uiECT;
 unsigned int uiFuelP;
 unsigned int uiOilP;
 
+//DV
+unsigned char ucSpeedActual;
+unsigned char ucSpeedTarget;
+unsigned char ucSteeringAngleActual;
+unsigned char ucSteeringAngleTarget;
+unsigned char ucBrakeHDRActual;
+unsigned char ucBrakeHDRTarget;
+unsigned char ucMotorMovementActual;
+unsigned char ucMotorMovementTarget;
+
+//STEERING WHEELL
+unsigned char ucAMRequest;
+unsigned char ucAMRequestPrev;
+
 
 // INICIALIZACION DE FUNCIONES //
 void MESSAGES_CAN1_Rx(void);
@@ -102,6 +117,18 @@ void MESSAGES_CAN1_Rx(){
             break;
         case TRAJECTORY_STATE:
             ucMissionState = ucCAN1RXData2;
+            ucASMissionRequest = ucCAN1RXData3;
+            if ( ucASMissionRequest != ucASMissionRequestPrev ) 
+            {
+                ASMisionTransit();
+            }
+            ucASMissionRequest != ucASMissionRequestPrev;
+            ucASMissionTransited = ucCAN1RXData4;
+            //La xavier se ha enterado perfectamente de lo que tiene que hacer
+            if ( ucASMissionTransited == ucMissionSelected )
+            {
+                //ucFLAG que permite el GOOO
+            }
             break;
         case SENFL_SIG:
             ucVelFL = ucCAN1RXData4;
@@ -120,6 +147,14 @@ void MESSAGES_CAN1_Rx(){
             break;
         case RES_PDOTR:
             ucGOSignal = ( ( ucCAN1RXData0 & 0x06 ) >> 1 );
+            break;
+        case STEERW_DV:
+            ucAMRequest = ucCAN1RXData0;
+            if ( ucAMRequest != ucAMRequestPrev )
+            {
+                ASMisionTransit();
+            }
+            ucAMRequest = ucAMRequestPrev;
             break;
     }
 
@@ -194,4 +229,29 @@ void MESSAGES_CAN2_Rx(){
             break;
             
     }
+}
+
+void MESSAGESSystemStatusSend(void)
+{
+    unsigned char ucData1;
+    unsigned char ucData2;
+    unsigned char ucData3;
+    unsigned char ucData4;
+    unsigned char ucData5;
+    
+    
+    ucData1 = ( ucASState && 0x07 );
+    ucData1 |= ( ucEBSState << 3 );
+    ucData1 |= ( ucMissionSelected << 5 );
+    ucData2 = ucSteeringState;
+    ucData2 = ( ucServiceBrakeState << 1 );
+    ucData2 = ( ( ucLapCounter && 0x0F ) << 3 );
+    ucData2 = ( ( ucConesCountActual && 0x01 ) << 7 );
+    ucData3 = ( ( ucConesCountActual && 0xFE ) >> 1 );
+    ucData3 = ( ( uiConesCountAll && 0x01 ) << 7 );
+    ucData4 = ( uiConesCountAll && 0x1FE );
+    ucData5 = ( uiConesCountAll && 0xFE00 );
+    
+    
+    ecan1WriteMessage(SYSTEM_STATUS, DataLength_5, ucData1, ucData2, ucData3, ucData4, ucData5, 0x00, 0x00, 0x00);
 }

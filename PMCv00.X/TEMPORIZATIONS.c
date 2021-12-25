@@ -8,9 +8,12 @@
 #include "TEMPORIZATIONS.h"
 #include "STATEMACHINE.h"
 #include "PARAMETERS.h"
+#include "MESSAGES.h"
+#include "CAN1Config.h"
 
 
 //VARIABLES
+unsigned char ucCount20ms;
 unsigned char ucCount500ms;
 unsigned char ucCount1s;
 unsigned char ucCount5s;
@@ -36,14 +39,19 @@ void TEMPORIZATION_10ms (void)
     uiFastTick++;
 }
 
-void TEMPORIZATION_100ms (void)
+void TEMPORIZATION_20ms (void)
 {
     
 }
 
+void TEMPORIZATION_100ms (void) //10Hz
+{
+    MESSAGESSystemStatusSend();
+}
+
 void TEMPORIZATION_500ms (void)
 {
-    
+    ecan1WriteMessage(DRIVING_DYNAMICS_1, DataLength_8, ucSpeedActual, ucSpeedTarget, ucSteeringAngleActual, ucSteeringAngleTarget, ucBrakeHDRActual, ucBrakeHDRTarget, ucMotorMovementActual, ucMotorMovementTarget);
 }
 
 void TEMPORIZATION_1s (void)

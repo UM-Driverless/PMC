@@ -18,16 +18,7 @@ extern "C" {
 #define AS_READY        1
 #define AS_DRIVING      2
 #define AS_EMERGENCY    3
-#define AS_FINISHED     4
-    
-//MISSIONS
-#define MANUAL_DRIVING      0    
-#define ACCELERATION        1    
-#define SKIDPAD             2       
-#define AUTOX               3    
-#define TRACKDRIVE          4    
-#define EBS_TEST            5    
-#define INSPECTION          6    
+#define AS_FINISHED     4 
     
 //EBS
 #define EBS_DISACTIVATED    0
@@ -64,6 +55,12 @@ extern unsigned char ucR2D;
 extern unsigned char ucASStatePrev;
 extern unsigned char ucBrakeEngaged;
 extern unsigned char ucSMError;
+extern unsigned char ucEBSState;
+extern unsigned char ucSteeringState;
+extern unsigned char ucServiceBrakeState;
+extern unsigned char ucLapCounter;
+extern unsigned char ucConesCountActual;
+extern unsigned int uiConesCountAll;
 
 //FUNCIONES
 void STATEMACHINE_Init (void);

@@ -13,6 +13,7 @@ extern "C" {
 #endif
 
 //DEFINES
+#define t20ms  2 
 #define t500ms 5       
 #define t1s    10        
 #define t5s    50       
@@ -20,6 +21,7 @@ extern "C" {
 #define t1min  600 
     
 //VARIABLES
+extern unsigned char ucCount20ms;
 extern unsigned char ucCount500ms;
 extern unsigned char ucCount1s;
 extern unsigned char ucCount5s;
@@ -31,6 +33,7 @@ extern unsigned int uiFastTick;
 //FUNCIONES
 void TEMPORIZATIONInit (void);
 void TEMPORIZATION_10ms (void);
+void TEMPORIZATION_20ms (void);
 void TEMPORIZATION_100ms (void);
 void TEMPORIZATION_500ms (void);
 void TEMPORIZATION_1s (void);

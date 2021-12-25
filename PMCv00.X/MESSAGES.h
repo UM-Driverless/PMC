@@ -54,6 +54,8 @@
 #define SENRR_SIG       0x30A
 //RES MSG
 #define RES_PDOTR       0x191
+//STEERING WHELL
+#define STEERW_DV       0x410
 
 //CAN DE ECU
 #define ECUID1 0x360
@@ -133,9 +135,24 @@ extern unsigned int uiECT;
 extern unsigned int uiFuelP;
 extern unsigned int uiOilP;
 
+//DV
+extern unsigned char ucSpeedActual;
+extern unsigned char ucSpeedTarget;
+extern unsigned char ucSteeringAngleActual;
+extern unsigned char ucSteeringAngleTarget;
+extern unsigned char ucBrakeHDRActual;
+extern unsigned char ucBrakeHDRTarget;
+extern unsigned char ucMotorMovementActual;
+extern unsigned char ucMotorMovementTarget;
+
+//STEERING WHEELL
+extern unsigned char ucAMRequest;
+extern unsigned char ucAMRequestPrev;
+
 // INICIALIZACION DE FUNCIONES //
 extern void MESSAGES_CAN1_Rx(void);
 extern void MESSAGES_CAN2_Rx(void);
+extern void MESSAGESSystemStatusSend(void);
 
 
 // DECLARACION DE CONSTANTES DE ID //

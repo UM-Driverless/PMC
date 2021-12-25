@@ -9,6 +9,7 @@
 #include "PARAMETERS.h"
 #include "MESSAGES.h"
 #include "TEMPORIZATIONS.h"
+#include "AS.h"
 
 //VARIABLES
 unsigned char ucASState;
@@ -28,6 +29,13 @@ unsigned char ucR2D;
 unsigned char ucASStatePrev;
 unsigned char ucBrakeEngaged;
 unsigned char ucSMError;
+unsigned char ucEBSState;
+unsigned char ucASMode;
+unsigned char ucSteeringState;
+unsigned char ucServiceBrakeState;
+unsigned char ucLapCounter;
+unsigned char ucConesCountActual;
+unsigned int uiConesCountAll;
 
 //FUNCIONES
 void STATEMACHINE_Init (void) 

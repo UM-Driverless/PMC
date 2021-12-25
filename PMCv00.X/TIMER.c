@@ -141,4 +141,10 @@ void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void)
     IFS0bits.T2IF = 0; // Clear Timer1 Interrupt Flag
     
     TEMPORIZATION_10ms();
+    
+    if ( ucCount20ms++ == t20ms )
+    {
+        ucCount20ms = 0;
+        TEMPORIZATION_20ms();
+    }
 }

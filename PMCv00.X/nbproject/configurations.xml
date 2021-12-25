@@ -18,6 +18,7 @@
       <itemPath>TELEMETRY.h</itemPath>
       <itemPath>STATEMACHINE.h</itemPath>
       <itemPath>TEMPORIZATIONS.h</itemPath>
+      <itemPath>AS.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -41,6 +42,7 @@
       <itemPath>TELEMETRY.c</itemPath>
       <itemPath>STATEMACHINE.c</itemPath>
       <itemPath>TEMPORIZATIONS.c</itemPath>
+      <itemPath>AS.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -86,7 +88,6 @@
       </compileType>
       <makeCustomizationType>
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
-        <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
         <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
         <makeCustomizationPostStep></makeCustomizationPostStep>
