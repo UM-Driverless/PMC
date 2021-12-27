@@ -39,10 +39,15 @@
 #define DV_DRIVING_DYNAMICS_1       0x500
 #define DV_DRIVING_DYNAMICS_2       0x501
 #define DV_SYSTEM_STATUS            0x502
+
+//TRAJECTORY
 #define TRAJECTORY_ACT              0x320
 #define TRAJECTORY_GPS              0x321
 #define TRAJECTORY_IMU              0x322
 #define TRAJECTORY_STATE            0x323
+//ETC
+#define ETC_SIGNAL                  0x330
+#define ETC_STATE                   0x331
 //ASB MSG
 #define ASB_ANALOG                  0x360
 #define ASB_SIGNALS                 0x361
