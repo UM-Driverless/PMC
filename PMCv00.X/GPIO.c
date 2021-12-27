@@ -33,10 +33,10 @@ void GPIO_init (void)
     ENT8_SetDigitalInput();
     
     //SALIDAS
-    OUT1_SetDigitalInput();
-    OUT2_SetDigitalInput();
-    OUT3_SetDigitalInput();
-    OUT4_SetDigitalInput();
+    OUT1_SetDigitalOutput();
+    OUT2_SetDigitalOutput();
+    OUT3_SetDigitalOutput();
+    OUT4_SetDigitalOutput();
     
 }
 
@@ -44,5 +44,11 @@ void GPIO_init (void)
 void GPIO_Entradas (void)
 {
     ucASMS = ENT1_GetValue();
-    //ucEntr...
+    /*ucEntrada2 = ENT2_GetValue();
+    ucEntrada3 = ENT3_GetValue();
+    ucEntrada4 = ENT4_GetValue();
+    ucEntrada5 = ENT5_GetValue();
+    ucEntrada6 = ENT6_GetValue();
+    ucEntrada7 = ENT7_GetValue();
+    ucEntrada8 = ENT8_GetValue();*/
 }
