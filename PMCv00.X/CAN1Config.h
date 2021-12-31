@@ -4,7 +4,6 @@
  *
  * Created on September 15, 2020, 12:30 PM
  * 
- * CAN 1 DEDICADO A CAN ECU HALTECH ELITE
  * 
  */
 
@@ -70,12 +69,13 @@ typedef struct{
 extern mIDCAN1 rx_CAN1Mensaje;
 
 
-/* Funciones de inicialización del CAN1 */
+//Funciones de inicialización del CAN1 
+/*
 extern void CAN1ConfigInicializacionCAN(void);
 extern void CAN1ConfigInicializacionDMA0(void);
 extern void CAN1ConfigInicializacionDMA2(void);
 extern void CAN1ConfigInicializar(void);
-
+*/
 // funciones copiadas y pegadas
 extern void dma0init(void);
 extern void dma2init(void);

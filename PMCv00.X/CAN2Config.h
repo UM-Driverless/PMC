@@ -19,10 +19,8 @@ extern "C" {
 // FUNCIONES COPIADAS Y PEGADAS
 extern void ecan2WriteRxAcptFilter(int n, long identifier, unsigned int exide,unsigned int bufPnt,unsigned int maskSel);
 extern void ecan2WriteRxAcptMask(int m, long identifierMask, unsigned int mide,unsigned int exide);
-
 extern void ecan2WriteTxMsgBufId(unsigned int buf, long txIdentifier, unsigned int ide, unsigned int remoteTransmit);
 extern void ecan2WriteTxMsgBufData(unsigned int buf, unsigned int dataLength, unsigned int data1, unsigned int data2, unsigned int data3, unsigned int data4);
-
 extern void ecan2DisableRXFilter(int n);
 
 /* CAN Baud Rate Configuration 		*/
@@ -67,11 +65,13 @@ typedef struct{
 // CAN Messages in RAM
 extern mIDCAN2 rx_CAN2Mensaje;
 
-/* Funciones de inicialización del CAN2 */
+// Funciones de inicialización del CAN2
+/*
 extern void CAN2ConfigInicializacionCAN(void);
 extern void CAN2ConfigInicializacionDMA1(void);
 extern void CAN2ConfigInicializacionDMA3(void);
 extern void CAN2ConfigInicializar(void);
+ */
 
 // funciones copiadas y pegadas
 extern void dma1init(void);

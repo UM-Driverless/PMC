@@ -37,7 +37,7 @@ void rx_ECAN1(mIDCAN1* mensaje);
 mIDCAN1 rx_CAN1Mensaje;
 //msgCAN rx_CAN1Mensaje;
 
-/* Definimos los buffers de mensajes de los módulos CAN */
+// Definimos los buffers de mensajes de los módulos CAN 
 uiaTablaMensajesCAN1 uiaCAN1BufferMensajes __attribute__((space(dma),aligned(CAN1_MSG_BUF_LENGTH*16)));
 
 /* 
@@ -399,26 +399,27 @@ void CAN1ConfigInicializacionDMA2(void){
     DMACS0 = 0; /* S22-P9 */
 }
 
+/*
 void CAN1ConfigInicializacionCAN(void){
-    /* entramos en el modo de configuración */
+    //entramos en el modo de configuración
     C1CTRL1bits.REQOP = 4;
-    while(C1CTRL1bits.OPMODE != 4); /* Esperar hasta entrar en el modo 
-                                     * de configuración */
+    while(C1CTRL1bits.OPMODE != 4); // Esperar hasta entrar en el modo 
+                                    //de configuración
     
-    /* S21-P21: Definir buffers de mensajes en la RAM del DMA */
-    C1FCTRLbits.DMABS = 4; /* valores válidos: 4, 6, 8, 12, 16, 24, 32 */
+    //S21-P21: Definir buffers de mensajes en la RAM del DMA 
+    C1FCTRLbits.DMABS = 4; // valores válidos: 4, 6, 8, 12, 16, 24, 32 
 	
-    /* entramos en el modo Normal Operation */
+    //entramos en el modo Normal Operation 
     C1CTRL1bits.REQOP = 0;
-	while(C1CTRL1bits.OPMODE != 0); /* Esperar hasta entrar en el modo 
-                                     * de operación normal */
+	while(C1CTRL1bits.OPMODE != 0); //Esperar hasta entrar en el modo 
+                                    //de operación normal 
     
     ecan1ClkInit();
     
-    C1TR01CONbits.TXEN0=1;			/* S21-P28, Buffer 0 del CAN1 para transmisión */
-	C1TR01CONbits.TXEN1=0;			/* S21-P28, Buffer 1 del CAN1 para recepción */
-    C1TR01CONbits.TX0PRI=0b11; 		/* S21-P28, prioridad máxima al buffer 0 */
-	C1TR01CONbits.TX1PRI=0b11; 		/* S21-P28, prioridad máxima al buffer 1 */
+    C1TR01CONbits.TXEN0=1;			// S21-P28, Buffer 0 del CAN1 para transmisión 
+	C1TR01CONbits.TXEN1=0;			// S21-P28, Buffer 1 del CAN1 para recepción 
+    C1TR01CONbits.TX0PRI=0b11; 		// S21-P28, prioridad máxima al buffer 0 
+	C1TR01CONbits.TX1PRI=0b11; 		// S21-P28, prioridad máxima al buffer 1 
     
     C1CFG1bits.BRP = 0;
     
@@ -426,10 +427,11 @@ void CAN1ConfigInicializacionCAN(void){
 }
 
 void CAN1ConfigInicializar(void){
-    CAN1ConfigInicializacionCAN(); /* Inicializar CAN1 */
-    CAN1ConfigInicializacionDMA0(); /* Configurar DMA0 para transmitir por CAN1 */
-    CAN1ConfigInicializacionDMA2(); /* Configurar DMA2 para recibir por CAN1 */
+    CAN1ConfigInicializacionCAN(); // Inicializar CAN1 
+    CAN1ConfigInicializacionDMA0(); // Configurar DMA0 para transmitir por CAN1 
+    CAN1ConfigInicializacionDMA2(); // Configurar DMA2 para recibir por CAN1 
 }
+*/
 
 // funciones copiadas y pegadas
 /* Dma Initialization for ECAN1 Transmission */
@@ -437,7 +439,7 @@ void dma0init(void)
 {
 	 DMACS0=0; // .. -> p142 librochip (DMA Controller Status Register 0) 
      DMA0CON=0x2020; //.. -> p56 (DMA Register Map; no aparece más referenciado) 
-	 DMA0PAD=0x0442;	// ECAN 1 (C1TXD) .. -> p58 librochip (transmit data word) 
+	 DMA0PAD=&C1TXD;	// ECAN 1 (C1TXD) //0x0442
  	 DMA0CNT=0x0007;  // ..-> p56 librochip (DMA Register Map; no aparece más referenciado) 
 	 DMA0REQ=0x0046;	// ECAN 1 Transmit .. -> p135 librochip 
 	 DMA0STA=  __builtin_dmaoffset(uiaCAN1BufferMensajes);	//..-> p56 librochip
@@ -452,9 +454,9 @@ void dma2init(void)
 {
 	 DMACS0=0;
      DMA2CON=0x0020;
-	 DMA2PAD=0x0440;	/* ECAN 1 (C1RXD) .. -> p58 librochip (received data word) */
+	 DMA2PAD=&C1RXD;	// ECAN 1 (C1RXD) //0x0440
  	 DMA2CNT=0x0007;
-	 DMA2REQ=0x0022;	/* ECAN 1 Receive .. ->  p135 librochip */
+	 DMA2REQ=0x0022;	// ECAN 1 Receive .. ->  p135 librochip 
 	 DMA2STA= __builtin_dmaoffset(uiaCAN1BufferMensajes);	
      IEC1bits.DMA2IE = 1;
 	 DMA2CONbits.CHEN=1;
