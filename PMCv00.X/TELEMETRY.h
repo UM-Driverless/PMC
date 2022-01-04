@@ -23,6 +23,7 @@ extern "C" {
 //FUNCIONES
 void TELEMETRYSendFrame(unsigned char ucPackNumber, unsigned char data1, unsigned char data2, unsigned char data3, unsigned char data4, unsigned char data5, unsigned char data6, unsigned char data7, unsigned char data8);
 void TELEMETRYReceiptFrame(unsigned char s[]);
+void TELEMETRYSendVARPACK1 (void);
 
 #ifdef	__cplusplus
 }

@@ -167,13 +167,15 @@ void UART1WriteCharacter (unsigned char c)
    
 }
 
-extern void UART1WriteString(char s[])
+void UART1WriteString(char s[])
 {
    len_1 = sizeof(s);
    for(i = 0; i < len_1; i++) {
        UART1WriteCharacter(s[i]);
    }
 }
+
+
 void UART1ReceiveCharacter (unsigned char c)
 {
 

@@ -170,7 +170,7 @@ void UART2WriteCharacter (unsigned char c)
    
 }
 
-extern void UART2WriteString(char s[])
+void UART2WriteString(char s[])
 {
    len_2 = sizeof(s); 
    for(j = 0; j < len_2; j++) {

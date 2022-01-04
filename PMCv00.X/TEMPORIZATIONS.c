@@ -11,6 +11,7 @@
 #include "MESSAGES.h"
 #include "CAN1Config.h"
 #include "GPIO.h"
+#include "TELEMETRY.h"
 
 
 //VARIABLES
@@ -58,7 +59,7 @@ void TEMPORIZATION_500ms (void)
 
 void TEMPORIZATION_1s (void)
 {
-    
+    TELEMETRYSendVARPACK1();
 }
 
 void TEMPORIZATION_5s (void)

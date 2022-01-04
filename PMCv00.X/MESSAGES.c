@@ -158,7 +158,6 @@ void MESSAGES_CAN1_Rx(){
             ucAMRequest = ucAMRequestPrev;
             break;
     }
-
 }
 
 
