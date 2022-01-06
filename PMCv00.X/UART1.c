@@ -18,10 +18,10 @@ void UART1inicializacion(){
     
     U1MODEbits.STSEL = 0;			// 1-stop bit
 	U1MODEbits.PDSEL = 0;			// No Parity, 8-data bits
-	U1MODEbits.ABAUD = 0;			// Autobaud Disabled
+	U1MODEbits.ABAUD = 0;			// Autobaud Enable
     U1MODEbits.BRGH  = 0;        // Standard-Speed mode
 
-	U1BRG = BRG_VAL_115200;					// BAUD Rate Setting for 1115200
+	U1BRG = BRG_VAL_9600;					// BAUD Rate Setting for 1115200
 
 
 	//********************************************************************************
@@ -167,12 +167,12 @@ void UART1WriteCharacter (unsigned char c)
    
 }
 
-void UART1WriteString(char s[])
+void UART1WriteString(char *s)
 {
-   len_1 = sizeof(s);
-   for(i = 0; i < len_1; i++) {
-       UART1WriteCharacter(s[i]);
-   }
+    while (*s)                          // loop until *s =\0, end of string
+    { 
+        UART1WriteCharacter (*s++);     // send the character and point to the next one
+    }
 }
 
 
@@ -206,7 +206,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void)
     IFS0bits.U1TXIF = 0; // Clear TX1 Interrupt flag
     
     //ucUART1_TX_DATA = *pcTramaPorInterrupcionUart1;
-    U1TXREG = ucUART1_TX_DATA;
+    //U1TXREG = ucUART1_TX_DATA;
     
 }
 

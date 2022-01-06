@@ -49,17 +49,18 @@ void TEMPORIZATION_20ms (void)
 void TEMPORIZATION_100ms (void) //10Hz
 {
     MESSAGESSystemStatusSend();
+    GPIO_Entradas();
 }
 
 void TEMPORIZATION_500ms (void)
 {
     ecan1WriteMessage(DRIVING_DYNAMICS_1, DataLength_8, ucSpeedActual, ucSpeedTarget, ucSteeringAngleActual, ucSteeringAngleTarget, ucBrakeHDRActual, ucBrakeHDRTarget, ucMotorMovementActual, ucMotorMovementTarget);
-    GPIO_Entradas();
+    TELEMETRYSendVARPACK1();
 }
 
 void TEMPORIZATION_1s (void)
 {
-    TELEMETRYSendVARPACK1();
+    
 }
 
 void TEMPORIZATION_5s (void)

@@ -16,6 +16,7 @@
 #include "TIMER.h"
 #include "STATEMACHINE.h"
 #include "TEMPORIZATIONS.h"
+#include "TELEMETRY.h"
 
 // Prototype Declaration
 void oscConfig(void);
@@ -54,6 +55,11 @@ int main(void) {
     //Configure DMA Channel 1 for ECAN2 Transmit
     //Configure DMA Channel 3 for ECAN2 Receive 
 	ecan2Init();
+    
+    
+    //INICIALIZACION UART
+    UART1init();
+    UART2init();
 
     
     //INICIALIZACION UART1
@@ -121,6 +127,7 @@ int main(void) {
         //UART1WriteSTring(*string)
         delay_10ms(100);
         LED3_Toggle();
+        
         
         //CREAR FUNCION DE LECTURA DE DIGITALES CONSTANTE
         //GPIO_Entradas();
