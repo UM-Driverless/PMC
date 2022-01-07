@@ -9,9 +9,11 @@
 #include "UART1.h"
 #include "TELEMETRY.h"
 #include "MESSAGES.h"
+#include "AS.h"
+#include "STATEMACHINE.h"
 
 //VARIABLES
-unsigned char s[11];
+unsigned char telemetryString[10];
 
 
 //FUNCIONES
@@ -22,18 +24,17 @@ void TELEMETRYSendFrame(unsigned char ucPackNumber, unsigned char data1, unsigne
     //Hay que ver si enviarlo numero a numero en ASCII o hacer una transformacion, aunque los valores 0=NULL no los envía.
     
     crc = ucPackNumber + data1 + data2 + data3 + data4 + data5 + data6 + data7 + data8;
-    s[0] = ucPackNumber;
-    s[1] = data1;
-    s[2] = data2;
-    s[3] = data3;
-    s[4] = data4;
-    s[5] = data5;
-    s[6] = data6;
-    s[7] = data7;
-    s[8] = data8;
-    s[9] = crc;
-    s[10] = 0x0D; //salto de carro
-    UART1WriteString(s);
+    telemetryString[0] = ucPackNumber;
+    telemetryString[1] = data1;
+    telemetryString[2] = data2;
+    telemetryString[3] = data3;
+    telemetryString[4] = data4;
+    telemetryString[5] = data5;
+    telemetryString[6] = data6;
+    telemetryString[7] = data7;
+    telemetryString[8] = data8;
+    telemetryString[9] = crc;
+    UART1WriteString(telemetryString);
     UART1WriteString ("\r\n"); //salto de linea
 }
 
@@ -82,32 +83,171 @@ void TELEMETRYReceiptFrame(unsigned char s[])
     
 }
 
+//ECU DATA 1
 void TELEMETRYSendVARPACK1 (void)
 {
-    unsigned char ucData1=0;
-    unsigned char ucData2=0;
-    unsigned char ucData3=0;
-    unsigned char ucData4=0;
-    unsigned char ucData5=0;
-    unsigned char ucData6=0;
-    unsigned char ucData7=0;
-    unsigned char ucData8=0;
+    unsigned char ucData1;
+    unsigned char ucData2;
+    unsigned char ucData3;
+    unsigned char ucData4;
+    unsigned char ucData5;
+    unsigned char ucData6;
+    unsigned char ucData7;
+    unsigned char ucData8;
     
-    ucData1=1;
-    ucData2=1;
-    ucData3=1;
-    ucData4=1;
-    ucData5=1;
-    ucData6=1;
-    ucData7=1;
-    ucData8=1;
-    
-    ucData1 = ( uiRPM & 0x00FF );
-    ucData2 = ( ( uiRPM & 0xFF00 ) >> 8 );
-    ucData3 = ( uiECT & 0x00FF );
-    ucData4 = ( ( uiECT & 0xFF00 ) >> 8 );
-    
-    //puedo comprobar aqui si los datos son 0, y si lo son enviar un 1 o algo
+    ucData1 = UARTHexToASCII ( uiRPM & 0x000F );
+    ucData2 = UARTHexToASCII ( ( uiRPM & 0x00F0 ) >> 4 );
+    ucData3 = UARTHexToASCII ( ( uiRPM & 0x0F00 ) >> 8 );
+    ucData4 = UARTHexToASCII ( ( uiRPM & 0xF000 ) >> 12 );
+    ucData5 = UARTHexToASCII ( uiECTC & 0x000F );
+    ucData6 = UARTHexToASCII ( ( uiECTC & 0x00F0 ) >> 4 );
+    ucData7 = UARTHexToASCII ( uiECUTPS & 0x000F );
+    ucData8 = UARTHexToASCII ( ( uiECUTPS & 0x00F0 ) >> 4 );
     
     TELEMETRYSendFrame (VARPACK1, ucData1, ucData2, ucData3, ucData4, ucData5, ucData6, ucData7, ucData8);
+}
+
+
+//ECU DATA 2
+void TELEMETRYSendVARPACK2 (void)
+{
+    unsigned char ucData1;
+    unsigned char ucData2;
+    unsigned char ucData3;
+    unsigned char ucData4;
+    unsigned char ucData5;
+    unsigned char ucData6;
+    unsigned char ucData7;
+    unsigned char ucData8;
+    
+    ucData1 = UARTHexToASCII ( uiMAPb & 0x000F );
+    ucData2 = UARTHexToASCII ( ( uiMAPb & 0x00F0 ) >> 4 );
+    ucData3 = UARTHexToASCII ( uiFuelP & 0x000F );
+    ucData4 = UARTHexToASCII ( ( uiFuelP & 0x00F0 ) >> 4 );
+    ucData5 = UARTHexToASCII ( uiLambda & 0x000F );
+    ucData6 = UARTHexToASCII ( ( uiLambda & 0x00F0 ) >> 4 );
+    ucData7 = UARTHexToASCII ( uiECUAPPS & 0x000F );
+    ucData8 = UARTHexToASCII ( ( uiECUAPPS & 0x00F0 ) >> 4 );
+    
+    TELEMETRYSendFrame (VARPACK2, ucData1, ucData2, ucData3, ucData4, ucData5, ucData6, ucData7, ucData8);
+}
+
+//ECU DATA 3
+void TELEMETRYSendVARPACK3 (void)
+{
+    unsigned char ucData1;
+    unsigned char ucData2;
+    unsigned char ucData3;
+    unsigned char ucData4;
+    unsigned char ucData5;
+    unsigned char ucData6;
+    unsigned char ucData7;
+    unsigned char ucData8;
+    
+    ucData1 = UARTHexToASCII ( uiBatV & 0x000F );
+    ucData2 = UARTHexToASCII ( ( uiBatV & 0x00F0 ) >> 4 );
+    ucData3 = UARTHexToASCII ( uiECUBrakeP & 0x000F );
+    ucData4 = UARTHexToASCII ( ( uiECUBrakeP & 0x00F0 ) >> 4 );
+    ucData5 = UARTHexToASCII ( uiAirTempC & 0x000F );
+    ucData6 = UARTHexToASCII ( ( uiAirTempC & 0x00F0 ) >> 4 );
+    ucData7 = UARTHexToASCII ( uiOilP & 0x000F );
+    ucData8 = UARTHexToASCII ( ( uiOilP & 0x00F0 ) >> 4 );
+    
+    TELEMETRYSendFrame (VARPACK3, ucData1, ucData2, ucData3, ucData4, ucData5, ucData6, ucData7, ucData8);
+}
+
+//DV_DRIVING_DYNAMICS_1 1
+void TELEMETRYSendVARPACK4 (void)
+{
+    unsigned char ucData1;
+    unsigned char ucData2;
+    unsigned char ucData3;
+    unsigned char ucData4;
+    unsigned char ucData5;
+    unsigned char ucData6;
+    unsigned char ucData7;
+    unsigned char ucData8;
+    
+    ucData1 = UARTHexToASCII ( ucSpeedActual & 0x0F );
+    ucData2 = UARTHexToASCII ( ( ucSpeedActual & 0xF0 ) >> 4 );
+    ucData3 = UARTHexToASCII ( ucSpeedTarget & 0x0F );
+    ucData4 = UARTHexToASCII ( ( ucSpeedTarget & 0xF0 ) >> 4 );
+    ucData5 = UARTHexToASCII ( ucSteeringAngleActual & 0x0F );
+    ucData6 = UARTHexToASCII ( ( ucSteeringAngleActual & 0xF0 ) >> 4 );
+    ucData7 = UARTHexToASCII ( ucSteeringAngleTarget & 0x0F );
+    ucData8 = UARTHexToASCII ( ( ucSteeringAngleTarget & 0xF0 ) >> 4 );
+    
+    TELEMETRYSendFrame (VARPACK4, ucData1, ucData2, ucData3, ucData4, ucData5, ucData6, ucData7, ucData8);
+}
+
+//DV_DRIVING_DYNAMICS_1 2
+void TELEMETRYSendVARPACK5 (void)
+{
+    unsigned char ucData1;
+    unsigned char ucData2;
+    unsigned char ucData3;
+    unsigned char ucData4;
+    unsigned char ucData5;
+    unsigned char ucData6;
+    unsigned char ucData7;
+    unsigned char ucData8;
+    
+    ucData1 = UARTHexToASCII ( ucBrakeHDRActual & 0x0F );
+    ucData2 = UARTHexToASCII ( ( ucBrakeHDRActual & 0xF0 ) >> 4 );
+    ucData3 = UARTHexToASCII ( ucBrakeHDRTarget & 0x0F );
+    ucData4 = UARTHexToASCII ( ( ucBrakeHDRTarget & 0xF0 ) >> 4 );
+    ucData5 = UARTHexToASCII ( ucMotorMovementActual & 0x0F );
+    ucData6 = UARTHexToASCII ( ( ucMotorMovementActual & 0xF0 ) >> 4 );
+    ucData7 = UARTHexToASCII ( ucMotorMovementTarget & 0x0F );
+    ucData8 = UARTHexToASCII ( ( ucMotorMovementTarget & 0xF0 ) >> 4 );
+    
+    TELEMETRYSendFrame (VARPACK5, ucData1, ucData2, ucData3, ucData4, ucData5, ucData6, ucData7, ucData8);
+}
+
+//DV_SYSTEM_STATUS
+void TELEMETRYSendVARPACK6 (void)
+{
+    unsigned char ucData1;
+    unsigned char ucData2;
+    unsigned char ucData3;
+    unsigned char ucData4;
+    unsigned char ucData5;
+    unsigned char ucData6;
+    unsigned char ucData7;
+    unsigned char ucData8;
+    
+    ucData1 = UARTHexToASCII ( ucASState & 0x0F );
+    ucData2 = UARTHexToASCII ( ucEBSState & 0x0F );
+    ucData3 = UARTHexToASCII ( ucMissionSelected & 0x0F );
+    ucData4 = UARTHexToASCII ( ucSteeringState & 0x0F );
+    ucData5 = UARTHexToASCII ( ucServiceBrakeState & 0x0F );
+    ucData6 = UARTHexToASCII ( ucLapCounter & 0x0F );
+    ucData7 = UARTHexToASCII ( ucConesCountActual & 0x0F );
+    ucData8 = UARTHexToASCII ( ( ucConesCountActual & 0xF0 ) >> 4 );
+    
+    TELEMETRYSendFrame (VARPACK6, ucData1, ucData2, ucData3, ucData4, ucData5, ucData6, ucData7, ucData8);
+}
+
+//Varios DV
+void TELEMETRYSendVARPACK7 (void)
+{
+    unsigned char ucData1;
+    unsigned char ucData2;
+    unsigned char ucData3;
+    unsigned char ucData4;
+    unsigned char ucData5;
+    unsigned char ucData6;
+    unsigned char ucData7;
+    unsigned char ucData8;
+    
+    ucData1 = UARTHexToASCII ( ucASMS & 0x0F );
+    ucData2 = UARTHexToASCII ( ucGOSignal & 0x0F );
+    /*ucData3 = UARTHexToASCII ( ucMissionSelected & 0x0F );
+    ucData4 = UARTHexToASCII ( ucSteeringState & 0x0F );
+    ucData5 = UARTHexToASCII ( ucServiceBrakeState & 0x0F );
+    ucData6 = UARTHexToASCII ( ucLapCounter & 0x0F );
+    ucData7 = UARTHexToASCII ( ucConesCountActual & 0x0F );
+    ucData8 = UARTHexToASCII ( ( ucConesCountActual & 0xF0 ) >> 4 );
+    */
+    TELEMETRYSendFrame (VARPACK7, ucASMS, ucData2, ucData3, ucData4, ucData5, ucData6, ucData7, ucData8);
 }

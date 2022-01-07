@@ -20,10 +20,7 @@
 #define DataLength_8        			8
 
 
-//CAN 1 MSG
-#define DRIVING_DYNAMICS_1 0x500
-#define DRIVING_DYNAMICS_2 0x501
-#define SYSTEM_STATUS 0x502
+//CAN 1 MSg
 //Autonomous system msgs
 #define AS1 0x511
 #define AS2 0x512
@@ -62,7 +59,7 @@
 //STEERING WHELL
 #define STEERW_DV       0x410
 
-//CAN DE ECU
+//CAN 2 DE ECU
 #define ECUID1 0x360
 #define ECUID2 0x361
 #define ECUID3 0x362
@@ -134,12 +131,19 @@ extern unsigned char ucGOSignal;
 
 //ECU
 extern unsigned int uiRPM;
-extern unsigned int uiMAP;
-extern unsigned int uiTPS;
-extern unsigned int uiECT;
+extern unsigned int uiMAPkPa; //0.1kPa
+extern unsigned int uiMAPb; //bar
+extern unsigned int uiECUTPS;
+extern unsigned int uiECUAPPS;
+extern unsigned int uiECTK; //kelvin
+extern unsigned int uiECTC; //celsious
 extern unsigned int uiFuelP;
 extern unsigned int uiOilP;
-extern unsigned int uiAirTemp;
+extern unsigned int uiAirTempK; //kelvin
+extern unsigned int uiAirTempC; //celsious
+extern unsigned int uiLambda;
+extern unsigned int uiECUBrakeP; //kPA
+extern unsigned int uiBatV; 
 
 //DV
 extern unsigned char ucSpeedActual;

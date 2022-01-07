@@ -43,7 +43,7 @@ extern void UART2DMA7init(); //RX
 extern void UART2DMA1init(); //TX
 extern void UART2init();
 extern void UART2WriteCharacter(unsigned char c);
-extern void UART2WriteString(char s[]);
+extern void UART2WriteString(unsigned char s[]);
 extern void UART2ReceiveCharacter(unsigned char c);
 
 #endif	/* UART2_H */

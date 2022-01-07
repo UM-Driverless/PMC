@@ -30,7 +30,6 @@ unsigned char ucASStatePrev;
 unsigned char ucBrakeEngaged;
 unsigned char ucSMError;
 unsigned char ucEBSState;
-unsigned char ucASMode;
 unsigned char ucSteeringState;
 unsigned char ucServiceBrakeState;
 unsigned char ucLapCounter;

@@ -54,8 +54,10 @@ void TEMPORIZATION_100ms (void) //10Hz
 
 void TEMPORIZATION_500ms (void)
 {
-    ecan1WriteMessage(DRIVING_DYNAMICS_1, DataLength_8, ucSpeedActual, ucSpeedTarget, ucSteeringAngleActual, ucSteeringAngleTarget, ucBrakeHDRActual, ucBrakeHDRTarget, ucMotorMovementActual, ucMotorMovementTarget);
+    ecan1WriteMessage(DV_DRIVING_DYNAMICS_1, DataLength_8, ucSpeedActual, ucSpeedTarget, ucSteeringAngleActual, ucSteeringAngleTarget, ucBrakeHDRActual, ucBrakeHDRTarget, ucMotorMovementActual, ucMotorMovementTarget);
     TELEMETRYSendVARPACK1();
+    TELEMETRYSendVARPACK2();
+    TELEMETRYSendVARPACK3();
 }
 
 void TEMPORIZATION_1s (void)

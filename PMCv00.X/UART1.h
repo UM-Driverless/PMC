@@ -42,8 +42,9 @@ extern void UART1DMA5init(); //RX
 extern void UART1DMA6init(); //TX
 extern void UART1init();
 extern void UART1WriteCharacter(unsigned char c);
-extern void UART1WriteString(char s[]);
+extern void UART1WriteString(unsigned char *s);
 extern void UART1ReceiveCharacter(unsigned char c);
+extern unsigned char UARTHexToASCII (unsigned char ucHex);
 
 #endif	/* UART_H */
 

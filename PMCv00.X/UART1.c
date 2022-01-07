@@ -167,7 +167,7 @@ void UART1WriteCharacter (unsigned char c)
    
 }
 
-void UART1WriteString(char *s)
+void UART1WriteString(unsigned char *s)
 {
     while (*s)                          // loop until *s =\0, end of string
     { 
@@ -269,4 +269,10 @@ void UART1init(){
     UART1inicializacion();
     UART1DMA5init();
     UART1DMA6init();
+}
+
+
+unsigned char UARTHexToASCII (unsigned char ucHex)
+{
+    return ( ucHex + 0x30 );
 }

@@ -64,13 +64,19 @@ unsigned char ucGOSignal;
 
 //ECU
 unsigned int uiRPM;
-unsigned int uiMAP;
-unsigned int uiTPS;
-unsigned int uiECT;
+unsigned int uiMAPkPa; //0.1kPa
+unsigned int uiMAPb; //bar
+unsigned int uiECUTPS;
+unsigned int uiECUAPPS;
+unsigned int uiECTK; //kelvin
+unsigned int uiECTC; //celsious
 unsigned int uiFuelP;
 unsigned int uiOilP;
-unsigned int uiAirTemp;
-
+unsigned int uiAirTempK; //kelvin
+unsigned int uiAirTempC; //celsious
+unsigned int uiLambda;
+unsigned int uiECUBrakeP; //kPA
+unsigned int uiBatV; 
 //DV
 unsigned char ucSpeedActual;
 unsigned char ucSpeedTarget;
@@ -180,58 +186,76 @@ void MESSAGES_CAN2_Rx(){
         case ECUID1: 
             uiRPM = ucCAN2RXData0;
             uiRPM |= (ucCAN2RXData1 << 8 );
-            uiMAP = ucCAN2RXData2;
-            uiMAP |= (ucCAN2RXData3 << 8 );
-            uiTPS = ucCAN2RXData4;
-            uiTPS |= (ucCAN2RXData5 << 8 );
+            uiMAPkPa = ucCAN2RXData2;
+            uiMAPkPa |= (ucCAN2RXData3 << 8 );
+            uiMAPb = uiMAPkPa / 1000; //bares
+            uiECUTPS = ucCAN2RXData4;
+            uiECUTPS |= (ucCAN2RXData5 << 8 );
+            uiECUTPS = uiECUTPS / 10; //%
             //uiCoolantP = ucCAN2RXData6;
             //uiCoolantP |= (ucCAN2RXData7 << 8 );
             break;
         case ECUID2:
             uiFuelP = ucCAN2RXData0;
             uiFuelP |= (ucCAN2RXData1 << 8 );
+            uiFuelP = uiFuelP / 1000; //bares
             uiOilP = ucCAN2RXData2;
             uiOilP |= (ucCAN2RXData3 << 8 );
+            uiOilP = uiOilP / 1000; //bares
+            uiECUAPPS = ucCAN2RXData4;
+            uiECUAPPS |= (ucCAN2RXData5 << 8 );
+            uiECUAPPS = uiECUAPPS / 10; //%
             /*uiEngineDemand = ucCAN2RXData4;
             uiEngineDemand |= (ucCAN2RXData5 << 8 );
             uiWastegatePressure = ucCAN2RXData6;
             uiWastegatePressure |= (ucCAN2RXData7 << 8 );*/
             break;
         case ECUID3:
-            
+            //no used
             break;
         case ECUID4:
-            
+            //no used
             break;
         case ECUID5:
-            
+            uiLambda = ucCAN2RXData0;
+            uiLambda |= (ucCAN2RXData1 << 8 );
+            uiLambda = uiLambda / 10; //0.01Lambda
             break;
         case ECUID6:
-            
+            //trigger home counters
             break;
         case ECUID7:
-            
+            //knock
             break;
         case ECUID8:
-            
+            uiECUBrakeP = ucCAN2RXData0;
+            uiECUBrakeP |= (ucCAN2RXData1 << 8 );
+            uiECUBrakeP = uiECUBrakeP / 100; //bares
             break;
         case ECUID9:
-            
+            //wheelspeed
             break;
         case ECUID10:
-            
+            //no used
             break;
         case ECUID11:
-            
+            //no used
             break;
         case ECUID12:
-            
+            //no used
+            break;
+        case ECUID15:
+            uiBatV = ucCAN2RXData0;
+            uiBatV |= (ucCAN2RXData1 << 8 );
+            uiBatV = uiBatV / 10; //voltios
             break;
         case ECUID19:
-            uiECT = ucCAN2RXData0;
-            uiECT |= (ucCAN2RXData1 << 8 );
-            uiAirTemp = ucCAN2RXData2;
-            uiAirTemp |= (ucCAN2RXData3 << 8 );
+            uiECTK = ucCAN2RXData0;
+            uiECTK |= (ucCAN2RXData1 << 8 );
+            uiECTC = ( uiECTK / 10 ) - 273;
+            uiAirTempK = ucCAN2RXData2;
+            uiAirTempK |= (ucCAN2RXData3 << 8 );
+            uiAirTempC = ( uiAirTempK / 10 ) - 273;
             break;
             
     }
@@ -259,5 +283,5 @@ void MESSAGESSystemStatusSend(void)
     ucData5 = ( uiConesCountAll && 0xFE00 );
     
     
-    ecan1WriteMessage(SYSTEM_STATUS, DataLength_5, ucData1, ucData2, ucData3, ucData4, ucData5, 0x00, 0x00, 0x00);
+    ecan1WriteMessage(DV_SYSTEM_STATUS, DataLength_5, ucData1, ucData2, ucData3, ucData4, ucData5, 0x00, 0x00, 0x00);
 }
