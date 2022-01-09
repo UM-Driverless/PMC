@@ -15,7 +15,7 @@ extern "C" {
 
 //FUNCIONES
 void ADCInit (void);
-
+void ADCRead (unsigned char ucAnalogChannel);
 
 #ifdef	__cplusplus
 }

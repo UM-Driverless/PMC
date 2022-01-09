@@ -399,6 +399,26 @@ extern "C" {
 #define OUT4_SetDigitalMode()     do { ANSELBbits.ANSELB8 = 0; } while(0) 
     
     
+// get/set OUT3 aliases
+#define VTEMP_TRIS                 TRISBbits.TRISB9
+#define VTEMP_LAT                  LATBbits.LATB9
+#define VTEMP_PORT                 PORTBbits.RB9
+#define VTEMP_WPU                  WPUBbits.WPUB9
+#define VTEMP_OD                   ODCONBbits.ODCB9
+#define VTEMP_ANS                  ANSELBbits.ANSELB9
+#define VTEMP_SetHigh()            do { LATBbits.LATB9 = 1; } while(0)
+#define VTEMP_SetLow()             do { LATBbits.LATB9 = 0; } while(0)
+#define VTEMP_Toggle()             do { LATBbits.LATB9 = ~LATBbits.LATB9; } while(0)
+#define VTEMP_GetValue()           PORTBbits.RB9
+#define VTEMP_SetDigitalInput()    do { TRISBbits.TRISB9 = 1; } while(0)
+#define VTEMP_SetDigitalOutput()   do { TRISBbits.TRISB9 = 0; } while(0)
+#define VTEMP_SetPullup()          do { WPUBbits.WPUB9 = 1; } while(0)
+#define VTEMP_ResetPullup()        do { WPUBbits.WPUB9 = 0; } while(0)
+#define VTEMP_SetPushPull()        do { ODCONBbits.ODCB9 = 0; } while(0)
+#define VTEMP_SetOpenDrain()       do { ODCONBbits.ODCB9 = 1; } while(0)
+#define VTEMP_SetAnalogMode()      do { ANSELBbits.ANSELB9 = 1; } while(0)
+#define VTEMP_SetDigitalMode()     do { ANSELBbits.ANSELB9 = 0; } while(0) 
+    
 //variables
 extern volatile unsigned char ucEntrada1;
     

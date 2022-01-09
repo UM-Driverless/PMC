@@ -63,7 +63,7 @@ int main(void) {
     UART2init();
 
     //ADC INIT
-    ADCInit();
+    //ADCInit();
     
     //INICIALIZACION UART1
     //UART1inicializacion();    
@@ -135,7 +135,7 @@ int main(void) {
         //CREAR FUNCION DE LECTURA DE DIGITALES CONSTANTE
         //GPIO_Entradas();
         
-        ADCRead();
+        //ADCRead();
         
     }
 }
