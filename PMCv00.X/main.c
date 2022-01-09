@@ -17,6 +17,7 @@
 #include "STATEMACHINE.h"
 #include "TEMPORIZATIONS.h"
 #include "TELEMETRY.h"
+#include "ADC.h"
 
 // Prototype Declaration
 void oscConfig(void);
@@ -61,6 +62,8 @@ int main(void) {
     UART1init();
     UART2init();
 
+    //ADC INIT
+    ADCInit();
     
     //INICIALIZACION UART1
     //UART1inicializacion();    
@@ -131,6 +134,8 @@ int main(void) {
         
         //CREAR FUNCION DE LECTURA DE DIGITALES CONSTANTE
         //GPIO_Entradas();
+        
+        ADCRead();
         
     }
 }
