@@ -13,7 +13,7 @@
 #include "STATEMACHINE.h"
 
 //VARIABLES
-unsigned char telemetryString[10];
+unsigned char telemetryString[12];
 
 
 //FUNCIONES
@@ -24,16 +24,18 @@ void TELEMETRYSendFrame(unsigned char ucPackNumber, unsigned char data1, unsigne
     //Hay que ver si enviarlo numero a numero en ASCII o hacer una transformacion, aunque los valores 0=NULL no los envía.
     
     crc = ucPackNumber + data1 + data2 + data3 + data4 + data5 + data6 + data7 + data8;
-    telemetryString[0] = ucPackNumber;
-    telemetryString[1] = data1;
-    telemetryString[2] = data2;
-    telemetryString[3] = data3;
-    telemetryString[4] = data4;
-    telemetryString[5] = data5;
-    telemetryString[6] = data6;
-    telemetryString[7] = data7;
-    telemetryString[8] = data8;
-    telemetryString[9] = crc;
+    telemetryString[0] = 0x01;  //SOH
+    telemetryString[1] = ucPackNumber;
+    telemetryString[2] = data1;
+    telemetryString[3] = data2;
+    telemetryString[4] = data3;
+    telemetryString[5] = data4;
+    telemetryString[6] = data5;
+    telemetryString[7] = data6;
+    telemetryString[8] = data7;
+    telemetryString[9] = data8;
+    telemetryString[10] = crc;
+    telemetryString[11] = 0x04; //EOT
     UART1WriteString(telemetryString);
     UART1WriteString ("\r\n"); //salto de linea
 }
