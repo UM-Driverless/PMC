@@ -45,6 +45,8 @@
 //ETC
 #define ETC_SIGNAL                  0x330
 #define ETC_STATE                   0x331
+//PMC
+#define PMC_STATE                   0x345
 //ASB MSG
 #define ASB_ANALOG                  0x360
 #define ASB_SIGNALS                 0x361

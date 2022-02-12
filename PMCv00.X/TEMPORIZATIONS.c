@@ -48,13 +48,13 @@ void TEMPORIZATION_20ms (void)
 
 void TEMPORIZATION_100ms (void) //10Hz
 {
-    MESSAGESSystemStatusSend();
+    //MESSAGESSystemStatusSend();
     GPIO_Entradas();
 }
 
 void TEMPORIZATION_500ms (void)
 {
-    ecan1WriteMessage(DV_DRIVING_DYNAMICS_1, DataLength_8, ucSpeedActual, ucSpeedTarget, ucSteeringAngleActual, ucSteeringAngleTarget, ucBrakeHDRActual, ucBrakeHDRTarget, ucMotorMovementActual, ucMotorMovementTarget);
+    //ecan1WriteMessage(DV_DRIVING_DYNAMICS_1, DataLength_8, ucSpeedActual, ucSpeedTarget, ucSteeringAngleActual, ucSteeringAngleTarget, ucBrakeHDRActual, ucBrakeHDRTarget, ucMotorMovementActual, ucMotorMovementTarget);
     TELEMETRYSendVARPACK1();
     TELEMETRYSendVARPACK2();
     TELEMETRYSendVARPACK3();
@@ -62,7 +62,7 @@ void TEMPORIZATION_500ms (void)
 
 void TEMPORIZATION_1s (void)
 {
-    
+    ecan1WriteMessage(PMC_STATE, DataLength_1, ucASMS, 0, 0, 0, 0, 0, 0, 0);
 }
 
 void TEMPORIZATION_5s (void)
