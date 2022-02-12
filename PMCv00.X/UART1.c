@@ -274,5 +274,17 @@ void UART1init(){
 
 unsigned char UARTHexToASCII (unsigned char ucHex)
 {
-    return ( ucHex + 0x30 );
+    unsigned char ucASCII;
+    
+    if ((ucHex>=0x00)&&(ucHex<=9)) // Comprobamos que es un numero
+    {
+       ucASCII = ucHex + 0x30; 
+       
+    }
+    else if((ucHex>=0x0A)&&(ucHex<=0x0F))
+    {
+        ucASCII = ucHex + 0x37; 
+    }
+    
+    return ( ucASCII );
 }
