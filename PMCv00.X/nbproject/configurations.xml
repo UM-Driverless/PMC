@@ -20,6 +20,7 @@
       <itemPath>TEMPORIZATIONS.h</itemPath>
       <itemPath>AS.h</itemPath>
       <itemPath>ADC.h</itemPath>
+      <itemPath>SUPERVISOR.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -45,6 +46,7 @@
       <itemPath>TEMPORIZATIONS.c</itemPath>
       <itemPath>AS.c</itemPath>
       <itemPath>ADC.c</itemPath>
+      <itemPath>SUPERVISOR.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -90,6 +92,7 @@
       </compileType>
       <makeCustomizationType>
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
+        <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
         <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
         <makeCustomizationPostStep></makeCustomizationPostStep>

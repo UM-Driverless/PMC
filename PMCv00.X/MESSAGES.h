@@ -46,7 +46,16 @@
 #define ETC_SIGNAL                  0x330
 #define ETC_STATE                   0x331
 //PMC
+#define PMC_GPS                     0x340
+#define PMC_IMU                     0x341
+#define PMC_ANALOG                  0x342
+#define PMC_TIMESTAMP               0x343
+#define PMC_DIGITAL                 0x344
+#define PMC_ECU1                    0x345
+#define PMC_ECU2                    0x346
 #define PMC_STATE                   0x347
+
+
 //ASB MSG
 #define ASB_ANALOG                  0x360
 #define ASB_SIGNALS                 0x361
@@ -59,7 +68,9 @@
 //RES MSG
 #define RES_PDOTR       0x191
 //STEERING WHELL
-#define STEERW_DV       0x410
+#define STEERW_DV    0x410
+#define STEERW_PUNT  0x411
+#define STEERW_CONT  0x412
 
 //CAN 2 DE ECU
 #define ECUID1 0x360
@@ -113,6 +124,15 @@ extern volatile unsigned char ucCAN2RXData5;
 extern volatile unsigned char ucCAN2RXData6;
 extern volatile unsigned char ucCAN2RXData7;
 
+//ETC
+extern unsigned char ucAPPS1;
+extern unsigned char ucAPPS2; 
+extern unsigned char ucTPS1;
+extern unsigned char ucTPS2; 
+extern unsigned char ucAPPS_STATE; 
+extern unsigned char ucTPS_STATE; 
+extern unsigned char ucCLUTCHState;
+extern unsigned char ucETB_STATE; 
 
 //ASB
 extern unsigned char ucHDRPRES1;

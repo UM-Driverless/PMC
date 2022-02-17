@@ -44,6 +44,15 @@ volatile unsigned char ucCAN2RXData5;
 volatile unsigned char ucCAN2RXData6;
 volatile unsigned char ucCAN2RXData7;
 
+//ETC
+unsigned char ucAPPS1;
+unsigned char ucAPPS2; 
+unsigned char ucTPS1;
+unsigned char ucTPS2; 
+unsigned char ucAPPS_STATE; 
+unsigned char ucTPS_STATE; 
+unsigned char ucCLUTCHState;
+unsigned char ucETB_STATE; 
 
 //ASB
 unsigned char ucHDRPRES1;
@@ -112,6 +121,18 @@ void MESSAGES_CAN1_Rx(){
     ucCAN1RXData7       = ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][11] ); 
     switch ( ulCAN1RXID )  
     {
+        case ETC_SIGNAL:
+            ucAPPS1 = ucCAN1RXData0;
+            ucAPPS2 = ucCAN1RXData1; 
+            ucTPS1 = ucCAN1RXData2;
+            ucTPS2 = ucCAN1RXData3; 
+            break;
+        case ETC_STATE:
+            ucTPS_STATE = ucCAN1RXData0; 
+            ucAPPS_STATE = ucCAN1RXData1; 
+            ucCLUTCHState = ucCAN1RXData2;
+            ucETB_STATE = ucCAN1RXData3; 
+            break;
         case ASB_ANALOG:
             ucHDRPRES1 = ucCAN1RXData0;
             ucHDRPRES2 = ucCAN1RXData1;
@@ -121,6 +142,11 @@ void MESSAGES_CAN1_Rx(){
             ucNPRES4 = ucCAN1RXData5;
             ucA1 = ucCAN1RXData6;
             ucA2 = ucCAN1RXData7;
+            break;
+        case ASB_SIGNALS:
+            ucBrakePedalPress = ucCAN1RXData0;
+            break;
+        case ASB_STATE:
             break;
         case TRAJECTORY_STATE:
             ucMissionState = ucCAN1RXData2;
@@ -148,10 +174,6 @@ void MESSAGES_CAN1_Rx(){
             break;
         case SENRR_SIG:
             ucVelRR = ucCAN1RXData4;
-            break;
-        case ASB_SIGNALS:
-            ucBrakePedalPress = ucCAN1RXData0;
-            break;
         case RES_PDOTR:
             ucGOSignal = ( ( ucCAN1RXData0 & 0x06 ) >> 1 );
             break;
