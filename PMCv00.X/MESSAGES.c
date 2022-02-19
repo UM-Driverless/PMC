@@ -185,6 +185,19 @@ void MESSAGES_CAN1_Rx(){
             }
             ucAMRequest = ucAMRequestPrev;
             break;
+        case ASSIS_R:
+            
+            break;
+            
+        case ASSIS_C:
+            
+            break;
+            
+        case ASSIS_L:
+            
+            break;
+        default:
+            break;
     }
 }
 

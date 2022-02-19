@@ -56,6 +56,10 @@
 #define PMC_STATE                   0x347
 
 
+//ASSIS
+#define ASSIS_C                     0x350
+#define ASSIS_R                     0x351
+#define ASSIS_L                     0x352
 //ASB MSG
 #define ASB_ANALOG                  0x360
 #define ASB_SIGNALS                 0x361
