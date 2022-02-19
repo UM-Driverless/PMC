@@ -54,6 +54,10 @@ unsigned char ucTPS_STATE;
 unsigned char ucCLUTCHState;
 unsigned char ucETB_STATE; 
 
+
+//ASSIS
+unsigned char ucASState_prev;
+
 //ASB
 unsigned char ucHDRPRES1;
 unsigned char ucHDRPRES2;
@@ -64,6 +68,11 @@ unsigned char ucNPRES4;
 unsigned char ucA1;
 unsigned char ucA2;
 unsigned char ucBrakePedalPress;
+unsigned char AS_DRIVING_MODE;
+unsigned char PWMOUT;
+unsigned char WDOUT;
+unsigned char SDC_EBS_RDY;
+unsigned char EVALVS;
 
 //TRAJECTORY
 unsigned char ucMissionState;
@@ -145,6 +154,11 @@ void MESSAGES_CAN1_Rx(){
             break;
         case ASB_SIGNALS:
             ucBrakePedalPress = ucCAN1RXData0;
+            AS_DRIVING_MODE   = ucCAN1RXData1;
+            PWMOUT            = ucCAN1RXData2;
+            WDOUT             = ucCAN1RXData3;
+            SDC_EBS_RDY       = ucCAN1RXData4;
+            EVALVS            = ucCAN1RXData5;
             break;
         case ASB_STATE:
             break;
@@ -186,15 +200,15 @@ void MESSAGES_CAN1_Rx(){
             ucAMRequest = ucAMRequestPrev;
             break;
         case ASSIS_R:
-            
+            ucASState_prev = ucCAN1RXData1; 
             break;
             
         case ASSIS_C:
-            
+            ucASState_prev = ucCAN1RXData1; 
             break;
             
         case ASSIS_L:
-            
+            ucASState_prev = ucCAN1RXData1; 
             break;
         default:
             break;
