@@ -16,5 +16,50 @@ void SUPERVISORbySystems (unsigned char ucSystem)
         case PMC:
             break;
             
+        case XAVIER:
+            break;
+            
+        case ASB:
+            break;
+            
+        case ETC:
+            break;
+            
+        case SENFR:
+            break;
+            
+        case SENFL:
+            break;
+            
+        case SENRR:
+            break;
+            
+        case SENRL:
+            break;
+            
+        case ASSIC:
+            break;
+            
+        case ASSIR:
+            break;
+            
+        case ASSIL:
+            break;
+            
+        case STEER:
+            break;
+            
+        case SHIFTER:
+            break;
+            
+        case STEER_W:
+            break;
+            
+        case AMI:
+            break;
+            
+        default:
+            break;
+            
     }
 }
