@@ -36,7 +36,6 @@
 #define DV_DRIVING_DYNAMICS_1       0x500
 #define DV_DRIVING_DYNAMICS_2       0x501
 #define DV_SYSTEM_STATUS            0x502
-
 //TRAJECTORY
 #define TRAJECTORY_ACT              0x320
 #define TRAJECTORY_GPS              0x321
@@ -54,8 +53,11 @@
 #define PMC_ECU1                    0x345
 #define PMC_ECU2                    0x346
 #define PMC_STATE                   0x347
-
-
+//AIM
+#define GPS_AIM                     0x400
+//BMS AND SENSORS
+#define BMS1                        0x430
+#define COOLING                     0x440
 //ASSIS
 #define ASSIS_C                     0x350
 #define ASSIS_R                     0x351
@@ -65,17 +67,26 @@
 #define ASB_SIGNALS                 0x361
 #define ASB_STATE                   0x362
 //SEN MSG 
-#define SENFL_SIG       0x301
-#define SENFR_SIG       0x304
-#define SENRL_SIG       0x307
-#define SENRR_SIG       0x30A
+#define SENFL_IMU                   0x300//
+#define SENFL_SIG                   0x301
+#define SENFEL_STATE                0x302//
+#define SENFR_IMU                   0x303//
+#define SENFR_SIG                   0x304
+#define SENFR_STATE                 0x305//
+#define SENRL_IMU                   0x306//
+#define SENRL_SIG                   0x307
+#define SENRL_STATE                 0x308//
+#define SENRR_IMU                   0x309//
+#define SENRR_SIG                   0x30A
+#define SENRR_STATE                 0x30B//
 //RES MSG
 #define RES_PDOTR       0x191
 //STEERING WHELL
 #define STEERW_DV    0x410
 #define STEERW_PUNT  0x411
 #define STEERW_CONT  0x412
-
+//SHIFTER
+#define EL_SHIFTER   0x420
 //CAN 2 DE ECU
 #define ECUID1 0x360
 #define ECUID2 0x361

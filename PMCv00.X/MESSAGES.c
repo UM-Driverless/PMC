@@ -68,15 +68,55 @@ unsigned char ucNPRES4;
 unsigned char ucA1;
 unsigned char ucA2;
 unsigned char ucBrakePedalPress;
-unsigned char AS_DRIVING_MODE;
-unsigned char PWMOUT;
-unsigned char WDOUT;
-unsigned char SDC_EBS_RDY;
-unsigned char EVALVS;
+unsigned char ucAS_DRIVING_MODE;
+unsigned char ucPWMOUT;
+unsigned char ucWDOUT;
+unsigned char ucSDC_EBS_RDY;
+unsigned char ucEVALVS;
+unsigned char ucHeartbeat;
+unsigned char ucState;
+unsigned char ucErrorid;
+unsigned char ucRequest_AS_State;
 
 //TRAJECTORY
 unsigned char ucMissionState;
+unsigned char ucThrottle;
+unsigned char ucClutch;
+unsigned char ucBrake;
+unsigned char ucSteering;
+unsigned char ucGear;
+unsigned char ucError_id;
+unsigned char ucGPIO;
+unsigned char ucMissionState;
+unsigned char ucAMtransit;
+unsigned char ucAMtransited;
 
+//PMC
+unsigned char ucLatitude1;
+unsigned char ucLatitude2;
+unsigned char ucLatitude3;
+unsigned char ucAltitude1;
+unsigned char ucAltitude2;
+unsigned char ucAltitude3;
+unsigned char ucSpeed1;
+unsigned char ucSpeed2;
+unsigned char ucAnalog0; // Analog
+unsigned char ucAnalog1;
+unsigned char ucAnalog2;
+unsigned char ucAnalog3;
+unsigned char ucAnalog4;
+unsigned char ucAnalog5;
+unsigned char ucElectronic_box_temp;
+unsigned char ucSeconds; //Timestap
+unsigned char ucMinutes;
+unsigned char ucHours;
+unsigned char ucDay;
+unsigned char ucMonth;
+unsigned char ucYear;
+unsigned char ucETC; //ECU
+unsigned char ucAirTemp;
+unsigned char ucTPS;
+unsigned char ucASMode;//State  
 //RES
 unsigned char ucGOSignal;
 
@@ -109,6 +149,15 @@ unsigned char ucMotorMovementTarget;
 unsigned char ucAMRequest;
 unsigned char ucAMRequestPrev;
 
+//SEN
+unsigned char ucAx;
+unsigned char ucAy;
+unsigned char ucAz;
+unsigned char ucGx;
+unsigned char ucGy;
+unsigned char ucGz;
+unsigned char ucMx;
+unsigned char ucMy;
 
 // INICIALIZACION DE FUNCIONES //
 void MESSAGES_CAN1_Rx(void);
@@ -154,13 +203,17 @@ void MESSAGES_CAN1_Rx(){
             break;
         case ASB_SIGNALS:
             ucBrakePedalPress = ucCAN1RXData0;
-            AS_DRIVING_MODE   = ucCAN1RXData1;
-            PWMOUT            = ucCAN1RXData2;
-            WDOUT             = ucCAN1RXData3;
-            SDC_EBS_RDY       = ucCAN1RXData4;
-            EVALVS            = ucCAN1RXData5;
+            ucAS_DRIVING_MODE   = ucCAN1RXData1;
+            ucPWMOUT            = ucCAN1RXData2;
+            ucWDOUT             = ucCAN1RXData3;
+            ucSDC_EBS_RDY       = ucCAN1RXData4;
+            ucEVALVS            = ucCAN1RXData5;
             break;
         case ASB_STATE:
+            ucHeartbeat        = ucCAN1RXData0;
+            ucState            = ucCAN1RXData1;
+            ucErrorid          = ucCAN1RXData2;
+            ucRequest_AS_State = ucCAN1RXData3;
             break;
         case TRAJECTORY_STATE:
             ucMissionState = ucCAN1RXData2;
@@ -177,6 +230,16 @@ void MESSAGES_CAN1_Rx(){
                 //ucFLAG que permite el GOOO
             }
             break;
+        case SENFL_IMU:
+            ucAx = ucCAN1RXData0;
+            ucAy = ucCAN1RXData1;
+            ucAz = ucCAN1RXData2;
+            ucGx = ucCAN1RXData3;
+            ucGy = ucCAN1RXData4;
+            ucGz = ucCAN1RXData5;
+            ucMx = ucCAN1RXData6;
+            ucMy = ucCAN1RXData7;
+            break;
         case SENFL_SIG:
             ucVelFL = ucCAN1RXData4;
             break;
@@ -188,6 +251,7 @@ void MESSAGES_CAN1_Rx(){
             break;
         case SENRR_SIG:
             ucVelRR = ucCAN1RXData4;
+            break;
         case RES_PDOTR:
             ucGOSignal = ( ( ucCAN1RXData0 & 0x06 ) >> 1 );
             break;
@@ -209,6 +273,84 @@ void MESSAGES_CAN1_Rx(){
             
         case ASSIS_L:
             ucASState_prev = ucCAN1RXData1; 
+            break;
+        case TRAJECTORY_ACT:
+            ucThrottle   =ucCAN1RXData0; 
+            ucClutch     = ucCAN1RXData1;
+            ucBrake      = ucCAN1RXData2;
+            ucSteering   = ucCAN1RXData3;
+            ucGear       = ucCAN1RXData4;
+            break;
+        case TRAJECTORY_GPS:
+            //Variable latitude data 0-2
+            //Variable altitude data 3-5
+            //Variable speed data 6-7
+            break;
+        case TRAJECTORY_IMU:
+            ucAx = ucCAN1RXData0;
+            ucAy = ucCAN1RXData1;
+            ucAz = ucCAN1RXData2;
+            ucGx = ucCAN1RXData3;
+            ucGy = ucCAN1RXData4;
+            ucGz = ucCAN1RXData5;
+            ucMx = ucCAN1RXData6;
+            ucMy = ucCAN1RXData7;
+            break;
+        case TRAJECTORY_STATE:
+            ucError_id     = ucCAN1RXData0;
+            ucGPIO         = ucCAN1RXData1;
+            ucMissionState = ucCAN1RXData2;
+            ucAMtransit    = ucCAN1RXData3;
+            ucAMtransited  = ucCAN1RXData4;
+            break;
+        case PMC_GPS:
+            ucLatitude1 =ucCAN1RXData0;
+            ucLatitude2 =ucCAN1RXData1;
+            ucLatitude3 = ucCAN1RXData2;
+            ucAltitude1 = ucCAN1RXData3;
+            ucAltitude2 = ucCAN1RXData4;
+            ucAltitude3 = ucCAN1RXData5;
+            ucSpeed1    = ucCAN1RXData6;
+            ucSpeed2    = ucCAN1RXData7;
+            break;
+        case PMC_IMU:
+            ucAx = ucCAN1RXData0;
+            ucAy = ucCAN1RXData1;
+            ucAz = ucCAN1RXData2;
+            ucGx = ucCAN1RXData3;
+            ucGy = ucCAN1RXData4;
+            ucGz = ucCAN1RXData5;
+            ucMx = ucCAN1RXData6;
+            ucMy = ucCAN1RXData7;
+            break;
+        case PMC_ANALOG:
+            ucAnalog0             = ucCAN1RXData0;
+            ucAnalog1             = ucCAN1RXData1;
+            ucAnalog2             = ucCAN1RXData2;
+            ucAnalog3             = ucCAN1RXData3;
+            ucAnalog4             = ucCAN1RXData4;
+            ucElectronic_box_temp = ucCAN1RXData5;
+            break;
+        case PMC_TIMESTAMP:
+            ucSeconds = ucCAN1RXData0;
+            ucMinutes = ucCAN1RXData1;
+            ucHours   = ucCAN1RXData2;
+            ucDay     = ucCAN1RXData3;
+            ucMonth   = ucCAN1RXData4;
+            ucYear    = ucCAN1RXData5;
+            break;
+        case PMC_DIGITAL: //bytes troceados 
+            break;
+        case PMC_ECU1:
+            //ucCAN1RXData0 y ucCAN1RXData1 son los RPM, ocupa los dos
+            ucETC     = ucCAN1RXData2;
+            ucAirTemp = ucCAN1RXData3;
+            ucTPS     = ucCAN1RXData4;
+            break;
+        case PMC_ECU2:
+            break;
+        case PMC_STATE:
+            ucASMode =ucCAN1RXData0;
             break;
         default:
             break;
