@@ -28,11 +28,12 @@
 #define AS4 0x514
 #define AS5 0x515
 //Res msgs
-#define NMT_NODE_CONTROL 0x000
-#define SYNC 0x080
-#define TIME_STAMP 0x100
-#define LSS_T 0x7E4
-#define LSS_R 0x7E5
+#define NMT_NODE_CONTROL            0x000
+#define SYNC                        0x080
+#define EMERGENCY                   0x091
+#define TIME_STAMP                  0x100
+#define LSS_T                       0x7E4
+#define LSS_R                       0x7E5
 #define DV_DRIVING_DYNAMICS_1       0x500
 #define DV_DRIVING_DYNAMICS_2       0x501
 #define DV_SYSTEM_STATUS            0x502
@@ -81,6 +82,10 @@
 #define SENRR_STATE                 0x30B//
 //RES MSG
 #define RES_PDOTR       0x191
+#define RES_PDORC       0x211
+#define RES_SDOTR       0x591
+#define RES_SDORC       0x611
+#define RES_NMTMON      0x711
 //STEERING WHELL
 #define STEERW_DV    0x410
 #define STEERW_PUNT  0x411

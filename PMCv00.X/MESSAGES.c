@@ -119,6 +119,8 @@ unsigned char ucTPS;
 unsigned char ucASMode;//State  
 //RES
 unsigned char ucGOSignal;
+unsigned char ucRequestedState;
+unsigned char ucAddressedNodeID;
 
 //ECU
 unsigned int uiRPM;
@@ -210,10 +212,10 @@ void MESSAGES_CAN1_Rx(){
             ucEVALVS            = ucCAN1RXData5;
             break;
         case ASB_STATE:
-            ucHeartbeat        = ucCAN1RXData0;
+            /*ucHeartbeat        = ucCAN1RXData0;
             ucState            = ucCAN1RXData1;
             ucErrorid          = ucCAN1RXData2;
-            ucRequest_AS_State = ucCAN1RXData3;
+            ucRequest_AS_State = ucCAN1RXData3;*/
             break;
         case TRAJECTORY_STATE:
             ucMissionState = ucCAN1RXData2;
@@ -231,14 +233,14 @@ void MESSAGES_CAN1_Rx(){
             }
             break;
         case SENFL_IMU:
-            ucAx = ucCAN1RXData0;
+            /*ucAx = ucCAN1RXData0;
             ucAy = ucCAN1RXData1;
             ucAz = ucCAN1RXData2;
             ucGx = ucCAN1RXData3;
             ucGy = ucCAN1RXData4;
             ucGz = ucCAN1RXData5;
             ucMx = ucCAN1RXData6;
-            ucMy = ucCAN1RXData7;
+            ucMy = ucCAN1RXData7;*/
             break;
         case SENFL_SIG:
             ucVelFL = ucCAN1RXData4;
@@ -253,7 +255,7 @@ void MESSAGES_CAN1_Rx(){
             ucVelRR = ucCAN1RXData4;
             break;
         case RES_PDOTR:
-            ucGOSignal = ( ( ucCAN1RXData0 & 0x06 ) >> 1 );
+            //ucGOSignal = ( ( ucCAN1RXData0 & 0x06 ) >> 1 );
             break;
         case STEERW_DV:
             ucAMRequest = ucCAN1RXData0;
@@ -264,15 +266,15 @@ void MESSAGES_CAN1_Rx(){
             ucAMRequest = ucAMRequestPrev;
             break;
         case ASSIS_R:
-            ucASState_prev = ucCAN1RXData1; 
+             
             break;
             
         case ASSIS_C:
-            ucASState_prev = ucCAN1RXData1; 
+            
             break;
             
         case ASSIS_L:
-            ucASState_prev = ucCAN1RXData1; 
+            
             break;
         case TRAJECTORY_ACT:
             ucThrottle   =ucCAN1RXData0; 
@@ -287,14 +289,14 @@ void MESSAGES_CAN1_Rx(){
             //Variable speed data 6-7
             break;
         case TRAJECTORY_IMU:
-            ucAx = ucCAN1RXData0;
+            /*ucAx = ucCAN1RXData0;
             ucAy = ucCAN1RXData1;
             ucAz = ucCAN1RXData2;
             ucGx = ucCAN1RXData3;
             ucGy = ucCAN1RXData4;
             ucGz = ucCAN1RXData5;
             ucMx = ucCAN1RXData6;
-            ucMy = ucCAN1RXData7;
+            ucMy = ucCAN1RXData7;*/
             break;
         case TRAJECTORY_STATE:
             ucError_id     = ucCAN1RXData0;
@@ -314,44 +316,70 @@ void MESSAGES_CAN1_Rx(){
             ucSpeed2    = ucCAN1RXData7;
             break;
         case PMC_IMU:
-            ucAx = ucCAN1RXData0;
+          /*  ucAx = ucCAN1RXData0;
             ucAy = ucCAN1RXData1;
             ucAz = ucCAN1RXData2;
             ucGx = ucCAN1RXData3;
             ucGy = ucCAN1RXData4;
             ucGz = ucCAN1RXData5;
             ucMx = ucCAN1RXData6;
-            ucMy = ucCAN1RXData7;
+            ucMy = ucCAN1RXData7;*/
             break;
         case PMC_ANALOG:
-            ucAnalog0             = ucCAN1RXData0;
+            /*ucAnalog0             = ucCAN1RXData0;
             ucAnalog1             = ucCAN1RXData1;
             ucAnalog2             = ucCAN1RXData2;
             ucAnalog3             = ucCAN1RXData3;
             ucAnalog4             = ucCAN1RXData4;
-            ucElectronic_box_temp = ucCAN1RXData5;
+            ucElectronic_box_temp = ucCAN1RXData5;*/
             break;
         case PMC_TIMESTAMP:
-            ucSeconds = ucCAN1RXData0;
+           /* ucSeconds = ucCAN1RXData0;
             ucMinutes = ucCAN1RXData1;
             ucHours   = ucCAN1RXData2;
             ucDay     = ucCAN1RXData3;
             ucMonth   = ucCAN1RXData4;
-            ucYear    = ucCAN1RXData5;
+            ucYear    = ucCAN1RXData5;*/
             break;
         case PMC_DIGITAL: //bytes troceados 
             break;
         case PMC_ECU1:
-            //ucCAN1RXData0 y ucCAN1RXData1 son los RPM, ocupa los dos
-            ucETC     = ucCAN1RXData2;
+            
+           /* ucETC     = ucCAN1RXData2;
             ucAirTemp = ucCAN1RXData3;
-            ucTPS     = ucCAN1RXData4;
+            ucTPS     = ucCAN1RXData4;*/
             break;
         case PMC_ECU2:
             break;
         case PMC_STATE:
-            ucASMode =ucCAN1RXData0;
+            //ucASMode =ucCAN1RXData0;
             break;
+        case NMT_NODE_CONTROL:
+            /*ucRequestedState = ucCAN1RXData0;
+            ucAddressedNodeID = ucCAN1RXData1;*/
+            break;
+        case SYNC:
+            break;
+        case EMERGENCY:
+            break;
+        case TIME_STAMP:
+            break;
+        case RES_PDOTR://bytes troceados
+            break;
+        case RES_PDORC:
+            break;
+        case RES_SDOTR:
+            break;
+        case RES_SDORC:
+            break;
+        case RES_NMTMON:
+            ////ucEmptyByte = ucCAN1RXData0;
+            break;
+        case LSS_T:
+            break;
+        case LSS_R:
+            break;
+            
         default:
             break;
     }
