@@ -298,13 +298,13 @@ void MESSAGES_CAN1_Rx(){
             ucMx = ucCAN1RXData6;
             ucMy = ucCAN1RXData7;*/
             break;
-        case TRAJECTORY_STATE:
-            ucError_id     = ucCAN1RXData0;
-            ucGPIO         = ucCAN1RXData1;
-            ucMissionState = ucCAN1RXData2;
-            ucAMtransit    = ucCAN1RXData3;
-            ucAMtransited  = ucCAN1RXData4;
-            break;
+//        case TRAJECTORY_STATE:
+//            ucError_id     = ucCAN1RXData0;
+//            ucGPIO         = ucCAN1RXData1;
+//            ucMissionState = ucCAN1RXData2;
+//            ucAMtransit    = ucCAN1RXData3;
+//            ucAMtransited  = ucCAN1RXData4;
+//            break;
         case PMC_GPS:
             ucLatitude1 =ucCAN1RXData0;
             ucLatitude2 =ucCAN1RXData1;
@@ -364,8 +364,8 @@ void MESSAGES_CAN1_Rx(){
             break;
         case TIME_STAMP:
             break;
-        case RES_PDOTR://bytes troceados
-            break;
+        //case RES_PDOTR://bytes troceados
+            //break;
         case RES_PDORC:
             break;
         case RES_SDOTR:
@@ -403,26 +403,26 @@ void MESSAGES_CAN2_Rx(){
     switch ( ulCAN2RXID )  
     {
         case ECUID1: 
-            uiRPM = ucCAN2RXData0;
-            uiRPM |= (ucCAN2RXData1 << 8 );
-            uiMAPkPa = ucCAN2RXData2;
-            uiMAPkPa |= (ucCAN2RXData3 << 8 );
+            uiRPM = ucCAN2RXData1;
+            uiRPM |= (ucCAN2RXData0 << 8 );
+            uiMAPkPa = ucCAN2RXData3;
+            uiMAPkPa |= (ucCAN2RXData2 << 8 );
             uiMAPb = uiMAPkPa / 1000; //bares
-            uiECUTPS = ucCAN2RXData4;
-            uiECUTPS |= (ucCAN2RXData5 << 8 );
+            uiECUTPS = ucCAN2RXData5;
+            uiECUTPS |= (ucCAN2RXData4 << 8 );
             uiECUTPS = uiECUTPS / 10; //%
             //uiCoolantP = ucCAN2RXData6;
             //uiCoolantP |= (ucCAN2RXData7 << 8 );
             break;
         case ECUID2:
-            uiFuelP = ucCAN2RXData0;
-            uiFuelP |= (ucCAN2RXData1 << 8 );
+            uiFuelP = ucCAN2RXData1;
+            uiFuelP |= (ucCAN2RXData0 << 8 );
             uiFuelP = uiFuelP / 1000; //bares
-            uiOilP = ucCAN2RXData2;
-            uiOilP |= (ucCAN2RXData3 << 8 );
+            uiOilP = ucCAN2RXData3;
+            uiOilP |= (ucCAN2RXData2 << 8 );
             uiOilP = uiOilP / 1000; //bares
-            uiECUAPPS = ucCAN2RXData4;
-            uiECUAPPS |= (ucCAN2RXData5 << 8 );
+            uiECUAPPS = ucCAN2RXData5;
+            uiECUAPPS |= (ucCAN2RXData4 << 8 );
             uiECUAPPS = uiECUAPPS / 10; //%
             /*uiEngineDemand = ucCAN2RXData4;
             uiEngineDemand |= (ucCAN2RXData5 << 8 );
@@ -436,8 +436,8 @@ void MESSAGES_CAN2_Rx(){
             //no used
             break;
         case ECUID5:
-            uiLambda = ucCAN2RXData0;
-            uiLambda |= (ucCAN2RXData1 << 8 );
+            uiLambda = ucCAN2RXData1;
+            uiLambda |= (ucCAN2RXData0 << 8 );
             uiLambda = uiLambda / 10; //0.01Lambda
             break;
         case ECUID6:
@@ -447,8 +447,8 @@ void MESSAGES_CAN2_Rx(){
             //knock
             break;
         case ECUID8:
-            uiECUBrakeP = ucCAN2RXData0;
-            uiECUBrakeP |= (ucCAN2RXData1 << 8 );
+            uiECUBrakeP = ucCAN2RXData1;
+            uiECUBrakeP |= (ucCAN2RXData0 << 8 );
             uiECUBrakeP = uiECUBrakeP / 100; //bares
             break;
         case ECUID9:
@@ -464,16 +464,16 @@ void MESSAGES_CAN2_Rx(){
             //no used
             break;
         case ECUID15:
-            uiBatV = ucCAN2RXData0;
-            uiBatV |= (ucCAN2RXData1 << 8 );
+            uiBatV = ucCAN2RXData1;
+            uiBatV |= (ucCAN2RXData0 << 8 );
             uiBatV = uiBatV / 10; //voltios
             break;
         case ECUID19:
-            uiECTK = ucCAN2RXData0;
-            uiECTK |= (ucCAN2RXData1 << 8 );
+            uiECTK = ucCAN2RXData1;
+            uiECTK |= (ucCAN2RXData0 << 8 );
             uiECTC = ( uiECTK / 10 ) - 273;
-            uiAirTempK = ucCAN2RXData2;
-            uiAirTempK |= (ucCAN2RXData3 << 8 );
+            uiAirTempK = ucCAN2RXData3;
+            uiAirTempK |= (ucCAN2RXData2 << 8 );
             uiAirTempC = ( uiAirTempK / 10 ) - 273;
             break;
             

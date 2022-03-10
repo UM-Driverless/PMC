@@ -4,7 +4,7 @@
  *
  * Created on 20 de octubre de 2021, 10:47
  */
-#include<stdio.h> 
+#include <stdio.h> 
 #include <string.h>
 #include "UART1.h"
 #include "TELEMETRY.h"
@@ -103,8 +103,8 @@ void TELEMETRYSendVARPACK1 (void)
     ucData4 = UARTHexToASCII ( ( uiRPM & 0xF000 ) >> 12 );
     ucData5 = UARTHexToASCII ( uiECTC & 0x000F );
     ucData6 = UARTHexToASCII ( ( uiECTC & 0x00F0 ) >> 4 );
-    ucData7 = UARTHexToASCII ( uiECUTPS & 0x000F );
-    ucData8 = UARTHexToASCII ( ( uiECUTPS & 0x00F0 ) >> 4 );
+    ucData7 = UARTHexToASCII ( uiLambda & 0x000F );
+    ucData8 = UARTHexToASCII ( ( uiLambda & 0x00F0 ) >> 4 );
     
     TELEMETRYSendFrame (VARPACK1, ucData1, ucData2, ucData3, ucData4, ucData5, ucData6, ucData7, ucData8);
 }
@@ -126,8 +126,8 @@ void TELEMETRYSendVARPACK2 (void)
     ucData2 = UARTHexToASCII ( ( uiMAPb & 0x00F0 ) >> 4 );
     ucData3 = UARTHexToASCII ( uiFuelP & 0x000F );
     ucData4 = UARTHexToASCII ( ( uiFuelP & 0x00F0 ) >> 4 );
-    ucData5 = UARTHexToASCII ( uiLambda & 0x000F );
-    ucData6 = UARTHexToASCII ( ( uiLambda & 0x00F0 ) >> 4 );
+    ucData5 = UARTHexToASCII ( uiECUTPS & 0x000F );
+    ucData6 = UARTHexToASCII ( ( uiECUTPS & 0x00F0 ) >> 4 );
     ucData7 = UARTHexToASCII ( uiECUAPPS & 0x000F );
     ucData8 = UARTHexToASCII ( ( uiECUAPPS & 0x00F0 ) >> 4 );
     
