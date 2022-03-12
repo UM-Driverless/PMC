@@ -218,6 +218,10 @@ void MESSAGES_CAN1_Rx(){
             ucRequest_AS_State = ucCAN1RXData3;*/
             break;
         case TRAJECTORY_STATE:
+            ucError_id     = ucCAN1RXData0;
+            ucGPIO         = ucCAN1RXData1;
+            //ucAMtransit    = ucCAN1RXData3;
+            ucAMtransited  = ucCAN1RXData4;
             ucMissionState = ucCAN1RXData2;
             ucASMissionRequest = ucCAN1RXData3;
             if ( ucASMissionRequest != ucASMissionRequestPrev ) 
@@ -298,13 +302,6 @@ void MESSAGES_CAN1_Rx(){
             ucMx = ucCAN1RXData6;
             ucMy = ucCAN1RXData7;*/
             break;
-//        case TRAJECTORY_STATE:
-//            ucError_id     = ucCAN1RXData0;
-//            ucGPIO         = ucCAN1RXData1;
-//            ucMissionState = ucCAN1RXData2;
-//            ucAMtransit    = ucCAN1RXData3;
-//            ucAMtransited  = ucCAN1RXData4;
-//            break;
         case PMC_GPS:
             ucLatitude1 =ucCAN1RXData0;
             ucLatitude2 =ucCAN1RXData1;
@@ -364,8 +361,6 @@ void MESSAGES_CAN1_Rx(){
             break;
         case TIME_STAMP:
             break;
-        //case RES_PDOTR://bytes troceados
-            //break;
         case RES_PDORC:
             break;
         case RES_SDOTR:
