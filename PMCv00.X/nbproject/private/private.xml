@@ -12,9 +12,22 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/MESSAGES.c</file>
-            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/TELEMETRY.c</file>
-            <file>file:/C:/Users/panze/Documents/GitHub/PMC/PMCv00.X/CAN2Config.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/CAN2Config.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/CAN1Config.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/TELEMETRY.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/UART1.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/MESSAGES.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/ADC.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/AS.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/GPIO.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/GPS.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/main.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/TELEMETRY.h</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/PARAMETERS.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/SUPERVISOR.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/STATEMACHINE.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/SPI.c</file>
+            <file>file:/C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/RTC.c</file>
         </group>
     </open-files>
 </project-private>

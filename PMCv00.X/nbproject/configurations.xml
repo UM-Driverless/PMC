@@ -920,6 +920,8 @@
         <property key="memories.programmemory.ranges" value="0-157ff"/>
         <property key="memories.rww" value="true"/>
         <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="C:/Users/Usuario/Documents/GitHub/PMC/PMCv00.X/debug/default/PMCv00_ptg"/>
         <property key="programmerToGoImageName" value="PMCv00_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
