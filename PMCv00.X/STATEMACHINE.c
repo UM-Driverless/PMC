@@ -35,11 +35,137 @@ unsigned char ucServiceBrakeState;
 unsigned char ucLapCounter;
 unsigned char ucConesCountActual;
 unsigned int uiConesCountAll;
+unsigned char ColaEventos[MAX_EVENT][2];
+unsigned char ucIndiceEscritura;
+unsigned char ucIndiceLectura;
+unsigned char ucEvent;
+unsigned char ucState;
+unsigned char ucTransitedState;
 
 //FUNCIONES
 void STATEMACHINE_Init (void) 
 {
     ucASState = AS_OFF;
+}
+
+
+void EVENTPush (unsigned char ucPushEvent, unsigned char ucPushState)
+{
+    ColaEventos[ucIndiceEscritura][EVENTS]=ucPushEvent;
+    ColaEventos[ucIndiceEscritura][STATES]=ucPushState;
+}
+
+
+void EVENTPull (void)
+{
+    ucEvent=ColaEventos[ucIndiceLectura][EVENTS];
+    ucState=ColaEventos[ucIndiceLectura][STATES];
+}
+
+
+void STATEMACHINETransition (void)
+{
+    //ANALISIS DE VARIABLES QUE INFLUYEN EN LA MAQUINA
+    SM_EBSAnalyse();
+    SM_VehicleStandstillAnalyse();
+    SM_TractiveSystemAnalyse();
+    SM_R2DAnalyse();
+    SM_BrakesEngagedAnalyse();
+    
+    if(ucEvent!=EV_NONE)
+    {
+        //if de antes por si quieres analizar otras cosas
+       
+        switch (ucEvent)
+        {
+            case EV_EBS_ACTIVATED:
+                //if realmente sigue activo en este momento?
+                if ( ( ucEBSactivate == EBS_ACTIVATED1 ) || ( ucEBSactivate == EBS_ACTIVATED2 ) )
+                {
+                    if ( ( ucMissionState != TJ_MISSION_FINISHED ) || ( ucVehicleStandstill != TRUE ) )
+                    {
+                        ucTransitedState = AS_EMERGENCY;
+                    }
+                }
+                break;
+        }
+    }
+}
+
+void STATEMACHINEAnalysis (void)
+{
+    //Eventos que no requieran ni estar en un estado ni transitar a uno
+    switch (ucEvent)
+    {
+        
+    }
+    //Analizar en cada estado en el que nos encontremos eventos 
+    //que solo se deben ejecutar en ese estado
+    switch (ucTransitedState)
+    {
+        case AS_OFF:
+            STATEMACHINE_ASOff();
+            break;
+        case AS_READY:
+            STATEMACHINE_ASReady();
+            break;
+        case AS_DRIVING:
+            STATEMACHINE_ASDriving();
+            break;
+        case AS_EMERGENCY:
+            STATEMACHINE_ASEmergency();
+            break;
+        case AS_FINISHED:
+            STATEMACHINE_ASFinished();
+            break;
+        default:
+            //tenemos un estado no deefinido
+            //apuntar error
+            break;
+    }
+}
+
+
+//ESTADOS DV
+void STATEMACHINE_ASOff (void)
+{
+    switch(ucEvent)
+    {
+        case EV_NONE:
+            //no hago nada
+            break;
+        case EV_EBS_ACTIVATED:
+            
+            break;
+    }
+}
+
+void STATEMACHINE_ASReady (void)
+{
+    
+}
+
+void STATEMACHINE_ASDriving (void)
+{
+    
+}
+
+void STATEMACHINE_ASEmergency (void)
+{
+    switch(ucEvent)
+    {
+        case EV_NONE:
+            //no hago nada
+            break;
+        case EV_EBS_ACTIVATED:
+            
+            break;
+    }
+}
+
+void STATEMACHINE_ASFinished (void)
+{
+    
 }
 
 

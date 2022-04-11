@@ -74,7 +74,6 @@ unsigned char ucWDOUT;
 unsigned char ucSDC_EBS_RDY;
 unsigned char ucEVALVS;
 unsigned char ucHeartbeat;
-unsigned char ucState;
 unsigned char ucErrorid;
 unsigned char ucRequest_AS_State;
 
@@ -213,7 +212,6 @@ void MESSAGES_CAN1_Rx(){
             break;
         case ASB_STATE:
             /*ucHeartbeat        = ucCAN1RXData0;
-            ucState            = ucCAN1RXData1;
             ucErrorid          = ucCAN1RXData2;
             ucRequest_AS_State = ucCAN1RXData3;*/
             break;

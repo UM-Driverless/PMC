@@ -36,6 +36,17 @@ extern "C" {
 //ECU defines
 #define RALENTI 500
     
+//STATEMACHINE
+#define MAX_EVENT 255    
+#define EVENTS 0
+#define STATES 1
+    
+//EVENTS LIST
+#define EV_NONE 0
+#define EV_EBS_ACTIVATED 1
+    
+//.....
+
 
 //VARIABLES
 extern unsigned char ucASState;
@@ -61,6 +72,12 @@ extern unsigned char ucServiceBrakeState;
 extern unsigned char ucLapCounter;
 extern unsigned char ucConesCountActual;
 extern unsigned int uiConesCountAll;
+extern unsigned char ColaEventos[MAX_EVENT][2];
+extern unsigned char ucIndiceEscritura;
+extern unsigned char ucIndiceLectura;
+extern unsigned char ucEvent;
+extern unsigned char ucState;
+extern unsigned char ucTransitedState;
 
 //FUNCIONES
 void STATEMACHINE_Init (void);
@@ -70,6 +87,16 @@ void SM_VehicleStandstillAnalyse (void);
 void SM_TractiveSystemAnalyse (void);
 void SM_R2DAnalyse (void);
 void SM_BrakesEngagedAnalyse (void);
+
+void EVENTPush (unsigned char ucPushEvent, unsigned char ucPushState);
+void EVENTPull (void);
+void STATEMACHINETransition (void);
+void STATEMACHINEAnalysis (void);
+void STATEMACHINE_ASOff (void);
+void STATEMACHINE_ASReady (void);
+void STATEMACHINE_ASDriving (void);
+void STATEMACHINE_ASEmergency (void);
+void STATEMACHINE_ASFinished (void);
 
 #ifdef	__cplusplus
 }

@@ -137,6 +137,10 @@ int main(void) {
         
         //ADCRead();
         
+        EVENTPull();
+        STATEMACHINETransition();
+        STATEMACHINEAnalysis();
+        
     }
 }
 
