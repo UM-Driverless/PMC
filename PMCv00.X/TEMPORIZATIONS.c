@@ -62,12 +62,12 @@ void TEMPORIZATION_500ms (void)
     TELEMETRYSendVARPACK5();
     TELEMETRYSendVARPACK6();
     TELEMETRYSendVARPACK7();
-    ecan1WriteMessage(PMC_STATE, DataLength_1, ucASMS, 0, 0, 0, 0, 0, 0, 0);
+    ecan1WriteMessage(PMC_STATE, DataLength_2, ucASMS, ucMissionSelected, 0, 0, 0, 0, 0, 0);
 }
 
 void TEMPORIZATION_1s (void)
 {
-
+    LED3_Toggle();
 }
 
 void TEMPORIZATION_5s (void)

@@ -128,8 +128,6 @@ int main(void) {
         //EJEMPLO MAIN (SOF PackNumber Byte1 Byte2 Byte3 Byte4 Byte5 Byte6 Byte7 Byte8 CRC EOF)
         
         //UART1WriteSTring(*string)
-        delay_10ms(100);
-        LED3_Toggle();
         
         
         //CREAR FUNCION DE LECTURA DE DIGITALES CONSTANTE

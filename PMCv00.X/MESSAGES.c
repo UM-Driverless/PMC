@@ -226,12 +226,14 @@ void MESSAGES_CAN1_Rx(){
             {
                 ASMisionTransit();
             }
-            ucASMissionRequest != ucASMissionRequestPrev;
+            ucASMissionRequestPrev = ucASMissionRequest;
             ucASMissionTransited = ucCAN1RXData4;
             //La xavier se ha enterado perfectamente de lo que tiene que hacer
             if ( ucASMissionTransited == ucMissionSelected )
             {
-                //ucFLAG que permite el GOOO
+                //if ucFLAG que permite el GOOO
+                //MANDAR EN PMC_STATE LA SEÑAL DE GO
+                ecan1WriteMessage(PMC_STATE, DataLength_2, ucASMS, ucMissionSelected, 0, 0, 0, 0, 0, 0);
             }
             break;
         case SENFL_IMU:
