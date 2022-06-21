@@ -302,55 +302,6 @@ void MESSAGES_CAN1_Rx(){
             ucMx = ucCAN1RXData6;
             ucMy = ucCAN1RXData7;*/
             break;
-        case PMC_GPS:
-            ucLatitude1 =ucCAN1RXData0;
-            ucLatitude2 =ucCAN1RXData1;
-            ucLatitude3 = ucCAN1RXData2;
-            ucAltitude1 = ucCAN1RXData3;
-            ucAltitude2 = ucCAN1RXData4;
-            ucAltitude3 = ucCAN1RXData5;
-            ucSpeed1    = ucCAN1RXData6;
-            ucSpeed2    = ucCAN1RXData7;
-            break;
-        case PMC_IMU:
-          /*  ucAx = ucCAN1RXData0;
-            ucAy = ucCAN1RXData1;
-            ucAz = ucCAN1RXData2;
-            ucGx = ucCAN1RXData3;
-            ucGy = ucCAN1RXData4;
-            ucGz = ucCAN1RXData5;
-            ucMx = ucCAN1RXData6;
-            ucMy = ucCAN1RXData7;*/
-            break;
-        case PMC_ANALOG:
-            /*ucAnalog0             = ucCAN1RXData0;
-            ucAnalog1             = ucCAN1RXData1;
-            ucAnalog2             = ucCAN1RXData2;
-            ucAnalog3             = ucCAN1RXData3;
-            ucAnalog4             = ucCAN1RXData4;
-            ucElectronic_box_temp = ucCAN1RXData5;*/
-            break;
-        case PMC_TIMESTAMP:
-           /* ucSeconds = ucCAN1RXData0;
-            ucMinutes = ucCAN1RXData1;
-            ucHours   = ucCAN1RXData2;
-            ucDay     = ucCAN1RXData3;
-            ucMonth   = ucCAN1RXData4;
-            ucYear    = ucCAN1RXData5;*/
-            break;
-        case PMC_DIGITAL: //bytes troceados 
-            break;
-        case PMC_ECU1:
-            
-           /* ucETC     = ucCAN1RXData2;
-            ucAirTemp = ucCAN1RXData3;
-            ucTPS     = ucCAN1RXData4;*/
-            break;
-        case PMC_ECU2:
-            break;
-        case PMC_STATE:
-            //ucASMode =ucCAN1RXData0;
-            break;
         case NMT_NODE_CONTROL:
             /*ucRequestedState = ucCAN1RXData0;
             ucAddressedNodeID = ucCAN1RXData1;*/
@@ -408,6 +359,7 @@ void MESSAGES_CAN2_Rx(){
             uiECUTPS = uiECUTPS / 10; //%
             //uiCoolantP = ucCAN2RXData6;
             //uiCoolantP |= (ucCAN2RXData7 << 8 );
+            ecan1WriteMessage(0x345, 5, ucCAN2RXData0, ucCAN2RXData1, (uiECTC & 0xFF), (uiAirTempC & 0xFF), 0, 0, 0, 0);
             break;
         case ECUID2:
             uiFuelP = ucCAN2RXData1;
