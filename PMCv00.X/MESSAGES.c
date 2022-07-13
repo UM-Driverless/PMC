@@ -120,7 +120,7 @@ unsigned char ucASMode;//State
 unsigned char ucGOSignal;
 unsigned char ucRequestedState;
 unsigned char ucAddressedNodeID;
-
+unsigned char ucESTOP;
 //ECU
 unsigned int uiRPM;
 unsigned int uiMAPkPa; //0.1kPa
@@ -258,10 +258,7 @@ void MESSAGES_CAN1_Rx(){
         case SENRR_SIG:
             ucVelRR = ucCAN1RXData4;
             break;
-        case RES_PDOTR:
-            //ucGOSignal = ( ( ucCAN1RXData0 & 0x06 ) >> 1 );
-            break;
-        case STEERW_DV:
+        case STEERW_DV: 
             ucAMRequest = ucCAN1RXData0;
             if ( ucAMRequest != ucAMRequestPrev )
             {
@@ -312,6 +309,10 @@ void MESSAGES_CAN1_Rx(){
             break;
         case TIME_STAMP:
             break;
+        case RES_PDOTR:
+            ucGOSignal = ( ( ucCAN1RXData0 & 0x06 ) >> 1 );
+            ucESTOP = ( ( ucCAN1RXData0 & 0x01 ) & ( ( ucCAN1RXData3 & 0x80 ) >> 7 ) );
+            break;
         case RES_PDORC:
             break;
         case RES_SDOTR:
@@ -319,7 +320,10 @@ void MESSAGES_CAN1_Rx(){
         case RES_SDORC:
             break;
         case RES_NMTMON:
-            ////ucEmptyByte = ucCAN1RXData0;
+            if ( ucCAN1RXData0 == 0x00 )
+            {
+                ecan1WriteMessage(0x000, DataLength_2, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+            }
             break;
         case LSS_T:
             break;

@@ -81,17 +81,17 @@
 #define SENRR_SIG                   0x30A
 #define SENRR_STATE                 0x30B//
 //RES MSG
-#define RES_PDOTR       0x191
-#define RES_PDORC       0x211
-#define RES_SDOTR       0x591
-#define RES_SDORC       0x611
-#define RES_NMTMON      0x711
+#define RES_PDOTR                   0x191 //0x180+Node_ID(0x11)
+#define RES_PDORC                   0x211
+#define RES_SDOTR                   0x591
+#define RES_SDORC                   0x611
+#define RES_NMTMON                  0x711 //0x700+Node_ID(0x11)
 //STEERING WHELL
-#define STEERW_DV    0x410
-#define STEERW_PUNT  0x411
-#define STEERW_CONT  0x412
+#define STEERW_DV                   0x410
+#define STEERW_PUNT                 0x411
+#define STEERW_CONT                 0x412
 //SHIFTER
-#define EL_SHIFTER   0x420
+#define EL_SHIFTER                  0x420
 //CAN 2 DE ECU
 #define ECUID1 0x360
 #define ECUID2 0x361
@@ -170,7 +170,7 @@ extern unsigned char ucMissionState;
 
 //RES
 extern unsigned char ucGOSignal;
-
+extern unsigned char ucESTOP;
 //ECU
 extern unsigned int uiRPM;
 extern unsigned int uiMAPkPa; //0.1kPa
