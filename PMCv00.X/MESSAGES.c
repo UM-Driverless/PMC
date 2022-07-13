@@ -310,7 +310,7 @@ void MESSAGES_CAN1_Rx(){
         case TIME_STAMP:
             break;
         case RES_PDOTR:
-            ucGOSignal = ( ( ucCAN1RXData0 & 0x06 ) >> 1 );
+            ucGOSignal = ( ( ucCAN1RXData0 & 0x02 ) >> 1 );
             ucESTOP = ( ( ucCAN1RXData0 & 0x01 ) & ( ( ucCAN1RXData3 & 0x80 ) >> 7 ) );
             break;
         case RES_PDORC:
@@ -322,6 +322,7 @@ void MESSAGES_CAN1_Rx(){
         case RES_NMTMON:
             if ( ucCAN1RXData0 == 0x00 )
             {
+                delay_10ms();
                 ecan1WriteMessage(0x000, DataLength_2, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
             }
             break;

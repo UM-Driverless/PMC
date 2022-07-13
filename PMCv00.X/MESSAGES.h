@@ -169,8 +169,8 @@ extern unsigned char ucBrakePedalPress;
 extern unsigned char ucMissionState;
 
 //RES
-extern unsigned char ucGOSignal;
-extern unsigned char ucESTOP;
+extern unsigned char ucGOSignal; //UcGOsignal = 1
+extern unsigned char ucESTOP;    //E-stop pulsed (ucESTOP = 0)
 //ECU
 extern unsigned int uiRPM;
 extern unsigned int uiMAPkPa; //0.1kPa
