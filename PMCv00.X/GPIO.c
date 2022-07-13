@@ -44,8 +44,8 @@ void GPIO_init (void)
 void GPIO_Entradas (void)
 {
     ucASMS = ENT1_GetValue();
-    /*ucEntrada2 = ENT2_GetValue();
-    ucEntrada3 = ENT3_GetValue();
+    ucNeutra = !ENT2_GetValue();
+    /*ucEntrada3 = ENT3_GetValue();
     ucEntrada4 = ENT4_GetValue();
     ucEntrada5 = ENT5_GetValue();
     ucEntrada6 = ENT6_GetValue();
