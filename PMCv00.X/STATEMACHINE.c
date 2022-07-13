@@ -290,9 +290,9 @@ void SM_VehicleStandstillAnalyse (void)
 
 void SM_TractiveSystemAnalyse (void)
 {
-    if ( ( uiRPM > RALENTI ) && ( ucMarcha == 0 ) )
+    if ( ( uiRPM > RALENTI ) && ( ucNeutra == 1 ) )
     {
-        ucTSActive = TRUE;
+        ucTSActive = TRUE; //Sistema de traccion activo
     }
     else
     {
@@ -303,9 +303,9 @@ void SM_TractiveSystemAnalyse (void)
 
 void SM_R2DAnalyse (void)
 {
-    if ( ( uiRPM > RALENTI ) && ( ucMarcha != 0 ) )
+    if ( ( uiRPM > RALENTI ) && ( ucNeutra == 0 ) )
     {
-        ucR2D = TRUE;
+        ucR2D = TRUE; //Ready to Drive
     }
     else
     {
