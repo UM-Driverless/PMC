@@ -57,19 +57,24 @@ void TEMPORIZATION_500ms (void)
 {
     //ecan1WriteMessage(0x345, 5, (uiRPM & 0xFF), ((uiRPM >> 8) & 0xFF), (uiECTC & 0xFF), (uiAirTempC & 0xFF), 0, 0, 0, 0);
     //ecan1WriteMessage(DV_DRIVING_DYNAMICS_1, DataLength_8, ucSpeedActual, ucSpeedTarget, ucSteeringAngleActual, ucSteeringAngleTarget, ucBrakeHDRActual, ucBrakeHDRTarget, ucMotorMovementActual, ucMotorMovementTarget);
-    TELEMETRYSendVARPACK1();
+    /*TELEMETRYSendVARPACK1();
     TELEMETRYSendVARPACK2();
     TELEMETRYSendVARPACK3();
     TELEMETRYSendVARPACK4();
     TELEMETRYSendVARPACK5();
     TELEMETRYSendVARPACK6();
-    TELEMETRYSendVARPACK7();
+    TELEMETRYSendVARPACK7();*/
     //ecan1WriteMessage(PMC_STATE, DataLength_2, ucASMS, ucMissionSelected, 0, 0, 0, 0, 0, 0);
+    ucRESSupervisor = FALSE;
 }
 
 void TEMPORIZATION_1s (void)
 {
     LED3_Toggle();
+    if ( ucRESSupervisor == FALSE )
+    {
+        ucRESMissCount ++;
+    }
 }
 
 void TEMPORIZATION_5s (void)

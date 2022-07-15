@@ -240,7 +240,8 @@ void STATEMACHINE (void) //ejecutar cada poco tiempo
 
 void SM_EBSAnalyse (void)
 {
-    if ( ( ucHDRPRES1 > ucHDRPRES1max ) && ( ucHDRPRES2 > ucHDRPRES2max ) )
+    //if ( ( ucHDRPRES1 > ucHDRPRES1max ) && ( ucHDRPRES2 > ucHDRPRES2max ) )
+    if ( ( ucHDRPRES1 > ucHDRPRES1max ))
     {
         if ( ucNPRES3 > ucNPRES3max ) 
         {
@@ -315,8 +316,8 @@ void SM_R2DAnalyse (void)
 
 void SM_BrakesEngagedAnalyse (void)
 {
-    //REALMENTE ESTAMOS FRENANDO?
-    if ( ( ucHDRPRES1 > ucHDRPRES1max ) && ( ucHDRPRES2 > ucHDRPRES2max ) && ( ucBrakePedalPress == FALSE) )
+    //REALMENTE ESTAMOS FERNANDO?
+    if ( ( ucHDRPRES1 > ucHDRPRES1max )  && ( ucBrakePedalPress == FALSE) )
     {
         //confirmamos que no es el freno de emergencia quien lo ha activado
         if ( ( ucNPRES3 < ucNPRES3min ) && ( ucNPRES4 < ucNPRES4min ) )

@@ -31,12 +31,12 @@ unsigned char ucNPRES4min;
 void PARAMETERS_Init(void)
 {
     //Consideramos estas presiones como frenos actuados
-    ucHDRPRES1max = 200;
-    ucHDRPRES2max = 200;
-    ucNPRES1max = 200;
-    ucNPRES2max = 200;
-    ucNPRES3max = 200;
-    ucNPRES4max = 200;
-    ucNPRES3min = 10; //atmosferica
-    ucNPRES4min = 10; //atmosferica
+    ucHDRPRES1max = 7;
+    ucHDRPRES2max = 7;
+    ucNPRES1max = 5;
+    ucNPRES2max = 5;
+    ucNPRES3max = 5;
+    ucNPRES4max = 5;
+    ucNPRES3min = 1; //atmosferica
+    ucNPRES4min = 1; //atmosferica
 }

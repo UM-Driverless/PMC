@@ -86,6 +86,7 @@
 #define RES_SDOTR                   0x591
 #define RES_SDORC                   0x611
 #define RES_NMTMON                  0x711 //0x700+Node_ID(0x11)
+#define RES_OPERATIONALMODE         0x000
 //STEERING WHELL
 #define STEERW_DV                   0x410
 #define STEERW_PUNT                 0x411
@@ -171,6 +172,9 @@ extern unsigned char ucMissionState;
 //RES
 extern unsigned char ucGOSignal; //UcGOsignal = 1
 extern unsigned char ucESTOP;    //E-stop pulsed (ucESTOP = 0)
+extern unsigned char ucRESSupervisor;
+extern unsigned char ucRESMissCount;
+extern unsigned char ucSendRESOperative;
 //ECU
 extern unsigned int uiRPM;
 extern unsigned int uiMAPkPa; //0.1kPa

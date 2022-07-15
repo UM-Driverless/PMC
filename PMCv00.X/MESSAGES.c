@@ -121,6 +121,9 @@ unsigned char ucGOSignal;
 unsigned char ucRequestedState;
 unsigned char ucAddressedNodeID;
 unsigned char ucESTOP;
+unsigned char ucRESSupervisor;
+unsigned char ucRESMissCount;
+unsigned char ucSendRESOperative;
 //ECU
 unsigned int uiRPM;
 unsigned int uiMAPkPa; //0.1kPa
@@ -180,17 +183,18 @@ void MESSAGES_CAN1_Rx(){
     ucCAN1RXData7       = ( ucCAN1BUSRXList[ucCAN1BUSRXWrite][11] ); 
     switch ( ulCAN1RXID )  
     {
-        case ETC_SIGNAL:
-            ucAPPS1 = ucCAN1RXData0;
-            ucAPPS2 = ucCAN1RXData1; 
-            ucTPS1 = ucCAN1RXData2;
-            ucTPS2 = ucCAN1RXData3; 
+        //order by priority
+        case RES_NMTMON:
+            if ( ucCAN1RXData0 == 0x00 )
+            {
+                ucSendRESOperative = TRUE;
+            }
+            ucRESSupervisor = TRUE;
             break;
-        case ETC_STATE:
-            ucTPS_STATE = ucCAN1RXData0; 
-            ucAPPS_STATE = ucCAN1RXData1; 
-            ucCLUTCHState = ucCAN1RXData2;
-            ucETB_STATE = ucCAN1RXData3; 
+        case RES_PDOTR:
+            ucGOSignal = ( ( ucCAN1RXData0 & 0x02 ) >> 1 );
+            ucESTOP = ( ( ucCAN1RXData0 & 0x01 ) & ( ( ucCAN1RXData3 & 0x80 ) >> 7 ) );
+            ucRESSupervisor = TRUE;
             break;
         case ASB_ANALOG:
             ucHDRPRES1 = ucCAN1RXData0;
@@ -203,12 +207,24 @@ void MESSAGES_CAN1_Rx(){
             ucA2 = ucCAN1RXData7;
             break;
         case ASB_SIGNALS:
-            ucBrakePedalPress = ucCAN1RXData0;
+            ucBrakePedalPress = ucCAN1RXData7;
             ucAS_DRIVING_MODE   = ucCAN1RXData1;
             ucPWMOUT            = ucCAN1RXData2;
             ucWDOUT             = ucCAN1RXData3;
             ucSDC_EBS_RDY       = ucCAN1RXData4;
             ucEVALVS            = ucCAN1RXData5;
+            break;
+        case ETC_SIGNAL:
+            ucAPPS1 = ucCAN1RXData0;
+            ucAPPS2 = ucCAN1RXData1; 
+            ucTPS1 = ucCAN1RXData2;
+            ucTPS2 = ucCAN1RXData3; 
+            break;
+        case ETC_STATE:
+            ucTPS_STATE = ucCAN1RXData0; 
+            ucAPPS_STATE = ucCAN1RXData1; 
+            ucCLUTCHState = ucCAN1RXData2;
+            ucETB_STATE = ucCAN1RXData3; 
             break;
         case ASB_STATE:
             /*ucHeartbeat        = ucCAN1RXData0;
@@ -236,28 +252,28 @@ void MESSAGES_CAN1_Rx(){
                 ecan1WriteMessage(PMC_STATE, DataLength_2, ucASMS, ucMissionSelected, 0, 0, 0, 0, 0, 0);
             }
             break;
-        case SENFL_IMU:
-            /*ucAx = ucCAN1RXData0;
+        /*case SENFL_IMU:
+            ucAx = ucCAN1RXData0;
             ucAy = ucCAN1RXData1;
             ucAz = ucCAN1RXData2;
             ucGx = ucCAN1RXData3;
             ucGy = ucCAN1RXData4;
             ucGz = ucCAN1RXData5;
             ucMx = ucCAN1RXData6;
-            ucMy = ucCAN1RXData7;*/
-            break;
+            ucMy = ucCAN1RXData7;
+            break;*/
         case SENFL_SIG:
             ucVelFL = ucCAN1RXData4;
             break;
         case SENFR_SIG:
             ucVelFR = ucCAN1RXData4;
             break;
-        case SENRL_SIG:
+        /*case SENRL_SIG:
             ucVelRL = ucCAN1RXData4;
             break;
         case SENRR_SIG:
             ucVelRR = ucCAN1RXData4;
-            break;
+            break;*/
         case STEERW_DV: 
             ucAMRequest = ucCAN1RXData0;
             if ( ucAMRequest != ucAMRequestPrev )
@@ -266,7 +282,7 @@ void MESSAGES_CAN1_Rx(){
             }
             ucAMRequest = ucAMRequestPrev;
             break;
-        case ASSIS_R:
+        /*case ASSIS_R:
              
             break;
             
@@ -276,7 +292,7 @@ void MESSAGES_CAN1_Rx(){
             
         case ASSIS_L:
             
-            break;
+            break;*/
         case TRAJECTORY_ACT:
             ucThrottle   =ucCAN1RXData0; 
             ucClutch     = ucCAN1RXData1;
@@ -284,21 +300,21 @@ void MESSAGES_CAN1_Rx(){
             ucSteering   = ucCAN1RXData3;
             ucGear       = ucCAN1RXData4;
             break;
-        case TRAJECTORY_GPS:
+        /*case TRAJECTORY_GPS:
             //Variable latitude data 0-2
             //Variable altitude data 3-5
             //Variable speed data 6-7
-            break;
-        case TRAJECTORY_IMU:
-            /*ucAx = ucCAN1RXData0;
+            break;*/
+        /*case TRAJECTORY_IMU:
+            ucAx = ucCAN1RXData0;
             ucAy = ucCAN1RXData1;
             ucAz = ucCAN1RXData2;
             ucGx = ucCAN1RXData3;
             ucGy = ucCAN1RXData4;
             ucGz = ucCAN1RXData5;
             ucMx = ucCAN1RXData6;
-            ucMy = ucCAN1RXData7;*/
-            break;
+            ucMy = ucCAN1RXData7;
+            break;*/
         case NMT_NODE_CONTROL:
             /*ucRequestedState = ucCAN1RXData0;
             ucAddressedNodeID = ucCAN1RXData1;*/
@@ -309,22 +325,11 @@ void MESSAGES_CAN1_Rx(){
             break;
         case TIME_STAMP:
             break;
-        case RES_PDOTR:
-            ucGOSignal = ( ( ucCAN1RXData0 & 0x02 ) >> 1 );
-            ucESTOP = ( ( ucCAN1RXData0 & 0x01 ) & ( ( ucCAN1RXData3 & 0x80 ) >> 7 ) );
-            break;
         case RES_PDORC:
             break;
         case RES_SDOTR:
             break;
         case RES_SDORC:
-            break;
-        case RES_NMTMON:
-            if ( ucCAN1RXData0 == 0x00 )
-            {
-                delay_10ms();
-                ecan1WriteMessage(0x000, DataLength_2, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-            }
             break;
         case LSS_T:
             break;

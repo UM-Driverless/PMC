@@ -138,6 +138,8 @@ int main(void) {
         STATEMACHINETransition();
         STATEMACHINEAnalysis();*/
         
+        //Supervision RES
+        RESAnalyse();        
     }
 }
 
@@ -209,4 +211,23 @@ void __attribute__((interrupt, no_auto_psv)) _DMA3Interrupt(void)
    IFS2bits.DMA3IF = 0;          // Clear the DMA3 Interrupt Flag;
    LED2_Toggle();
    rxECAN2(&rx_CAN2Mensaje); 
+}
+
+
+//RES ANALYSE
+void RESAnalyse (void)
+{
+    if ( ucRESMissCount > 3 ) //3segundos
+    {
+        ucSendRESOperative = TRUE;
+    }
+
+    if ( ucSendRESOperative == TRUE )
+    {
+        //para reset
+        ecan1WriteMessage(RES_OPERATIONALMODE, DataLength_2, 0x80, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+        //para iniciar
+        ecan1WriteMessage(RES_OPERATIONALMODE, DataLength_2, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+        ucSendRESOperative = FALSE;
+    }
 }
