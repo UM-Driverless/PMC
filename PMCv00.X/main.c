@@ -139,7 +139,9 @@ int main(void) {
         STATEMACHINEAnalysis();*/
         
         //Supervision RES
-        RESAnalyse();        
+        RESAnalyse();     
+        
+        STATEMACHINE();
     }
 }
 

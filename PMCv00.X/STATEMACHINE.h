@@ -27,6 +27,8 @@ extern "C" {
 #define EBS_NONEDV          3
 #define EBS_ERROR1          4
 #define EBS_ERROR2          5
+#define EBS_ACTIVATEDBOTH   6
+#define EBS_ERRORBOTH       7
     
 //TJ MISSION
 #define TJ_MISSION_READY    0

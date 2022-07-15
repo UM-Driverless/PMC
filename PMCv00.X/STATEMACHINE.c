@@ -241,7 +241,7 @@ void STATEMACHINE (void) //ejecutar cada poco tiempo
 void SM_EBSAnalyse (void)
 {
     //if ( ( ucHDRPRES1 > ucHDRPRES1max ) && ( ucHDRPRES2 > ucHDRPRES2max ) )
-    if ( ( ucHDRPRES1 > ucHDRPRES1max ))
+    if ( ( ucHDRPRES1 > ucHDRPRES1max ) )
     {
         if ( ucNPRES3 > ucNPRES3max ) 
         {
@@ -250,6 +250,10 @@ void SM_EBSAnalyse (void)
         else if ( ucNPRES4 > ucNPRES4max ) 
         {
             ucEBSactivate = EBS_ACTIVATED2;
+        }
+        else if ( ( ucNPRES3 > ucNPRES3max ) && ( ucNPRES4 > ucNPRES4max ) )
+        {
+            ucEBSactivate = EBS_ACTIVATEDBOTH;
         }
         else
         {
@@ -267,6 +271,10 @@ void SM_EBSAnalyse (void)
         {
             ucEBSactivate = EBS_ERROR2;
         }
+        else if ( ( ucNPRES3 > ucNPRES3max ) && ( ucNPRES4 > ucNPRES4max ) )
+        {
+            ucEBSactivate = EBS_ERRORBOTH;
+        }
         else
         {
             ucEBSactivate = EBS_DISACTIVATED;
@@ -276,8 +284,10 @@ void SM_EBSAnalyse (void)
 
 void SM_VehicleStandstillAnalyse (void)
 {
-    
-    if ( ( ucVelFL == 0 ) && ( ucVelFR == 0 ) && ( ucVelRL == 0 ) && ( ucVelRR == 0 ) )
+    //solo se van a usar las delanteras
+    //ojo que pueden estar bloquedas, habría que comprobar tambien velocidad GPS
+    //if ( ( ucVelFL == 0 ) && ( ucVelFR == 0 ) && ( ucVelRL == 0 ) && ( ucVelRR == 0 ) )
+    if ( ( ucVelFL == 0 ) && ( ucVelFR == 0 ) )
     {
         //si estan paradas todas las ruedas TRUE
         ucVehicleStandstill = TRUE;
@@ -317,7 +327,7 @@ void SM_R2DAnalyse (void)
 void SM_BrakesEngagedAnalyse (void)
 {
     //REALMENTE ESTAMOS FERNANDO?
-    if ( ( ucHDRPRES1 > ucHDRPRES1max )  && ( ucBrakePedalPress == FALSE) )
+    if ( ( ucHDRPRES1 > ucHDRPRES1max )  && ( ucBrakePedalPress == FALSE ) )
     {
         //confirmamos que no es el freno de emergencia quien lo ha activado
         if ( ( ucNPRES3 < ucNPRES3min ) && ( ucNPRES4 < ucNPRES4min ) )
