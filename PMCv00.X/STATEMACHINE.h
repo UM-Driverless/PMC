@@ -64,6 +64,7 @@ extern unsigned char ucASBCheckUp;
 extern unsigned char ucTSActive;
 extern unsigned char ucMarcha; 
 extern unsigned char ucNeutra;
+extern unsigned char ucSCD;
 extern unsigned char ucFlag5sGO;
 extern unsigned char ucR2D;
 extern unsigned char ucASStatePrev;
