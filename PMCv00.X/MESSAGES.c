@@ -238,19 +238,20 @@ void MESSAGES_CAN1_Rx(){
             ucAMtransited  = ucCAN1RXData4;
             ucMissionState = ucCAN1RXData2;
             ucASMissionRequest = ucCAN1RXData3;
-            if ( ucASMissionRequest != ucASMissionRequestPrev ) 
+            //MODIFICAR SEGUN MENSAJE CAN FINAL
+            /*if ( ucASMissionRequest != ucASMissionRequestPrev ) 
             {
                 ASMisionTransit();
             }
             ucASMissionRequestPrev = ucASMissionRequest;
-            ucASMissionTransited = ucCAN1RXData4;
+            ucASMissionTransited = ucCAN1RXData4;*/
             //La xavier se ha enterado perfectamente de lo que tiene que hacer
-            if ( ucASMissionTransited == ucMissionSelected )
+            /*if ( ucASMissionTransited == ucMissionSelected )
             {
                 //if ucFLAG que permite el GOOO
                 //MANDAR EN PMC_STATE LA SEÑAL DE GO
                 ecan1WriteMessage(PMC_STATE, DataLength_2, ucASMS, ucMissionSelected, 0, 0, 0, 0, 0, 0);
-            }
+            }*/
             break;
         /*case SENFL_IMU:
             ucAx = ucCAN1RXData0;
@@ -448,7 +449,7 @@ void MESSAGESSystemStatusSend(void)
     
     ucData1 = ( ucASState && 0x07 );
     ucData1 |= ( ucEBSState << 3 );
-    ucData1 |= ( ucMissionSelected << 5 );
+    ucData1 |= ( ucAMRequest << 5 );
     ucData2 = ucSteeringState;
     ucData2 = ( ucServiceBrakeState << 1 );
     ucData2 = ( ( ucLapCounter && 0x0F ) << 3 );

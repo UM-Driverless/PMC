@@ -197,7 +197,7 @@ void STATEMACHINE (void) //ejecutar cada poco tiempo
     }
     else
     {
-        if ( ( ucMissionSelected != MANUAL_DRIVING ) && ( ucASMS == TRUE ) && ( ucASBCheckUp == TRUE ) && ( ucTSActive == TRUE ) )
+        if ( ( ucAMRequest != MANUAL_DRIVING ) && ( ucASMS == TRUE ) && ( ucASBCheckUp == TRUE ) && ( ucTSActive == TRUE ) )
         {
             //ANALIZAR R2D
             if ( ( ucR2D == TRUE ) && ( ucFlag5sGO == TRUE ) && ( ucGOSignal == TRUE ) )

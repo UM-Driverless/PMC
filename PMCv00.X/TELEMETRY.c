@@ -220,7 +220,7 @@ void TELEMETRYSendVARPACK6 (void)
     
     ucData1 = UARTHexToASCII ( ucASState & 0x0F );
     ucData2 = UARTHexToASCII ( ucEBSState & 0x0F );
-    ucData3 = UARTHexToASCII ( ucMissionSelected & 0x0F );
+    ucData3 = UARTHexToASCII ( ucAMRequest & 0x0F );
     ucData4 = UARTHexToASCII ( ucSteeringState & 0x0F );
     ucData5 = UARTHexToASCII ( ucServiceBrakeState & 0x0F );
     ucData6 = UARTHexToASCII ( ucLapCounter & 0x0F );

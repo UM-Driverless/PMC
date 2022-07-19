@@ -50,7 +50,7 @@ void TEMPORIZATION_100ms (void) //10Hz
 {
     //MESSAGESSystemStatusSend();
     GPIO_Entradas();
-    ecan1WriteMessage(PMC_STATE, DataLength_1, ucASMS, 0, 0, 0, 0, 0, 0, 0);
+    ecan1WriteMessage(PMC_STATE, DataLength_4, ucASMS, ucASState, ucAMRequest, 0, 0, 0, 0, 0);
 }
 
 void TEMPORIZATION_500ms (void)
@@ -64,7 +64,6 @@ void TEMPORIZATION_500ms (void)
     TELEMETRYSendVARPACK5();
     TELEMETRYSendVARPACK6();
     TELEMETRYSendVARPACK7();*/
-    //ecan1WriteMessage(PMC_STATE, DataLength_2, ucASMS, ucMissionSelected, 0, 0, 0, 0, 0, 0);
     ucRESSupervisor = FALSE;
 }
 
