@@ -25,7 +25,7 @@ unsigned char ucASBCheckUp;
 unsigned char ucTSActive;
 unsigned char ucMarcha;
 unsigned char ucNeutra;
-unsigned char ucSCD;
+unsigned char ucSDC;
 unsigned char ucFlag5sGO;
 unsigned char ucR2D;
 unsigned char ucASStatePrev;
