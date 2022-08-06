@@ -224,12 +224,4 @@ void RESAnalyse (void)
         ucSendRESOperative = TRUE;
     }
 
-    if ( ucSendRESOperative == TRUE )
-    {
-        //para reset
-        //ecan1WriteMessage(RES_OPERATIONALMODE, DataLength_2, 0x80, 0x11, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-        //para iniciar
-        ecan1WriteMessage(RES_OPERATIONALMODE, DataLength_2, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-        ucSendRESOperative = FALSE;
-    }
 }
