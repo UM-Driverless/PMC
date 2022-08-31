@@ -447,18 +447,18 @@ void MESSAGESSystemStatusSend(void)
     unsigned char ucData5;
     
     
-    ucData1 = ( ucASState && 0x07 );
+    ucData1 = ( ucASState & 0x07 );
     ucData1 |= ( ucEBSState << 3 );
     ucData1 |= ( ucAMRequest << 5 );
     ucData2 = ucSteeringState;
     ucData2 = ( ucServiceBrakeState << 1 );
-    ucData2 = ( ( ucLapCounter && 0x0F ) << 3 );
-    ucData2 = ( ( ucConesCountActual && 0x01 ) << 7 );
-    ucData3 = ( ( ucConesCountActual && 0xFE ) >> 1 );
-    ucData3 = ( ( uiConesCountAll && 0x01 ) << 7 );
-    ucData4 = ( uiConesCountAll && 0x1FE );
-    ucData5 = ( uiConesCountAll && 0xFE00 );
+    ucData2 = ( ( ucLapCounter & 0x0F ) << 3 );
+    ucData2 = ( ( ucConesCountActual & 0x01 ) << 7 );
+    ucData3 = ( ( ucConesCountActual & 0xFE ) >> 1 );
+    ucData3 = ( ( uiConesCountAll & 0x01 ) << 7 );
+    ucData4 = ( uiConesCountAll & 0x1FE );
+    ucData5 = ( uiConesCountAll & 0xFE00 );
     
     
-    ecan1WriteMessage(DV_SYSTEM_STATUS, DataLength_5, ucData1, ucData2, ucData3, ucData4, ucData5, 0x00, 0x00, 0x00);
+    ecan1WriteMessage(DV_SYSTEM_STATUS, DataLength_5, ucData1+1, ucData2, ucData3, ucData4, ucData5, 0x00, 0x00, 0x00);
 }

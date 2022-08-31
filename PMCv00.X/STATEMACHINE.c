@@ -234,7 +234,6 @@ void STATEMACHINE (void) //ejecutar cada poco tiempo
     {
         ucASStatePrev = ucASState;
         //Enviamos cambio de estado a CAN
-        //ecan1WriteMessage( DV_SYSTEM_STATUS, )
     }
 }
 

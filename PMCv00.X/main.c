@@ -113,6 +113,7 @@ int main(void) {
     //LED1_SetHigh();
     //LED2_SetHigh();
     //LED3_SetHigh();
+    //ucASState = AS_READY;
 
     while (1)
     {
@@ -141,7 +142,11 @@ int main(void) {
         //Supervision RES
         RESAnalyse();     
         
-        STATEMACHINE();
+        //STATEMACHINE();
+        /*if ( ( ucSDC == 0 ) && ( ucASState == AS_DRIVING ) )
+        {
+            ucASState = AS_EMERGENCY;
+        }*/
     }
 }
 

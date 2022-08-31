@@ -50,7 +50,7 @@ void TEMPORIZATION_100ms (void) //10Hz
 {
     //MESSAGESSystemStatusSend();
     GPIO_Entradas();
-    ecan1WriteMessage(PMC_STATE, DataLength_4, ucASMS, ucASState, ucAMRequest, ucSDC, 0, 0, 0, 0);
+    
 }
 
 void TEMPORIZATION_500ms (void)
@@ -63,22 +63,26 @@ void TEMPORIZATION_500ms (void)
     TELEMETRYSendVARPACK4();
     TELEMETRYSendVARPACK5();
     TELEMETRYSendVARPACK6();
-    TELEMETRYSendVARPACK7();*/
+    TELEMETRYSendVARPucASMSACK7();*/
     ucRESSupervisor = FALSE;
     if ( ucSendRESOperative == TRUE )
     {
         ecan1WriteMessage(RES_OPERATIONALMODE, DataLength_2, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
         ucSendRESOperative = FALSE;
     }
+    ecan1WriteMessage(PMC_STATE, DataLength_4, ucASMS, ucASState, ucAMRequest, ucSDC, 0, 0, 0, 0);
 }
 
 void TEMPORIZATION_1s (void)
 {
+    ecan1WriteMessage(DV_SYSTEM_STATUS, DataLength_5, ucASState+1, 0, 0, 0, 0, 0x00, 0x00, 0x00);
     LED3_Toggle();
     if ( ucRESSupervisor == FALSE )
     {
         ucRESMissCount ++;
     }
+    
+    
 }
 
 void TEMPORIZATION_5s (void)
@@ -91,7 +95,7 @@ void TEMPORIZATION_5s (void)
 
 void TEMPORIZATION_10s (void)
 {
-
+    //ucASState = AS_DRIVING;
 }
 
 void TEMPORIZATION_1mins (void)
